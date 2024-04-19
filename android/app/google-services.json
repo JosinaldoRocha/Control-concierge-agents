@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "131817675071",
+    "project_id": "control-concierge-agents",
+    "storage_bucket": "control-concierge-agents.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131817675071:android:96bbf1808ef6e2a0c81b8a",
+        "android_client_info": {
+          "package_name": "com.example.control_concierge_agents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXufI1WvxVox5Lu_JOwYN8jYG_fS00B0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
