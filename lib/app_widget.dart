@@ -1,7 +1,7 @@
+import 'package:control_concierge_agents/app/app_routes.dart';
 import 'package:control_concierge_agents/app/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'app/presentation/home/views/pages/home_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -13,7 +13,8 @@ class AppWidget extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Agentes de portaria SEMED',
         theme: AppTheme.getTheme(),
-        home: const HomePage(),
+        initialRoute: AppRoutes().initialRoute,
+        routes: AppRoutes().allAppRoutes,
       ),
     );
   }
