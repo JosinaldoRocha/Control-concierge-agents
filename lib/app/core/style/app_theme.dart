@@ -1,6 +1,6 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
+import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData getTheme() {
@@ -13,7 +13,7 @@ class AppTheme {
         foregroundColor: AppColor.white,
         elevation: 0,
       ),
-      textTheme: _buildTextTheme(),
+      textTheme: AppText.text(),
       buttonTheme: ButtonThemeData(
         buttonColor: AppColor.primary,
         textTheme: ButtonTextTheme.primary,
@@ -25,7 +25,7 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.primary,
           foregroundColor: Colors.white,
-          textStyle: _buildTextTheme().bodyMedium?.copyWith(fontSize: 18),
+          textStyle: AppText.text().bodyMedium?.copyWith(fontSize: 18),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -48,14 +48,6 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-    );
-  }
-
-  static TextTheme _buildTextTheme() {
-    return TextTheme(
-      titleLarge: GoogleFonts.inter(fontSize: 22),
-      bodyMedium: GoogleFonts.poppins(),
-      displaySmall: GoogleFonts.inter(),
     );
   }
 }
