@@ -44,6 +44,15 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         orElse: () => Container(),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add_rounded,
+          size: 40,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, '/agent/add');
+        },
+      ),
     );
   }
 }
