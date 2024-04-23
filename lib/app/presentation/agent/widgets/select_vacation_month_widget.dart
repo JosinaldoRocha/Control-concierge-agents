@@ -41,7 +41,7 @@ class _SelectVacationMonthWidgetState extends State<SelectVacationMonthWidget> {
                   Text(
                     widget.birthDate == null
                         ? widget.hintText
-                        : DateFormat('MMMM').format(widget.birthDate!),
+                        : DateFormat('dd/MM/yyyy').format(widget.birthDate!),
                     style: AppText.text().bodySmall!.copyWith(
                           color: AppColor.mediumBlue,
                           fontSize: 16,
