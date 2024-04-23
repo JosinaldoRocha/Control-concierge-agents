@@ -2,14 +2,13 @@ import 'package:control_concierge_agents/app/core/constants/constants.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
-import 'package:control_concierge_agents/app/presentation/agent/states/add_agent_state_notifier.dart';
+import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add_agent_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_validators.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -21,65 +20,8 @@ class AddAgentPage extends ConsumerStatefulWidget {
   ConsumerState<AddAgentPage> createState() => _AddAgentPageState();
 }
 
-class _AddAgentPageState extends ConsumerState<AddAgentPage> {
-  final nameController = TextEditingController();
-  final bondTypeController = SingleValueDropDownController();
-  final unitController = SingleValueDropDownController();
-  final phoneNumberController = TextEditingController();
-  final vacacionMonthContoller = SingleValueDropDownController();
-  final observationsController = TextEditingController();
-  final forKey = GlobalKey<FormState>();
-
-  DateTime? startVacation;
-  DateTime? endVacation;
-
-  Future<void> selectStartVacation() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: startVacation,
-      firstDate: DateTime(DateTime.now().year, 1),
-      lastDate: DateTime(DateTime.now().year, 12),
-    );
-
-    if (picked != null && picked != startVacation) {
-      setState(() {
-        startVacation = picked;
-      });
-    }
-  }
-
-  Future<void> selectEndVacation() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: endVacation,
-      firstDate: DateTime(DateTime.now().year, 1),
-      lastDate: DateTime(DateTime.now().year + 1, 1),
-    );
-
-    if (picked != null && picked != endVacation) {
-      setState(() {
-        endVacation = picked;
-      });
-    }
-  }
-
-  var teste = BondTypeEnum.effective;
-
-  void addAgentListen() {
-    ref.listen<AddAgentState>(
-      addAgentStateProvider,
-      (previous, next) {
-        next.maybeWhen(
-          loadSuccess: (data) {
-            Navigator.of(context).pushNamed('/home');
-          },
-          loadFailure: (message) {},
-          orElse: () {},
-        );
-      },
-    );
-  }
-
+class _AddAgentPageState extends ConsumerState<AddAgentPage>
+    with AddAgentMixin {
   @override
   Widget build(BuildContext context) {
     addAgentListen();
@@ -111,7 +53,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage> {
                       hintText: 'Vínculo empregatício',
                       onChanged: (p0) {
                         setState(() {
-                          teste = p0.value;
+                          bondType = p0.value;
                         });
                       },
                     ),
@@ -122,7 +64,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage> {
                       list: unitList,
                       hintText: 'Lotação',
                     ),
-                    if (teste == BondTypeEnum.effective)
+                    if (bondType == BondTypeEnum.effective)
                       Column(
                         children: [
                           const SpaceVertical.x4(),
