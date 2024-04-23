@@ -1,3 +1,4 @@
+import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import '../../data/enums/bond_type_enum.dart';
 
@@ -27,8 +28,6 @@ final unitList = [
       name: 'Dpto de educação especial inclusiva', value: 20),
 ];
 
-//.sort((a, b) => a.name.compareTo(b.name));
-
 final bondTypeList = [
   DropDownValueModel(
     name: BondTypeEnum.effective.text,
@@ -41,16 +40,19 @@ final bondTypeList = [
 ];
 
 final monthList = [
-  const DropDownValueModel(name: 'Janeiro', value: 1),
-  const DropDownValueModel(name: 'Fevereiro', value: 2),
-  const DropDownValueModel(name: 'Março', value: 3),
-  const DropDownValueModel(name: 'Abril', value: 4),
-  const DropDownValueModel(name: 'Maio', value: 5),
-  const DropDownValueModel(name: 'Junho', value: 6),
-  const DropDownValueModel(name: 'Julho', value: 7),
-  const DropDownValueModel(name: 'Agosto', value: 8),
-  const DropDownValueModel(name: 'Setembro', value: 9),
-  const DropDownValueModel(name: 'Outubro', value: 10),
-  const DropDownValueModel(name: 'Novembro', value: 11),
-  const DropDownValueModel(name: 'Dezembro', value: 12),
+  DropDownValueModel(name: MonthEnum.january.text, value: MonthEnum.january),
+  DropDownValueModel(name: MonthEnum.february.text, value: MonthEnum.february),
+  DropDownValueModel(name: MonthEnum.march.text, value: MonthEnum.march),
+  DropDownValueModel(name: MonthEnum.april.text, value: MonthEnum.april),
+  DropDownValueModel(name: MonthEnum.may.text, value: MonthEnum.may),
+  DropDownValueModel(name: MonthEnum.june.text, value: MonthEnum.june),
+  DropDownValueModel(name: MonthEnum.july.text, value: MonthEnum.july),
+  DropDownValueModel(name: MonthEnum.august.text, value: MonthEnum.august),
+  DropDownValueModel(
+    name: MonthEnum.september.text,
+    value: MonthEnum.september,
+  ),
+  DropDownValueModel(name: MonthEnum.october.text, value: MonthEnum.october),
+  DropDownValueModel(name: MonthEnum.november.text, value: MonthEnum.november),
+  DropDownValueModel(name: MonthEnum.december.text, value: MonthEnum.december),
 ];
