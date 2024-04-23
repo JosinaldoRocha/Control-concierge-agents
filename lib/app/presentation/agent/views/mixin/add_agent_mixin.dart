@@ -21,13 +21,17 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   var bondType = BondTypeEnum.effective;
   int monthIndex = 1;
 
-  Future<void> selectStartVacation() async {
-    final DateTime? picked = await showDatePicker(
+  Future<DateTime?> _buildShowDatePicker(int month) {
+    return showDatePicker(
       context: context,
-      initialDate: DateTime(DateTime.now().year, monthIndex),
-      firstDate: DateTime(DateTime.now().year, monthIndex - 1),
-      lastDate: DateTime(DateTime.now().year, monthIndex + 1),
+      initialDate: DateTime(DateTime.now().year, month),
+      firstDate: DateTime(DateTime.now().year, month - 1),
+      lastDate: DateTime(DateTime.now().year, month + 1),
     );
+  }
+
+  Future<void> selectStartVacation() async {
+    final DateTime? picked = await _buildShowDatePicker(monthIndex);
 
     if (picked != null && picked != startVacation) {
       setState(() {
@@ -37,12 +41,7 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   }
 
   Future<void> selectEndVacation() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime(DateTime.now().year, monthIndex),
-      firstDate: DateTime(DateTime.now().year, monthIndex - 1),
-      lastDate: DateTime(DateTime.now().year, monthIndex + 1),
-    );
+    final DateTime? picked = await _buildShowDatePicker(monthIndex);
 
     if (picked != null && picked != endVacation) {
       setState(() {
