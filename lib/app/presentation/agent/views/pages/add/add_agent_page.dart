@@ -72,6 +72,11 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                             controller: vacacionMonthContoller,
                             list: monthList,
                             hintText: 'Mês de férias',
+                            onChanged: (p0) {
+                              setState(() {
+                                monthIndex = p0.value.index + 1;
+                              });
+                            },
                           ),
                           const SpaceVertical.x4(),
                           SelectVacationMonthWidget(

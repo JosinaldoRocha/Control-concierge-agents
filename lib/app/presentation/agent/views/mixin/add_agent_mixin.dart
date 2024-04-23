@@ -18,12 +18,15 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   DateTime? startVacation;
   DateTime? endVacation;
 
+  var bondType = BondTypeEnum.effective;
+  int monthIndex = 1;
+
   Future<void> selectStartVacation() async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: startVacation,
-      firstDate: DateTime(DateTime.now().year, 1),
-      lastDate: DateTime(DateTime.now().year, 12),
+      initialDate: DateTime(DateTime.now().year, monthIndex),
+      firstDate: DateTime(DateTime.now().year, monthIndex - 1),
+      lastDate: DateTime(DateTime.now().year, monthIndex + 1),
     );
 
     if (picked != null && picked != startVacation) {
@@ -36,9 +39,9 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   Future<void> selectEndVacation() async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: endVacation,
-      firstDate: DateTime(DateTime.now().year, 1),
-      lastDate: DateTime(DateTime.now().year + 1, 1),
+      initialDate: DateTime(DateTime.now().year, monthIndex),
+      firstDate: DateTime(DateTime.now().year, monthIndex - 1),
+      lastDate: DateTime(DateTime.now().year, monthIndex + 1),
     );
 
     if (picked != null && picked != endVacation) {
@@ -47,8 +50,6 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
       });
     }
   }
-
-  var bondType = BondTypeEnum.effective;
 
   void addAgentListen() {
     ref.listen<AddAgentState>(
