@@ -1,5 +1,8 @@
 import 'package:control_concierge_agents/app/core/constants/constants.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
+import 'package:control_concierge_agents/app/data/models/agent_model.dart';
+import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
+import 'package:control_concierge_agents/app/presentation/agent/states/add_agent_state_notifier.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
@@ -8,15 +11,17 @@ import 'package:control_concierge_agents/app/widgets/input/input_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
-class AddAgentPage extends StatefulWidget {
+class AddAgentPage extends ConsumerStatefulWidget {
   const AddAgentPage({super.key});
 
   @override
-  State<AddAgentPage> createState() => _AddAgentPageState();
+  ConsumerState<AddAgentPage> createState() => _AddAgentPageState();
 }
 
-class _AddAgentPageState extends State<AddAgentPage> {
+class _AddAgentPageState extends ConsumerState<AddAgentPage> {
   final nameController = TextEditingController();
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
@@ -60,8 +65,25 @@ class _AddAgentPageState extends State<AddAgentPage> {
 
   var teste = BondTypeEnum.effective;
 
+  void addAgentListen() {
+    ref.listen<AddAgentState>(
+      addAgentStateProvider,
+      (previous, next) {
+        next.maybeWhen(
+          loadSuccess: (data) {
+            Navigator.of(context).pushNamed('/home');
+          },
+          loadFailure: (message) {},
+          orElse: () {},
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    addAgentListen();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -141,7 +163,20 @@ class _AddAgentPageState extends State<AddAgentPage> {
               ButtonWidget(
                 title: 'Salvar agente',
                 onTap: () {
-                  if (forKey.currentState!.validate()) {}
+                  final agent = AgentModel(
+                    id: const Uuid().v4(),
+                    name: nameController.text,
+                    bondType: bondTypeController.dropDownValue!.value,
+                    unit: unitController.dropDownValue!.name,
+                    vacationMonth: vacacionMonthContoller.dropDownValue?.name,
+                    startVacation: startVacation,
+                    endVacation: endVacation,
+                    phone: phoneNumberController.text,
+                    observations: observationsController.text,
+                  );
+                  if (forKey.currentState!.validate()) {
+                    ref.read(addAgentStateProvider.notifier).add(agent);
+                  }
                 },
               ),
             ],
