@@ -1,4 +1,5 @@
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
+import 'package:control_concierge_agents/app/presentation/home/views/widgets/agent_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,11 +32,11 @@ class _HomePageState extends ConsumerState<HomePage> {
         loadSuccess: (data) {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) => ElevatedButton(
-              onPressed: () {},
-              child: Text(data[index].name),
+            itemBuilder: (context, index) => AgentItemWidget(
+              agent: data[index],
             ),
             separatorBuilder: (context, index) => const SizedBox(height: 0),
+            //TODO: Ajustar espaço entre os itens
             itemCount: data.length,
           );
         },
@@ -44,15 +45,19 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         orElse: () => Container(),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(
-          Icons.add_rounded,
-          size: 40,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, '/agent/add');
-        },
+      floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(
+        Icons.add_rounded,
+        size: 40,
       ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/agent/add');
+      },
     );
   }
 }
