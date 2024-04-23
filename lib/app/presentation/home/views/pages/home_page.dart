@@ -1,4 +1,4 @@
-import 'package:control_concierge_agents/app/presentation/home/provider/agent_provider.dart';
+import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
