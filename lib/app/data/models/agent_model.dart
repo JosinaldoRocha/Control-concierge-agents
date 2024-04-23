@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 
 class AgentModel {
@@ -37,19 +38,26 @@ class AgentModel {
     };
   }
 
-  factory AgentModel.fromMap(Map<String, dynamic> map) {
+  factory AgentModel.fromSnapShot(
+      QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
     return AgentModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      bondType: BondTypeEnum.fromString(map['bondType']),
-      unit: map['unit'] as String,
-      vacationMonth:
-          map['vacationMonth'] != null ? map['vacationMonth'] as String : null,
-      phone: map['phone'] != null ? map['phone'] as String : null,
-      startVacation: DateTime.tryParse(map['startVacation'] ?? ''),
-      endVacation: DateTime.tryParse(map['endVacation'] ?? ''),
-      observations:
-          map['observations'] != null ? map['observations'] as String : null,
+      id: snapshot.id,
+      name: snapshot['name'] as String,
+      bondType: BondTypeEnum.fromString(snapshot['bondType'] as String),
+      unit: snapshot['unit'] as String,
+      vacationMonth: snapshot['vacationMonth'] != null
+          ? snapshot['vacationMonth'] as String
+          : null,
+      phone: snapshot['phone'] != null ? snapshot['phone'] as String : null,
+      startVacation: snapshot['startVacation'] != null
+          ? (snapshot['startVacation'] as Timestamp).toDate()
+          : null,
+      endVacation: snapshot['endVacation'] != null
+          ? (snapshot['endVacation'] as Timestamp).toDate()
+          : null,
+      observations: snapshot['observations'] != null
+          ? snapshot['observations'] as String
+          : null,
     );
   }
 }
