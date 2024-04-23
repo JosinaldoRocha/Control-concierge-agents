@@ -12,7 +12,7 @@ class AgentDataSource {
       return Right(
         [
           AgentModel(
-            id: 01,
+            id: '01',
             name: 'Josinaldo',
             bondType: BondTypeEnum.effective,
             unit: 'Esc Dey',
@@ -20,7 +20,7 @@ class AgentDataSource {
             phone: '99 99999-9999',
           ),
           AgentModel(
-            id: 02,
+            id: '02',
             name: 'Samuel',
             bondType: BondTypeEnum.contract,
             unit: 'Esc Osvaldo Rodrigues',

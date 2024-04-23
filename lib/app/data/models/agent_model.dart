@@ -1,11 +1,11 @@
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 
 class AgentModel {
-  int id;
+  String id;
   String name;
   BondTypeEnum bondType;
   String unit;
-  String vacationMonth;
+  String? vacationMonth;
   String? phone;
   DateTime? startVacation;
   DateTime? endVacation;
@@ -16,7 +16,7 @@ class AgentModel {
     required this.name,
     required this.bondType,
     required this.unit,
-    required this.vacationMonth,
+    this.vacationMonth,
     this.phone,
     this.startVacation,
     this.endVacation,
@@ -31,19 +31,20 @@ class AgentModel {
       'unit': unit,
       'vacationMonth': vacationMonth,
       'phone': phone,
-      'startVacation': startVacation?.toIso8601String,
-      'endVacation': endVacation?.toIso8601String,
+      'startVacation': startVacation,
+      'endVacation': endVacation,
       'observations': observations,
     };
   }
 
   factory AgentModel.fromMap(Map<String, dynamic> map) {
     return AgentModel(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       bondType: BondTypeEnum.fromString(map['bondType']),
       unit: map['unit'] as String,
-      vacationMonth: map['vacationMonth'] as String,
+      vacationMonth:
+          map['vacationMonth'] != null ? map['vacationMonth'] as String : null,
       phone: map['phone'] != null ? map['phone'] as String : null,
       startVacation: DateTime.tryParse(map['startVacation'] ?? ''),
       endVacation: DateTime.tryParse(map['endVacation'] ?? ''),
