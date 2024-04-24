@@ -1,3 +1,4 @@
+import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/pages/add/add_agent_page.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,28 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   DateTime? endVacation;
 
   var bondType = BondTypeEnum.effective;
-  int monthIndex = 1;
 
-  Future<DateTime?> _buildShowDatePicker(int month) {
-    return showDatePicker(
-      context: context,
-      initialDate: DateTime(DateTime.now().year, month),
-      firstDate: DateTime(DateTime.now().year, month - 1),
-      lastDate: DateTime(DateTime.now().year, month + 1),
-    );
+  Future<DateTime?> _buildShowDatePicker(bool isStartDate) {
+    return startVacation == null
+        ? showDatePicker(
+            context: context,
+            firstDate: DateTime(DateTime.now().year, 1),
+            lastDate: DateTime(DateTime.now().year, 12),
+          )
+        : showDatePicker(
+            context: context,
+            firstDate: DateTime(
+                DateTime.now().year, isStartDate ? 1 : startVacation!.month),
+            lastDate: DateTime(
+              DateTime.now().year,
+              isStartDate ? 12 : startVacation!.month + 1,
+              isStartDate ? 31 : startVacation!.day + 2,
+            ),
+          );
   }
 
   Future<void> selectStartVacation() async {
-    final DateTime? picked = await _buildShowDatePicker(monthIndex);
+    final DateTime? picked = await _buildShowDatePicker(true);
 
     if (picked != null && picked != startVacation) {
       setState(() {
@@ -43,7 +53,7 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   }
 
   Future<void> selectEndVacation() async {
-    final DateTime? picked = await _buildShowDatePicker(monthIndex);
+    final DateTime? picked = await _buildShowDatePicker(false);
 
     if (picked != null && picked != endVacation) {
       setState(() {
@@ -74,12 +84,15 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
         name: nameController.text,
         bondType: bondTypeController.dropDownValue?.value,
         unit: unitController.dropDownValue!.name,
-        vacationMonth: vacacionMonthContoller.dropDownValue?.name,
+        vacationMonth: startVacation != null
+            ? MonthEnum.fromInt(startVacation!.month).text
+            : null,
         startVacation: startVacation,
         endVacation: endVacation,
         phone: phoneNumberController.text,
         observations: observationsController.text,
       );
+
       ref.read(addAgentStateProvider.notifier).add(agent);
     }
   }

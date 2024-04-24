@@ -50,6 +50,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       hintText: 'Vínculo empregatício',
                       onChanged: (p0) {
                         setState(() {
+                          //TODO: lidar com ação ao tocar em limpar campo de texto
                           bondType = p0.value;
                         });
                       },
@@ -61,38 +62,29 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       list: unitList,
                       hintText: 'Lotação',
                     ),
+                    const SpaceVertical.x4(),
                     if (bondType == BondTypeEnum.effective)
                       Column(
                         children: [
-                          const SpaceVertical.x4(),
-                          DropDownWidget(
-                            controller: vacacionMonthContoller,
-                            list: monthList,
-                            hintText: 'Mês de férias',
-                            validator: (p0) {
-                              return null;
-                            },
-                            onChanged: (p0) {
-                              setState(() {
-                                monthIndex = p0.value.index + 1;
-                              });
-                            },
-                          ),
-                          const SpaceVertical.x4(),
                           SelectVacationMonthWidget(
                             hintText: 'Início das férias',
                             birthDate: startVacation,
                             onTap: selectStartVacation,
                           ),
                           const SpaceVertical.x4(),
-                          SelectVacationMonthWidget(
-                            hintText: 'Término das férias',
-                            birthDate: endVacation,
-                            onTap: selectEndVacation,
-                          ),
+                          if (startVacation != null)
+                            Column(
+                              children: [
+                                SelectVacationMonthWidget(
+                                  hintText: 'Término das férias',
+                                  birthDate: endVacation,
+                                  onTap: selectEndVacation,
+                                ),
+                                const SpaceVertical.x4(),
+                              ],
+                            ),
                         ],
                       ),
-                    const SpaceVertical.x4(),
                     InputWidget(
                       controller: phoneNumberController,
                       hintText: 'Celular',
