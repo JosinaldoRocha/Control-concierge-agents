@@ -64,7 +64,7 @@ class AgentDetailsWidget extends StatelessWidget {
             ),
             const SpaceHorizontal.x4(),
             Expanded(
-              child: Text(
+              child: SelectableText(
                 description,
                 textAlign: TextAlign.end,
               ),
