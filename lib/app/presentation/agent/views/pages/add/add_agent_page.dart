@@ -96,7 +96,6 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                     InputWidget(
                       controller: phoneNumberController,
                       hintText: 'Celular',
-                      validator: InputValidators.phone,
                       keyboardType: TextInputType.phone,
                     ),
                     const SpaceVertical.x4(),
