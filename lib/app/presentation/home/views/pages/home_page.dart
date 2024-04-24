@@ -1,5 +1,6 @@
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:control_concierge_agents/app/presentation/home/views/widgets/agent_item_widget.dart';
+import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,21 +25,27 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agentes de portaria SEMED'),
+        centerTitle: true,
       ),
       body: state.maybeWhen(
         loadInProgress: () => const Center(
           child: CircularProgressIndicator(),
         ),
         loadSuccess: (data) {
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) => AgentItemWidget(
-              agent: data[index],
-            ),
-            separatorBuilder: (context, index) => const SizedBox(height: 0),
-            //TODO: Ajustar espaço entre os itens
-            itemCount: data.length,
-          );
+          return data.isEmpty
+              ? const Center(
+                  child: Text('Nenhum agente cadastrado'),
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemBuilder: (context, index) => AgentItemWidget(
+                    agent: data[index],
+                  ),
+                  separatorBuilder: (context, index) =>
+                      const SpaceVertical.x3(),
+                  //TODO: Ajustar espaço entre os itens
+                  itemCount: data.length,
+                );
         },
         loadFailure: (failure) => const SizedBox(
           child: Text('Ocorreu um erro'),
