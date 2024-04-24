@@ -12,6 +12,10 @@ enum MonthEnum {
   november,
   december;
 
+  factory MonthEnum.fromInt(int index) {
+    return MonthEnum.values.firstWhere((element) => element.index == index - 1);
+  }
+
   String get text {
     switch (this) {
       case MonthEnum.january:
