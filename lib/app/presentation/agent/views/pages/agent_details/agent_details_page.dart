@@ -1,6 +1,6 @@
+import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_details_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../../../../../data/models/agent_model.dart';
 
 class AgentDetailsPage extends StatelessWidget {
@@ -20,49 +20,19 @@ class AgentDetailsPage extends StatelessWidget {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16),
         children: [
-          Text(
-            agent.name,
+          const Text(
+            'Agente de portaria',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24),
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          const SpaceVertical.x4(),
+          AgentDetailsWidget(agent: agent),
           const SpaceVertical.x5(),
-          _buildItem('Vínculo: ', agent.bondType.text),
-          _buildItem('Repartição: ', agent.unit),
-          if (agent.vacationMonth != null)
-            _buildItem('Mês de férias: ', '${agent.vacationMonth}'),
-          if (agent.startVacation != null)
-            _buildItem(
-              'Início das férias: ',
-              DateFormat('dd/MM/yyyy').format(agent.startVacation!),
-            ),
-          if (agent.endVacation != null)
-            _buildItem(
-              'Término das férias: ',
-              DateFormat('dd/MM/yyyy').format(agent.endVacation!),
-            ),
-          _buildItem('Celular: ', '${agent.phone}'),
-          if (agent.observations != null)
-            _buildItem('Obervações: ', '${agent.observations}'),
         ],
       ),
-    );
-  }
-
-  Column _buildItem(String title, String description) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            Text(description),
-          ],
-        ),
-        const SpaceVertical.x4(),
-      ],
     );
   }
 }
