@@ -28,7 +28,7 @@ class AgentModel {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'bondType': bondType.name,
+      'bondType': bondType.text,
       'unit': unit,
       'vacationMonth': vacationMonth,
       'phone': phone,
