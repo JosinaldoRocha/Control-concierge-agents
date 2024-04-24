@@ -2,7 +2,9 @@ import 'package:control_concierge_agents/app/presentation/agent/views/pages/add/
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import '../../../../data/enums/bond_type_enum.dart';
+import '../../../../data/models/agent_model.dart';
 import '../../provider/agent_provider.dart';
 import '../../states/add_agent_state_notifier.dart';
 
@@ -13,7 +15,7 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   final phoneNumberController = TextEditingController();
   final vacacionMonthContoller = SingleValueDropDownController();
   final observationsController = TextEditingController();
-  final forKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   DateTime? startVacation;
   DateTime? endVacation;
@@ -63,5 +65,22 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
         );
       },
     );
+  }
+
+  void onTapButton() {
+    if (formKey.currentState!.validate()) {
+      final agent = AgentModel(
+        id: const Uuid().v4(),
+        name: nameController.text,
+        bondType: bondTypeController.dropDownValue?.value,
+        unit: unitController.dropDownValue!.name,
+        vacationMonth: vacacionMonthContoller.dropDownValue?.name,
+        startVacation: startVacation,
+        endVacation: endVacation,
+        phone: phoneNumberController.text,
+        observations: observationsController.text,
+      );
+      ref.read(addAgentStateProvider.notifier).add(agent);
+    }
   }
 }
