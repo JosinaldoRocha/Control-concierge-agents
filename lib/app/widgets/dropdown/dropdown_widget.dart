@@ -30,7 +30,13 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
     return DropDownTextField(
-      validator: widget.validator,
+      validator: widget.validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return 'Por favor, selecione uma opção';
+            }
+            return null;
+          },
       textStyle: AppText.text().bodyMedium,
       textFieldDecoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
