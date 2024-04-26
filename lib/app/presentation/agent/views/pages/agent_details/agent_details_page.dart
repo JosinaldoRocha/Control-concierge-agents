@@ -1,11 +1,17 @@
-import 'package:control_concierge_agents/app/core/style/app_colors.dart';
+import 'package:control_concierge_agents/app/core/helpers/helpers.dart';
+import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
+import 'package:control_concierge_agents/app/presentation/agent/states/delete_agent_state_notifier.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_details_widget.dart';
+import 'package:control_concierge_agents/app/presentation/agent/widgets/delete_agent_modal_widget.dart';
+import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
+import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../data/models/agent_model.dart';
 
-class AgentDetailsPage extends StatelessWidget {
+class AgentDetailsPage extends ConsumerWidget {
   const AgentDetailsPage({
     super.key,
     required this.agent,
@@ -13,7 +19,36 @@ class AgentDetailsPage extends StatelessWidget {
   final AgentModel agent;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(deleteAgentStateProvider);
+
+    ref.listen<DeleteAgentState>(
+      deleteAgentStateProvider,
+      (previous, next) {
+        next.maybeWhen(
+          loadSuccess: (data) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Agente excluído com sucesso!'),
+              ),
+            );
+            ref.read(agentListStateProvider.notifier).load();
+            Navigator.pop(context);
+          },
+          loadFailure: (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Houve um erro ao excluir o agente. Tente novamente mais tarde!',
+                ),
+              ),
+            );
+          },
+          orElse: () {},
+        );
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
@@ -36,40 +71,43 @@ class AgentDetailsPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _buildButton(true),
+              ButtonWidget(
+                height: 40,
+                width: 100,
+                title: 'Editar',
+                onTap: () {},
+              ),
               const SpaceHorizontal.x4(),
-              _buildButton(false),
+              ButtonWidget(
+                isLoading: state is CommonStateLoadInProgress,
+                trailing: const Icon(Icons.delete),
+                height: 40,
+                width: 130,
+                title: 'Excluir',
+                onTap: () {
+                  showModalBottomSheet(
+                    isDismissible: false,
+                    context: context,
+                    builder: (context) => DeleteAgentModalWidget(
+                      title: 'Tem certeza que quer deletar esse agente?',
+                      description:
+                          'Ao deletar um agente você não poderá recupar seus dados',
+                      confirmTitle: 'Sim',
+                      onConfirm: () {
+                        ref
+                            .read(deleteAgentStateProvider.notifier)
+                            .delete(agent.id);
+                        Navigator.pop(context);
+                      },
+                      cancelTitle: 'Cancelar',
+                      onCancel: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                },
+              ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  ElevatedButton _buildButton(bool isEditButton) {
-    final getColor = isEditButton ? AppColor.primary : AppColor.primaryRed;
-
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          backgroundColor: AppColor.white,
-          side: BorderSide(
-            color: getColor,
-          )),
-      onPressed: () {},
-      child: Row(
-        children: [
-          Text(
-            isEditButton ? 'Editar' : 'Excluir',
-            style: TextStyle(
-              color: getColor,
-            ),
-          ),
-          const SpaceHorizontal.x2(),
-          Icon(
-            isEditButton ? Icons.edit : Icons.delete,
-            color: getColor,
           ),
         ],
       ),
