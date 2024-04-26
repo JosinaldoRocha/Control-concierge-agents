@@ -1,9 +1,8 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
+import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-
-import '../spacing/spacing_size.dart';
 
 enum ButtonType { primary, secundary }
 
@@ -19,6 +18,8 @@ class ButtonWidget extends StatelessWidget {
 
   final Color? color;
   final Color? textColor;
+
+  final Widget? trailing;
 
   ///  Button
   /// button that will be execute show a circular progress indicator
@@ -45,6 +46,7 @@ class ButtonWidget extends StatelessWidget {
     this.color,
     this.width,
     this.textColor,
+    this.trailing,
   }) : type = ButtonType.primary;
 
   const ButtonWidget.secoundary({
@@ -58,6 +60,7 @@ class ButtonWidget extends StatelessWidget {
     this.color,
     this.width,
     this.textColor,
+    this.trailing,
   }) : type = ButtonType.secundary;
   Color get buttonColor {
     return type == ButtonType.primary ? AppColor.primary : AppColor.lightBlue;
@@ -99,8 +102,23 @@ class ButtonWidget extends StatelessWidget {
     );
   }
 
+  // Widget _buildContent() {
+  //   return leading != null ? _buildWithIcon() : _buildText();
+  // }
+
   Widget _buildContent() {
-    return leading != null ? _buildWithIcon() : _buildText();
+    return trailing == null
+        ? _buildText()
+        : Row(
+            children: [
+              Text(
+                title,
+                style: AppText.text().bodyMedium!.copyWith(fontSize: 16),
+              ),
+              const SpaceHorizontal.x2(),
+              trailing!
+            ],
+          );
   }
 
   Widget _buildText() {
@@ -110,37 +128,37 @@ class ButtonWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildWithIcon() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Spacer(),
-        if (prefixIcon != null)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: Spacing.x10),
-              child: leading,
-            ),
-          ),
-        const SizedBox(
-          width: 16,
-        ),
-        Center(
-          child: _buildText(),
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: Spacing.x10),
-            child: leading,
-          ),
-        ),
-        const Spacer(),
-      ],
-    );
-  }
+  // Widget _buildWithIcon() {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       const Spacer(),
+  //       if (prefixIcon != null)
+  //         Align(
+  //           alignment: Alignment.centerLeft,
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(left: Spacing.x10),
+  //             child: leading,
+  //           ),
+  //         ),
+  //       const SizedBox(
+  //         width: 16,
+  //       ),
+  //       Center(
+  //         child: _buildText(),
+  //       ),
+  //       const SizedBox(
+  //         width: 16,
+  //       ),
+  //       Align(
+  //         alignment: Alignment.centerRight,
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(right: Spacing.x10),
+  //           child: leading,
+  //         ),
+  //       ),
+  //       const Spacer(),
+  //     ],
+  //   );
+  // }
 }
