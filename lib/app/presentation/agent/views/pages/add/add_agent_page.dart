@@ -49,12 +49,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       controller: bondTypeController,
                       list: bondTypeList,
                       hintText: 'Vínculo empregatício',
-                      onChanged: (p0) {
-                        setState(() {
-                          //TODO: lidar com ação ao tocar em limpar campo de texto
-                          bondType = p0.value;
-                        });
-                      },
+                      onChanged: (p0) => setState(() {}),
                     ),
                     const SpaceVertical.x4(),
                     DropDownWidget(
@@ -64,7 +59,8 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       hintText: 'Lotação',
                     ),
                     const SpaceVertical.x4(),
-                    if (bondType == BondTypeEnum.effective)
+                    if (bondTypeController.dropDownValue?.value ==
+                        BondTypeEnum.effective)
                       Column(
                         children: [
                           SelectVacationMonthWidget(
