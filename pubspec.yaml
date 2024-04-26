@@ -44,6 +44,8 @@ dependencies:
   dropdown_textfield: ^1.0.8
   loading_indicator: ^3.1.1
   uuid: ^4.4.0
+  brasil_fields: ^1.14.3
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:
