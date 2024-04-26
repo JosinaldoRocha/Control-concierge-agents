@@ -7,6 +7,7 @@ class AppColor {
   static const white = Color(0xFFFFFFFF);
   static const error = Color(0xFFFF7043);
   static const lightGrey = Color(0xFFEAEAEA);
-  static const lightBlue = Color.fromARGB(146, 237, 244, 247);
-  static const mediumBlue = Color.fromARGB(255, 79, 89, 162);
+  static const lightGrey2 = Color(0xFFDDDDDD);
+  static const lightBlue = Color(0x92EDF4F7);
+  static const mediumBlue = Color(0xFF4F59A2);
 }
