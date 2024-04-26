@@ -36,4 +36,13 @@ class AgentDataSource {
       return Left(GenerateError.fromException(e));
     }
   }
+
+  Future<Either<CommonError, bool>> deleteAgent(String agentId) async {
+    try {
+      await _firestore.collection('concierge-agents').doc(agentId).delete();
+      return const Right(true);
+    } on Exception catch (e) {
+      return Left(GenerateError.fromException(e));
+    }
+  }
 }
