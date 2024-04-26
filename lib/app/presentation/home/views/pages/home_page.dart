@@ -15,7 +15,11 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(agentListStateProvider.notifier).load());
+    Future.microtask(() => load());
+  }
+
+  void load() {
+    ref.read(agentListStateProvider.notifier).load();
   }
 
   @override
@@ -36,15 +40,18 @@ class _HomePageState extends ConsumerState<HomePage> {
               ? const Center(
                   child: Text('Nenhum agente cadastrado'),
                 )
-              : ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemBuilder: (context, index) => AgentItemWidget(
-                    agent: data[index],
+              : RefreshIndicator(
+                  onRefresh: () async => load(),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemBuilder: (context, index) => AgentItemWidget(
+                      agent: data[index],
+                    ),
+                    separatorBuilder: (context, index) =>
+                        const SpaceVertical.x3(),
+                    //TODO: Ajustar espaço entre os itens
+                    itemCount: data.length,
                   ),
-                  separatorBuilder: (context, index) =>
-                      const SpaceVertical.x3(),
-                  //TODO: Ajustar espaço entre os itens
-                  itemCount: data.length,
                 );
         },
         loadFailure: (failure) => const SizedBox(
