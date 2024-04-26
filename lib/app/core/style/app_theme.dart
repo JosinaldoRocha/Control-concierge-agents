@@ -25,7 +25,6 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.primary,
           foregroundColor: Colors.white,
-          textStyle: AppText.text().bodyMedium?.copyWith(fontSize: 18),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
