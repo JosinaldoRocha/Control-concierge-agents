@@ -14,7 +14,7 @@ final unitList = [
   const DropDownValueModel(name: 'Anexo Cantinho do saber', value: 9),
   const DropDownValueModel(name: 'Esc. José Cesário da Silva', value: 10),
   const DropDownValueModel(name: 'Esc. Maria das Graças', value: 11),
-  const DropDownValueModel(name: 'Esc. Raiumundo Almeida Pimentel', value: 12),
+  const DropDownValueModel(name: 'Esc. Raimundo Almeida Pimentel', value: 12),
   const DropDownValueModel(name: 'Esc. Viriato Correia', value: 13),
   const DropDownValueModel(name: 'Esc. Joanice Soares', value: 14),
   const DropDownValueModel(name: 'Esc. São Marcos', value: 15),
