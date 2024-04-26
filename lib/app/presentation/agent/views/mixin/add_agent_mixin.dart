@@ -28,14 +28,18 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
         ? showDatePicker(
             context: context,
             firstDate: DateTime(DateTime.now().year, 1),
-            lastDate: DateTime(DateTime.now().year, 12),
+            lastDate: DateTime(DateTime.now().year + 1, 1, 0),
           )
         : showDatePicker(
+            initialDate: isStartDate ? startVacation : null,
             context: context,
             firstDate: DateTime(
-                DateTime.now().year, isStartDate ? 1 : startVacation!.month),
+              startVacation!.year,
+              isStartDate ? 1 : startVacation!.month,
+              isStartDate ? 1 : startVacation!.day,
+            ),
             lastDate: DateTime(
-              DateTime.now().year,
+              startVacation!.year,
               isStartDate ? 12 : startVacation!.month + 1,
               isStartDate ? 31 : startVacation!.day + 2,
             ),
@@ -68,7 +72,7 @@ mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            Navigator.of(context).pushNamed('/home');
+            Navigator.of(context).pushReplacementNamed('/home');
           },
           loadFailure: (message) {},
           orElse: () {},
