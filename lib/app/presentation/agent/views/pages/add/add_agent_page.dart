@@ -4,6 +4,7 @@ import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add_
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
+import 'package:control_concierge_agents/app/widgets/input/input_formatters.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_validators.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
@@ -88,6 +89,8 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                     InputWidget(
                       controller: phoneNumberController,
                       hintText: 'Celular',
+                      validator: InputValidators.phone,
+                      inputFormatters: [InputFormatters.phone()],
                       keyboardType: TextInputType.phone,
                     ),
                     const SpaceVertical.x4(),
