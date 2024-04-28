@@ -75,7 +75,13 @@ class AgentDetailsPage extends ConsumerWidget {
                 height: 40,
                 width: 100,
                 title: 'Editar',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/agent/edit',
+                    arguments: agent,
+                  );
+                },
               ),
               const SpaceHorizontal.x4(),
               ButtonWidget(
