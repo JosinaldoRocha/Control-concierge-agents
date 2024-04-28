@@ -7,11 +7,11 @@ import 'package:intl/intl.dart';
 class SelectVacationMonthWidget extends StatefulWidget {
   const SelectVacationMonthWidget({
     super.key,
-    required this.birthDate,
+    required this.date,
     required this.onTap,
     required this.hintText,
   });
-  final DateTime? birthDate;
+  final DateTime? date;
   final Function() onTap;
   final String hintText;
 
@@ -40,11 +40,13 @@ class _SelectVacationMonthWidgetState extends State<SelectVacationMonthWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.birthDate == null
+                    widget.date == null
                         ? widget.hintText
-                        : DateFormat('dd/MM/yyyy').format(widget.birthDate!),
+                        : DateFormat('dd/MM/yyyy').format(widget.date!),
                     style: AppText.text().bodyMedium!.copyWith(
-                          color: AppColor.mediumBlue,
+                          color: widget.date == null
+                              ? AppColor.mediumBlue
+                              : Colors.black,
                           fontSize: 16,
                         ),
                   ),
