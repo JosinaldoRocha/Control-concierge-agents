@@ -1,5 +1,5 @@
 import 'package:control_concierge_agents/app/presentation/agent/views/pages/add/add_agent_page.dart';
-import 'package:control_concierge_agents/app/presentation/agent/views/pages/agent_details/agent_details_page.dart';
+import 'package:control_concierge_agents/app/presentation/agent/views/pages/details/agent_details_page.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/pages/edit/edit_agent_page.dart';
 import 'package:flutter/material.dart';
 import '../../../core/navigator/navigator.dart';
