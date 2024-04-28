@@ -11,12 +11,14 @@ class DropDownWidget extends StatefulWidget {
     required this.hintText,
     this.onChanged,
     this.validator,
+    this.listPadding,
   });
   final SingleValueDropDownController controller;
   final List<DropDownValueModel> list;
   final String hintText;
   final Function(dynamic)? onChanged;
   final String? Function(String?)? validator;
+  final ListPadding? listPadding;
 
   @override
   State<DropDownWidget> createState() => _DropDownWidgetState();
@@ -74,6 +76,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       dropDownItemCount: widget.list.length,
       dropDownList: widget.list,
+      listPadding: widget.listPadding,
       onChanged: widget.onChanged,
     );
   }

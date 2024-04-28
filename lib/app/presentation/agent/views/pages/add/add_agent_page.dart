@@ -10,6 +10,7 @@ import 'package:control_concierge_agents/app/widgets/input/input_formatters.dart
 import 'package:control_concierge_agents/app/widgets/input/input_validators.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,6 +61,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       //TODO: tornar lista rolável
                       list: unitList,
                       hintText: 'Lotação',
+                      listPadding: ListPadding(top: 5, bottom: 5),
                     ),
                     const SpaceVertical.x4(),
                     if (bondTypeController.dropDownValue?.value ==
