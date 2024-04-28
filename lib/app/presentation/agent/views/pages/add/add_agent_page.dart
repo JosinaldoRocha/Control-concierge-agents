@@ -2,7 +2,7 @@ import 'package:control_concierge_agents/app/core/constants/constants.dart';
 import 'package:control_concierge_agents/app/core/helpers/common_state/common_state.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
-import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add_agent_mixin.dart';
+import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add/add_agent_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
@@ -29,9 +29,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
     addAgentListen();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -70,7 +68,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                         children: [
                           SelectVacationMonthWidget(
                             hintText: 'Início das férias',
-                            birthDate: startVacation,
+                            date: startVacation,
                             onTap: selectStartVacation,
                           ),
                           const SpaceVertical.x4(),
@@ -79,7 +77,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                               children: [
                                 SelectVacationMonthWidget(
                                   hintText: 'Término das férias',
-                                  birthDate: endVacation,
+                                  date: endVacation,
                                   onTap: selectEndVacation,
                                 ),
                                 const SpaceVertical.x4(),
