@@ -92,7 +92,10 @@ class InputWidget extends StatelessWidget {
             keyboardType: keyboardType,
             obscureText: obscureText ?? false,
             maxLines: lines,
-            style: AppText.text().bodyMedium,
+            style: AppText.text().bodyMedium?.copyWith(
+                  color: !isEnabled ? AppColor.mediumBlue : null,
+                  fontWeight: !isEnabled ? FontWeight.w600 : null,
+                ),
             textAlign: TextAlign.left,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
