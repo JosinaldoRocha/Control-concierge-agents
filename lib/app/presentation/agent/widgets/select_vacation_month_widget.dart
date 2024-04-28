@@ -1,6 +1,7 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class SelectVacationMonthWidget extends StatefulWidget {
@@ -47,7 +48,13 @@ class _SelectVacationMonthWidgetState extends State<SelectVacationMonthWidget> {
                           fontSize: 16,
                         ),
                   ),
-                  Image.asset('assets/icons/calendar.png'),
+                  SvgPicture.asset(
+                    'assets/icons/calendar.svg',
+                    colorFilter: const ColorFilter.mode(
+                      AppColor.mediumBlue,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ],
               ),
             ),
