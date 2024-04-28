@@ -4,9 +4,9 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../data/models/agent_model.dart';
-import '../../provider/agent_provider.dart';
-import '../../states/add_agent_state_notifier.dart';
+import '../../../../../data/models/agent_model.dart';
+import '../../../provider/agent_provider.dart';
+import '../../../states/add_agent_state_notifier.dart';
 
 mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
   final nameController = TextEditingController();
