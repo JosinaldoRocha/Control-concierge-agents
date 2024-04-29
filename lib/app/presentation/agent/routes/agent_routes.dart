@@ -10,7 +10,9 @@ class AgentRoutes extends IModuleRoutes {
 
   @override
   Map<String, Widget Function(BuildContext context)> get routes => {
-        '/add': (_) => const AddAgentPage(),
+        '/add': (context) => AddAgentPage(
+              agent: getArgs(context),
+            ),
         '/details': (context) => AgentDetailsPage(
               agent: getArgs(context),
             ),
