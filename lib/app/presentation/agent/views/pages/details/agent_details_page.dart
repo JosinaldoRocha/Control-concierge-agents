@@ -9,7 +9,9 @@ import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_wi
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../core/style/app_colors.dart';
 import '../../../../../data/models/agent_model.dart';
+import '../../../../../widgets/snack_bar/app_snack_bar_widget.dart';
 
 class AgentDetailsPage extends ConsumerWidget {
   const AgentDetailsPage({
@@ -27,21 +29,19 @@ class AgentDetailsPage extends ConsumerWidget {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Agente excluído com sucesso!'),
-              ),
-            );
             ref.read(agentListStateProvider.notifier).load();
             Navigator.pop(context);
+            AppSnackBar.show(
+              context,
+              'Agente excluído com sucesso!',
+              AppColor.secondary,
+            );
           },
-          loadFailure: (failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Houve um erro ao excluir o agente. Tente novamente mais tarde!',
-                ),
-              ),
+          loadFailure: (message) {
+            AppSnackBar.show(
+              context,
+              'Houve um erro ao excluir o agente. Tente novamente mais tarde!',
+              AppColor.error,
             );
           },
           orElse: () {},
@@ -78,7 +78,7 @@ class AgentDetailsPage extends ConsumerWidget {
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    '/agent/edit',
+                    '/agent/add',
                     arguments: agent,
                   );
                 },
