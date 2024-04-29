@@ -1,5 +1,4 @@
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
-import 'package:control_concierge_agents/app/presentation/agent/views/pages/add/add_agent_page.dart';
 import 'package:control_concierge_agents/app/widgets/snack_bar/app_snack_bar_widget.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,9 @@ import '../../../../../data/models/agent_model.dart';
 import '../../../provider/agent_provider.dart';
 import '../../../states/add_agent_state_notifier.dart';
 import '../../../states/edit/edit_agent_state_notifier.dart';
+import '../../pages/add_edit/add_edit_agent_page.dart';
 
-mixin AddAgentMixin<T extends AddAgentPage> on ConsumerState<T> {
+mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   final nameController = TextEditingController();
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();

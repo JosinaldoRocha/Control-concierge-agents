@@ -3,7 +3,7 @@ import 'package:control_concierge_agents/app/core/helpers/common_state/common_st
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
-import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add/add_agent_mixin.dart';
+import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add-edit/add_edit_agent_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
@@ -15,16 +15,16 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddAgentPage extends ConsumerStatefulWidget {
-  const AddAgentPage({super.key, this.agent});
+class AddEditAgentPage extends ConsumerStatefulWidget {
+  const AddEditAgentPage({super.key, this.agent});
   final AgentModel? agent;
 
   @override
-  ConsumerState<AddAgentPage> createState() => _AddAgentPageState();
+  ConsumerState<AddEditAgentPage> createState() => _AddAgentPageState();
 }
 
-class _AddAgentPageState extends ConsumerState<AddAgentPage>
-    with AddAgentMixin {
+class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
+    with AddEditAgentMixin {
   @override
   Widget build(BuildContext context) {
     final addState = ref.watch(addAgentStateProvider);
