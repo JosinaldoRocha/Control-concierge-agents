@@ -1,6 +1,7 @@
 import 'package:control_concierge_agents/app/core/constants/constants.dart';
 import 'package:control_concierge_agents/app/core/helpers/common_state/common_state.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
+import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add/add_agent_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
@@ -15,7 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddAgentPage extends ConsumerStatefulWidget {
-  const AddAgentPage({super.key});
+  const AddAgentPage({super.key, this.agent});
+  final AgentModel? agent;
 
   @override
   ConsumerState<AddAgentPage> createState() => _AddAgentPageState();
@@ -25,8 +27,10 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
     with AddAgentMixin {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(addAgentStateProvider);
+    final addState = ref.watch(addAgentStateProvider);
+    final editState = ref.watch(addAgentStateProvider);
     addAgentListen();
+    editAgentListen();
 
     return Scaffold(
       appBar: AppBar(),
@@ -45,6 +49,7 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                       controller: nameController,
                       hintText: 'Nome',
                       validator: InputValidators.fullName,
+                      isEnabled: widget.agent == null,
                     ),
                     const SpaceVertical.x4(),
                     DropDownWidget(
@@ -110,7 +115,8 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                 ),
               ),
               ButtonWidget(
-                isLoading: state is CommonStateLoadInProgress,
+                isLoading: addState is CommonStateLoadInProgress ||
+                    editState is CommonStateLoadInProgress,
                 title: 'Salvar agente',
                 onTap: onTapButton,
               ),
