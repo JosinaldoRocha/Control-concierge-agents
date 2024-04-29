@@ -10,10 +10,12 @@ class SelectVacationMonthWidget extends StatefulWidget {
     required this.date,
     required this.onTap,
     required this.hintText,
+    required this.onClean,
   });
   final DateTime? date;
   final Function() onTap;
   final String hintText;
+  final Function() onClean;
 
   @override
   State<SelectVacationMonthWidget> createState() =>
@@ -50,13 +52,18 @@ class _SelectVacationMonthWidgetState extends State<SelectVacationMonthWidget> {
                           fontSize: 16,
                         ),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/calendar.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColor.mediumBlue,
-                      BlendMode.srcIn,
-                    ),
-                  ),
+                  widget.date != null
+                      ? InkWell(
+                          onTap: widget.onClean,
+                          child: const Icon(Icons.close_rounded),
+                        )
+                      : SvgPicture.asset(
+                          'assets/icons/calendar.svg',
+                          colorFilter: const ColorFilter.mode(
+                            AppColor.mediumBlue,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                 ],
               ),
             ),
