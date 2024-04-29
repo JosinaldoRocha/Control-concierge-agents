@@ -1,6 +1,5 @@
 import 'package:control_concierge_agents/app/presentation/agent/views/pages/add/add_agent_page.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/pages/details/agent_details_page.dart';
-import 'package:control_concierge_agents/app/presentation/agent/views/pages/edit/edit_agent_page.dart';
 import 'package:flutter/material.dart';
 import '../../../core/navigator/navigator.dart';
 
@@ -14,9 +13,6 @@ class AgentRoutes extends IModuleRoutes {
               agent: getArgs(context),
             ),
         '/details': (context) => AgentDetailsPage(
-              agent: getArgs(context),
-            ),
-        '/edit': (context) => EditAgentPage(
               agent: getArgs(context),
             ),
       };
