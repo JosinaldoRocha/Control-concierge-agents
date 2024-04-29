@@ -14,6 +14,8 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../data/enums/bond_type_enum.dart';
+
 class EditAgentPage extends ConsumerStatefulWidget {
   const EditAgentPage({
     super.key,
@@ -67,29 +69,39 @@ class _EditAgentPageState extends ConsumerState<EditAgentPage>
                       listPadding: ListPadding(top: 5, bottom: 5),
                     ),
                     const SpaceVertical.x4(),
-                    // if (bondTypeController.dropDownValue?.value ==
-                    //     BondTypeEnum.effective)
-                    Column(
-                      children: [
-                        SelectVacationMonthWidget(
-                          hintText: 'Início das férias',
-                          date: widget.agent.startVacation,
-                          onTap: selectStartVacation,
-                        ),
-                        const SpaceVertical.x4(),
-                        //if (startVacation != null)
-                        Column(
-                          children: [
-                            SelectVacationMonthWidget(
-                              hintText: 'Término das férias',
-                              date: widget.agent.endVacation,
-                              onTap: selectEndVacation,
+                    if (bondTypeController.dropDownValue?.value ==
+                        BondTypeEnum.effective)
+                      Column(
+                        children: [
+                          SelectVacationMonthWidget(
+                            hintText: 'Início das férias',
+                            date: startVacation,
+                            onTap: selectStartVacation,
+                            onClean: () {
+                              setState(() {
+                                startVacation = null;
+                              });
+                            },
+                          ),
+                          const SpaceVertical.x4(),
+                          if (startVacation != null)
+                            Column(
+                              children: [
+                                SelectVacationMonthWidget(
+                                  hintText: 'Término das férias',
+                                  date: endVacation,
+                                  onTap: selectEndVacation,
+                                  onClean: () {
+                                    setState(() {
+                                      endVacation = null;
+                                    });
+                                  },
+                                ),
+                                const SpaceVertical.x4(),
+                              ],
                             ),
-                            const SpaceVertical.x4(),
-                          ],
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                     InputWidget(
                       controller: phoneNumberController,
                       hintText: 'Celular',
@@ -106,7 +118,7 @@ class _EditAgentPageState extends ConsumerState<EditAgentPage>
               ),
               ButtonWidget(
                 isLoading: state is CommonStateLoadInProgress,
-                title: 'Salvar agente',
+                title: 'Confirmar',
                 onTap: onTapButton,
               ),
             ],

@@ -70,6 +70,11 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                             hintText: 'Início das férias',
                             date: startVacation,
                             onTap: selectStartVacation,
+                            onClean: () {
+                              setState(() {
+                                startVacation = null;
+                              });
+                            },
                           ),
                           const SpaceVertical.x4(),
                           if (startVacation != null)
@@ -79,6 +84,11 @@ class _AddAgentPageState extends ConsumerState<AddAgentPage>
                                   hintText: 'Término das férias',
                                   date: endVacation,
                                   onTap: selectEndVacation,
+                                  onClean: () {
+                                    setState(() {
+                                      endVacation = null;
+                                    });
+                                  },
                                 ),
                                 const SpaceVertical.x4(),
                               ],
