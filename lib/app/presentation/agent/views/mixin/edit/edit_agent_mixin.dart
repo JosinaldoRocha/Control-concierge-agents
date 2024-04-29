@@ -32,6 +32,8 @@ mixin EditAgentMixin<T extends EditAgentPage> on ConsumerState<T> {
       unitList.firstWhere((e) => e.name == widget.agent.unit),
     );
     observationsController.text = widget.agent.observations!;
+    startVacation = widget.agent.startVacation;
+    endVacation = widget.agent.endVacation;
   }
 
   Future<DateTime?> _buildShowDatePicker(bool isStartDate) {
