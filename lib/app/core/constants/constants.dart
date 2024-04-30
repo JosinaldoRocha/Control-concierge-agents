@@ -27,6 +27,7 @@ final unitList = [
   const DropDownValueModel(
       name: 'Dpto de educação especial inclusiva', value: 20),
   const DropDownValueModel(name: 'Dpto Ferista', value: 21),
+  const DropDownValueModel(name: 'Semed', value: 22),
 ];
 
 final bondTypeList = [
