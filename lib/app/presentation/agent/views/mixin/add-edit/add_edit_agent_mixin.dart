@@ -90,7 +90,10 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home',
+              (route) => false,
+            );
             AppSnackBar.show(
               context,
               'Agente adicionado com sucesso!',
@@ -116,7 +119,10 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home',
+              (route) => false,
+            );
             AppSnackBar.show(
               context,
               'Agente atualizado com sucesso!',
