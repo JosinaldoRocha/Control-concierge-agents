@@ -11,7 +11,7 @@ final unitList = [
   const DropDownValueModel(name: 'Esc. Osvaldo Rodrigues da Costa', value: 6),
   const DropDownValueModel(name: 'Esc. Obra social madre Luiza', value: 7),
   const DropDownValueModel(name: 'Esc. Cantinho do saber', value: 8),
-  const DropDownValueModel(name: 'Anexo Cantinho do saber', value: 9),
+  const DropDownValueModel(name: 'Esc. Cantinho do saber - Anexo', value: 9),
   const DropDownValueModel(name: 'Esc. José Cesário da Silva', value: 10),
   const DropDownValueModel(name: 'Esc. Maria das Graças', value: 11),
   const DropDownValueModel(name: 'Esc. Raimundo Almeida Pimentel', value: 12),
@@ -26,7 +26,7 @@ final unitList = [
   const DropDownValueModel(name: 'Qdr Areninha', value: 21),
   const DropDownValueModel(
       name: 'Dpto de educação especial inclusiva', value: 20),
-  const DropDownValueModel(name: 'Cobrir férias', value: 21),
+  const DropDownValueModel(name: 'Dpto Ferista', value: 21),
 ];
 
 final bondTypeList = [
