@@ -1,8 +1,8 @@
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
-import 'package:control_concierge_agents/app/presentation/home/views/widgets/agent_item_widget.dart';
-import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../widgets/agent_list_widget.dart';
+import '../widgets/agent_search_delegate.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -30,6 +30,25 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: AppBar(
         title: const Text('Agentes de portaria SEMED'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.search_rounded,
+              size: 35,
+            ),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: AgentSearchDelegate(
+                  list: state.maybeWhen(
+                    loadSuccess: (data) => data,
+                    orElse: () => [],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: state.maybeWhen(
         loadInProgress: () => const Center(
@@ -42,16 +61,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 )
               : RefreshIndicator(
                   onRefresh: () async => load(),
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemBuilder: (context, index) => AgentItemWidget(
-                      agent: data[index],
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SpaceVertical.x3(),
-                    //TODO: Ajustar espaço entre os itens
-                    itemCount: data.length,
-                  ),
+                  child: AgentListWidget(agents: data),
                 );
         },
         loadFailure: (failure) => const SizedBox(
