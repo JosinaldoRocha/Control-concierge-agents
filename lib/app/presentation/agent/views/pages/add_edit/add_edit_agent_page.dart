@@ -27,8 +27,9 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
     with AddEditAgentMixin {
   @override
   Widget build(BuildContext context) {
+    unitList.sort((a, b) => a.name.compareTo(b.name));
     final addState = ref.watch(addAgentStateProvider);
-    final editState = ref.watch(addAgentStateProvider);
+    final editState = ref.watch(editAgentStateProvider);
     addAgentListen();
     editAgentListen();
 
