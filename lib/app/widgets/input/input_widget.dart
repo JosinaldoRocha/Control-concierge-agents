@@ -73,6 +73,7 @@ class InputWidget extends StatelessWidget {
           final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;
           return TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             focusNode: focus ?? _focus,
             validator: validator,
             minLines: minLines,
