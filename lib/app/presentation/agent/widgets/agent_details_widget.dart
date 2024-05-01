@@ -27,6 +27,7 @@ class AgentDetailsWidget extends StatelessWidget {
           HeaderAgentDetailsWidget(agent: agent),
           const Divider(height: 32),
           _buildItem('Lotação: ', agent.unit),
+          _buildItem('Turno: ', agent.workShift),
           if (agent.vacationMonth != null)
             _buildItem('Mês base para férias: ', '${agent.vacationMonth}'),
           if (agent.startVacation != null)
