@@ -1,4 +1,3 @@
-import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import '../../data/enums/bond_type_enum.dart';
 
@@ -41,20 +40,11 @@ final bondTypeList = [
   ),
 ];
 
-final monthList = [
-  DropDownValueModel(name: MonthEnum.january.text, value: MonthEnum.january),
-  DropDownValueModel(name: MonthEnum.february.text, value: MonthEnum.february),
-  DropDownValueModel(name: MonthEnum.march.text, value: MonthEnum.march),
-  DropDownValueModel(name: MonthEnum.april.text, value: MonthEnum.april),
-  DropDownValueModel(name: MonthEnum.may.text, value: MonthEnum.may),
-  DropDownValueModel(name: MonthEnum.june.text, value: MonthEnum.june),
-  DropDownValueModel(name: MonthEnum.july.text, value: MonthEnum.july),
-  DropDownValueModel(name: MonthEnum.august.text, value: MonthEnum.august),
-  DropDownValueModel(
-    name: MonthEnum.september.text,
-    value: MonthEnum.september,
-  ),
-  DropDownValueModel(name: MonthEnum.october.text, value: MonthEnum.october),
-  DropDownValueModel(name: MonthEnum.november.text, value: MonthEnum.november),
-  DropDownValueModel(name: MonthEnum.december.text, value: MonthEnum.december),
+final workShiftList = [
+  const DropDownValueModel(name: 'Diurno - 12/36h', value: 01),
+  const DropDownValueModel(name: 'Diurno - seg à sex', value: 02),
+  const DropDownValueModel(name: 'Noturno - 12/36h', value: 03),
+  const DropDownValueModel(name: 'Noturno - seg à sex', value: 04),
+  const DropDownValueModel(name: 'EJA', value: 05),
+  const DropDownValueModel(name: 'Dinâmico', value: 06),
 ];
