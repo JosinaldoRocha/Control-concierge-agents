@@ -6,6 +6,7 @@ class AgentModel {
   String name;
   BondTypeEnum bondType;
   String unit;
+  String workShift;
   String? vacationMonth;
   String? phone;
   DateTime? startVacation;
@@ -17,6 +18,7 @@ class AgentModel {
     required this.name,
     required this.bondType,
     required this.unit,
+    required this.workShift,
     this.vacationMonth,
     this.phone,
     this.startVacation,
@@ -30,6 +32,7 @@ class AgentModel {
       'name': name,
       'bondType': bondType.text,
       'unit': unit,
+      'workShift': workShift,
       'vacationMonth': vacationMonth,
       'phone': phone,
       'startVacation': startVacation,
@@ -45,6 +48,7 @@ class AgentModel {
       name: snapshot['name'] as String,
       bondType: BondTypeEnum.fromString(snapshot['bondType'] as String),
       unit: snapshot['unit'] as String,
+      workShift: snapshot['workShift'] as String,
       vacationMonth: snapshot['vacationMonth'] != null
           ? snapshot['vacationMonth'] as String
           : null,
