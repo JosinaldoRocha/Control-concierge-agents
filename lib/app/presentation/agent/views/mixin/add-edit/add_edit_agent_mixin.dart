@@ -16,6 +16,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   final nameController = TextEditingController();
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
+  final workShiftController = SingleValueDropDownController();
   final phoneNumberController = TextEditingController();
   final observationsController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -34,6 +35,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       );
       unitController.setDropDown(
         unitList.firstWhere((e) => e.name == widget.agent!.unit),
+      );
+      workShiftController.setDropDown(
+        workShiftList.firstWhere((e) => e.name == widget.agent!.workShift),
       );
       observationsController.text = widget.agent!.observations!;
       startVacation = widget.agent!.startVacation;
@@ -149,6 +153,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         name: nameController.text,
         bondType: bondTypeController.dropDownValue?.value,
         unit: unitController.dropDownValue!.name,
+        workShift: workShiftController.dropDownValue!.name,
         vacationMonth: startVacation != null
             ? MonthEnum.fromInt(startVacation!.month).text
             : null,
