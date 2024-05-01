@@ -68,6 +68,12 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                       listPadding: ListPadding(top: 5, bottom: 5),
                     ),
                     const SpaceVertical.x4(),
+                    DropDownWidget(
+                      controller: workShiftController,
+                      list: workShiftList,
+                      hintText: 'Turno',
+                    ),
+                    const SpaceVertical.x4(),
                     if (bondTypeController.dropDownValue?.value ==
                         BondTypeEnum.effective)
                       Column(
