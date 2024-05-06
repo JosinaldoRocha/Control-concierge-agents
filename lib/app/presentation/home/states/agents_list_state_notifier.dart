@@ -11,10 +11,10 @@ class AgentListStateNotifier extends StateNotifier<AgentListState> {
 
   final AgentDataSource dataSource;
 
-  Future<void> load() async {
+  Future<void> load(String? filter) async {
     state = const AgentListState.loadInProgress();
 
-    final result = await dataSource.getAgents();
+    final result = await dataSource.getAgents(filter ?? 'name');
     result.fold(
       (l) => state = AgentListState.loadFailure(l),
       (r) => state = AgentListState.loadSuccess(r),
