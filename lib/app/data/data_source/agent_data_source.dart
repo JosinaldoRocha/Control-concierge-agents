@@ -6,10 +6,10 @@ import '../../core/helpers/errors/errors.dart';
 class AgentDataSource {
   final _firestore = FirebaseFirestore.instance;
 
-  Future<Either<CommonError, List<AgentModel>>> getAgents() async {
+  Future<Either<CommonError, List<AgentModel>>> getAgents(String filter) async {
     try {
       final getDocuments =
-          await _firestore.collection('concierge-agents').get();
+          await _firestore.collection('concierge-agents').orderBy(filter).get();
       final documents = getDocuments.docs;
       List<AgentModel> agents = [];
 
@@ -17,7 +17,6 @@ class AgentDataSource {
         final item = AgentModel.fromSnapShot(docs);
         agents.add(item);
       }
-      agents.sort((a, b) => a.name.compareTo(b.name));
 
       return Right(agents);
     } on Exception catch (e) {
