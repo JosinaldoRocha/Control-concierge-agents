@@ -29,7 +29,7 @@ class AgentDetailsPage extends ConsumerWidget {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            ref.read(agentListStateProvider.notifier).load();
+            ref.read(agentListStateProvider.notifier).load(null);
             Navigator.pop(context);
             AppSnackBar.show(
               context,
