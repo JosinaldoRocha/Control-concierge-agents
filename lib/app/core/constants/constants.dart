@@ -1,3 +1,4 @@
+import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import '../../data/enums/bond_type_enum.dart';
 
@@ -47,4 +48,11 @@ final workShiftList = [
   const DropDownValueModel(name: 'Noturno - seg à sex', value: 04),
   const DropDownValueModel(name: 'EJA', value: 05),
   const DropDownValueModel(name: 'Dinâmico', value: 06),
+];
+
+final filterList = [
+  FilterType.name,
+  FilterType.bondType,
+  FilterType.unit,
+  FilterType.workShift,
 ];
