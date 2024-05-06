@@ -1,6 +1,10 @@
+import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
+import 'package:control_concierge_agents/app/presentation/home/states/agents_list_state_notifier.dart';
+import 'package:control_concierge_agents/app/presentation/home/views/widgets/filter_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import '../widgets/agent_list_widget.dart';
 import '../widgets/agent_search_delegate.dart';
 
@@ -12,6 +16,8 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  FilterType filter = FilterType.name;
+
   @override
   void initState() {
     super.initState();
@@ -19,7 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void load() {
-    ref.read(agentListStateProvider.notifier).load();
+    ref.read(agentListStateProvider.notifier).load(filter.name);
   }
 
   @override
@@ -27,49 +33,76 @@ class _HomePageState extends ConsumerState<HomePage> {
     final state = ref.watch(agentListStateProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agentes de portaria SEMED'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.search_rounded,
-              size: 35,
-            ),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: AgentSearchDelegate(
-                  list: state.maybeWhen(
-                    loadSuccess: (data) => data,
-                    orElse: () => [],
+      appBar: _buildAppBar(context, state),
+      body: Column(
+        children: [
+          FilterListWidget(
+            onTap: (currentFilter) {
+              filter = currentFilter;
+              ref
+                  .read(agentListStateProvider.notifier)
+                  .load(currentFilter.name);
+            },
+          ),
+          Expanded(
+            child: state.maybeWhen(
+              loadInProgress: () => const Center(
+                child: SizedBox(
+                  height: 10,
+                  width: 80,
+                  child: LoadingIndicator(
+                    indicatorType: Indicator.ballPulse,
                   ),
                 ),
-              );
-            },
+              ),
+              loadSuccess: (data) {
+                return data.isEmpty
+                    ? const Center(
+                        child: Text('Nenhum agente cadastrado'),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () async => load(),
+                        child: AgentListWidget(
+                          agents: data,
+                          filter: filter,
+                        ),
+                      );
+              },
+              loadFailure: (failure) => const SizedBox(
+                child: Text('Ocorreu um erro'),
+              ),
+              orElse: () => Container(),
+            ),
           ),
         ],
       ),
-      body: state.maybeWhen(
-        loadInProgress: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        loadSuccess: (data) {
-          return data.isEmpty
-              ? const Center(
-                  child: Text('Nenhum agente cadastrado'),
-                )
-              : RefreshIndicator(
-                  onRefresh: () async => load(),
-                  child: AgentListWidget(agents: data),
-                );
-        },
-        loadFailure: (failure) => const SizedBox(
-          child: Text('Ocorreu um erro'),
-        ),
-        orElse: () => Container(),
-      ),
       floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context, AgentListState state) {
+    return AppBar(
+      title: const Text('Agentes de portaria SEMED'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.search_rounded,
+            size: 35,
+          ),
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: AgentSearchDelegate(
+                list: state.maybeWhen(
+                  loadSuccess: (data) => data,
+                  orElse: () => [],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
