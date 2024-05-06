@@ -33,7 +33,7 @@ enum MonthEnum {
       case MonthEnum.july:
         return 'Julho';
       case MonthEnum.august:
-        return 'Augusto';
+        return 'Agosto';
       case MonthEnum.september:
         return 'Setembro';
       case MonthEnum.october:
