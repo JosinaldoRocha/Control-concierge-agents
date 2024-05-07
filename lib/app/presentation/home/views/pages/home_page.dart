@@ -16,7 +16,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  FilterType filter = FilterType.name;
+  FilterType? filter;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void load() {
-    ref.read(agentListStateProvider.notifier).load(filter.name);
+    ref.read(agentListStateProvider.notifier).load(filter?.name);
   }
 
   @override
@@ -41,7 +41,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               filter = currentFilter;
               ref
                   .read(agentListStateProvider.notifier)
-                  .load(currentFilter.name);
+                  .load(currentFilter?.name);
             },
           ),
           Expanded(
