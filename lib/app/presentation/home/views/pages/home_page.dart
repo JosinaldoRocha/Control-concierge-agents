@@ -46,15 +46,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           Expanded(
             child: state.maybeWhen(
-              loadInProgress: () => const Center(
-                child: SizedBox(
-                  height: 10,
-                  width: 80,
-                  child: LoadingIndicator(
-                    indicatorType: Indicator.ballPulse,
-                  ),
-                ),
-              ),
+              loadInProgress: () => _buildLoadingIndicator(),
               loadSuccess: (data) {
                 return data.isEmpty
                     ? const Center(
@@ -77,6 +69,18 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
       floatingActionButton: _buildFloatingActionButton(context),
+    );
+  }
+
+  Center _buildLoadingIndicator() {
+    return const Center(
+      child: SizedBox(
+        height: 10,
+        width: 80,
+        child: LoadingIndicator(
+          indicatorType: Indicator.ballPulse,
+        ),
+      ),
     );
   }
 
