@@ -1,7 +1,7 @@
 import 'package:control_concierge_agents/app/data/data_source/agent_data_source.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/helpers/helpers.dart';
+import '../../../../core/helpers/helpers.dart';
 
 typedef AddAgentState = CommonState<CommonError, bool>;
 

@@ -8,7 +8,7 @@ import '../../../../../core/constants/constants.dart';
 import '../../../../../core/style/app_colors.dart';
 import '../../../../../data/models/agent_model.dart';
 import '../../../provider/agent_provider.dart';
-import '../../../states/add_agent_state_notifier.dart';
+import '../../../states/add/add_agent_state_notifier.dart';
 import '../../../states/edit/edit_agent_state_notifier.dart';
 import '../../pages/add_edit/add_edit_agent_page.dart';
 

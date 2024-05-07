@@ -1,6 +1,6 @@
 import 'package:control_concierge_agents/app/core/helpers/helpers.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
-import 'package:control_concierge_agents/app/presentation/agent/states/delete_agent_state_notifier.dart';
+import 'package:control_concierge_agents/app/presentation/agent/states/delete/delete_agent_state_notifier.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_details_widget.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/delete_agent_modal_widget.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
