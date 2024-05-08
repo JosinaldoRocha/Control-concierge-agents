@@ -51,7 +51,6 @@ final workShiftList = [
 ];
 
 final filterList = [
-  FilterType.name,
   FilterType.bondType,
   FilterType.unit,
   FilterType.workShift,
