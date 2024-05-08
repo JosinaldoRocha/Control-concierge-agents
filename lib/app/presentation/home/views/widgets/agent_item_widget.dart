@@ -15,8 +15,6 @@ class AgentItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool containsFilter = filter != null && filter != FilterType.name;
-
     String getInitials(String name) {
       List<String> nameParts = name.split(' ');
       String initials = '';
@@ -89,7 +87,7 @@ class AgentItemWidget extends StatelessWidget {
               ),
             ],
           ),
-          if (containsFilter)
+          if (filter != null)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
