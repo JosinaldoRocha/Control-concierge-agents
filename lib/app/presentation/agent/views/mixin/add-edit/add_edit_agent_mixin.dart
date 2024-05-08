@@ -41,6 +41,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         workShiftList.firstWhere((e) => e.name == widget.agent!.workShift),
       );
       observationsController.text = widget.agent!.observations!;
+      vacationPay = widget.agent!.vacationPay;
       startVacation = widget.agent!.startVacation;
       endVacation = widget.agent!.endVacation;
     }
@@ -174,6 +175,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         vacationMonth: startVacation != null
             ? MonthEnum.fromInt(startVacation!.month).text
             : null,
+        vacationPay: vacationPay,
         startVacation: startVacation,
         endVacation: endVacation,
         phone: phoneNumberController.text,
