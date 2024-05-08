@@ -4,7 +4,7 @@ import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add-edit/add_edit_agent_mixin.dart';
-import 'package:control_concierge_agents/app/presentation/agent/widgets/select_vacation_month_widget.dart';
+import 'package:control_concierge_agents/app/widgets/select_date/select_date_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
 import 'package:control_concierge_agents/app/widgets/input/input_formatters.dart';
@@ -78,7 +78,18 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                         BondTypeEnum.effective)
                       Column(
                         children: [
-                          SelectVacationMonthWidget(
+                          SelectDateWidget(
+                            hintText: 'Vencimento das férias',
+                            date: vacationPay,
+                            onTap: selectVacationPay,
+                            onClean: () {
+                              setState(() {
+                                vacationPay = null;
+                              });
+                            },
+                          ),
+                          const SpaceVertical.x4(),
+                          SelectDateWidget(
                             hintText: 'Início das férias',
                             date: startVacation,
                             onTap: selectStartVacation,
@@ -92,7 +103,7 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                           if (startVacation != null)
                             Column(
                               children: [
-                                SelectVacationMonthWidget(
+                                SelectDateWidget(
                                   hintText: 'Término das férias',
                                   date: endVacation,
                                   onTap: selectEndVacation,
