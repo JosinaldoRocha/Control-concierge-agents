@@ -2,7 +2,7 @@ import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
-import 'filter_dropdown_widget.dart';
+import 'filter_option_dropdown_widget.dart';
 
 class SelectFilterOptionWidget extends StatelessWidget {
   const SelectFilterOptionWidget({
@@ -22,14 +22,14 @@ class SelectFilterOptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (filterType! == FilterType.bondType) {
-      return FilterDropDownWidget(
+      return FilterOptionDropdownWidget(
         controller: bondTypeController,
         list: bondTypeList,
         hintText: 'Selecione o vínculo',
         onChanged: onChanged,
       );
     } else if (filterType! == FilterType.unit) {
-      return FilterDropDownWidget(
+      return FilterOptionDropdownWidget(
         controller: unitController,
         list: unitList,
         hintText: 'Selecione a lotação',
@@ -37,7 +37,7 @@ class SelectFilterOptionWidget extends StatelessWidget {
         onChanged: onChanged,
       );
     } else if (filterType! == FilterType.workShift) {
-      return FilterDropDownWidget(
+      return FilterOptionDropdownWidget(
         controller: workShiftController,
         list: workShiftList,
         hintText: 'Selecione o turno',
