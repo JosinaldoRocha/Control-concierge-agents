@@ -28,18 +28,7 @@ class AgentDetailsWidget extends StatelessWidget {
           const Divider(height: 32),
           _buildItem('Lotação: ', agent.unit),
           _buildItem('Turno: ', agent.workShift),
-          if (agent.vacationMonth != null)
-            _buildItem('Mês base para férias: ', '${agent.vacationMonth}'),
-          if (agent.startVacation != null)
-            _buildItem(
-              'Início das férias: ',
-              DateFormat('dd/MM/yyyy').format(agent.startVacation!),
-            ),
-          if (agent.endVacation != null)
-            _buildItem(
-              'Término das férias: ',
-              DateFormat('dd/MM/yyyy').format(agent.endVacation!),
-            ),
+          if (agent.vacationPay != null) _buildVacationDetails(),
           if (agent.phone!.isNotEmpty)
             _buildItem('Celular: ', '${agent.phone}'),
           if (agent.observations!.isNotEmpty)
@@ -50,6 +39,52 @@ class AgentDetailsWidget extends StatelessWidget {
           const Divider(height: 10),
         ],
       ),
+    );
+  }
+
+  Column _buildVacationDetails() {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColor.lightBlue,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              width: 0.7,
+            ),
+          ),
+          child: Column(
+            children: [
+              Text(
+                'Férias',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SpaceVertical.x2(),
+              _buildItem(
+                'Vencimento das férias: ',
+                DateFormat('dd/MM/yyyy').format(agent.vacationPay!),
+              ),
+              if (agent.vacationMonth != null)
+                _buildItem('Mês base para férias: ', '${agent.vacationMonth}'),
+              if (agent.startVacation != null)
+                _buildItem(
+                  'Início das férias: ',
+                  DateFormat('dd/MM/yyyy').format(agent.startVacation!),
+                ),
+              if (agent.endVacation != null)
+                _buildItem(
+                  'Término das férias: ',
+                  DateFormat('dd/MM/yyyy').format(agent.endVacation!),
+                ),
+            ],
+          ),
+        ),
+        const SpaceVertical.x2(),
+      ],
     );
   }
 
