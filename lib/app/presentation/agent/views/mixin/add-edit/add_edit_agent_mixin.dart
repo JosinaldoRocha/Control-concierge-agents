@@ -21,6 +21,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   final observationsController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  DateTime? vacationPay;
   DateTime? startVacation;
   DateTime? endVacation;
 
@@ -84,6 +85,22 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
     if (picked != null && picked != endVacation) {
       setState(() {
         endVacation = picked;
+      });
+    }
+  }
+
+  Future<void> selectVacationPay() async {
+    final currentDate = DateTime.now();
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(currentDate.year, currentDate.month - 11),
+      lastDate: DateTime(currentDate.year, currentDate.month + 13, 0),
+    );
+
+    if (picked != null && picked != vacationPay) {
+      setState(() {
+        vacationPay = picked;
       });
     }
   }
