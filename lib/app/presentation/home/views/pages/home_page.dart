@@ -1,7 +1,8 @@
-import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:control_concierge_agents/app/presentation/home/states/agents_list_state_notifier.dart';
+import 'package:control_concierge_agents/app/presentation/home/views/mixin/home_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/home/views/widgets/filter_list_widget.dart';
+import 'package:control_concierge_agents/app/presentation/home/views/widgets/select_filter_option_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -15,19 +16,7 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
-  FilterType? filter;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => load());
-  }
-
-  void load() {
-    ref.read(agentListStateProvider.notifier).load(filter?.name);
-  }
-
+class _HomePageState extends ConsumerState<HomePage> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(agentListStateProvider);
@@ -37,13 +26,20 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: Column(
         children: [
           FilterListWidget(
-            onTap: (currentFilter) {
-              filter = currentFilter;
-              ref
-                  .read(agentListStateProvider.notifier)
-                  .load(currentFilter?.name);
-            },
+            onTap: onTapFilter,
           ),
+          if (filterType != null)
+            Container(
+              width: 300,
+              padding: const EdgeInsets.only(top: 16),
+              child: SelectFilterOptionWidget(
+                filterType: filterType,
+                bondTypeController: bondTypeController,
+                unitController: unitController,
+                workShiftController: workShiftController,
+                onChanged: onChanged,
+              ),
+            ),
           Expanded(
             child: state.maybeWhen(
               loadInProgress: () => _buildLoadingIndicator(),
@@ -56,12 +52,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                         onRefresh: () async => load(),
                         child: AgentListWidget(
                           agents: data,
+                          filterType: filterType,
                           filter: filter,
                         ),
                       );
               },
               loadFailure: (failure) => const SizedBox(
-                child: Text('Ocorreu um erro'),
+                child: Text(
+                  'Houve um erro do nosso lado, tente novamente mais tarde!',
+                ),
               ),
               orElse: () => Container(),
             ),
