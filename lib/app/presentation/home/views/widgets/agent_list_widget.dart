@@ -8,22 +8,39 @@ class AgentListWidget extends StatelessWidget {
   const AgentListWidget({
     super.key,
     required this.agents,
+    this.filterType,
     this.filter,
   });
 
   final List<AgentModel> agents;
-  final FilterType? filter;
+  final FilterType? filterType;
+  final String? filter;
 
   @override
   Widget build(BuildContext context) {
+    List<AgentModel> filterAgents() {
+      if (filter == null || filter!.isEmpty) {
+        return agents;
+      } else {
+        return agents.where((agent) {
+          return agent.name == filter! ||
+              agent.bondType.text == filter! ||
+              agent.unit == filter! ||
+              agent.workShift == filter!;
+        }).toList();
+      }
+    }
+
+    final filteredAgents = filterAgents();
+
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) => AgentItemWidget(
-        agent: agents[index],
-        filter: filter,
+        agent: filteredAgents[index],
+        filter: filterType,
       ),
       separatorBuilder: (context, index) => const SpaceVertical.x3(),
-      itemCount: agents.length,
+      itemCount: filteredAgents.length,
     );
   }
 }
