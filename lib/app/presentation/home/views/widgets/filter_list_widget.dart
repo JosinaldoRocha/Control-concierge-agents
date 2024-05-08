@@ -11,7 +11,7 @@ class FilterListWidget extends ConsumerStatefulWidget {
     required this.onTap,
   });
 
-  final Function(FilterType?) onTap;
+  final Function(FilterType?, bool isSelected) onTap;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -20,6 +20,13 @@ class FilterListWidget extends ConsumerStatefulWidget {
 
 class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
   FilterType? selectedFilter;
+
+  void selectFilter(FilterType? filter) {
+    setState(() {
+      selectedFilter = selectedFilter == filter ? null : filter;
+    });
+    widget.onTap(selectedFilter, selectedFilter == filter);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +39,7 @@ class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
           return FilterItemWidget(
             filter: filterList[index],
             isSelected: selectedFilter == filterList[index],
-            onTap: () {
-              setState(() {
-                if (selectedFilter == filterList[index]) {
-                  selectedFilter = null;
-                } else {
-                  selectedFilter = filterList[index];
-                }
-              });
-              widget.onTap(selectedFilter);
-            },
+            onTap: () => selectFilter(filterList[index]),
           );
         },
         separatorBuilder: (context, index) => const SpaceHorizontal.x3(),
