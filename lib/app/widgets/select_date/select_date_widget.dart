@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-class SelectVacationMonthWidget extends StatefulWidget {
-  const SelectVacationMonthWidget({
+class SelectDateWidget extends StatefulWidget {
+  const SelectDateWidget({
     super.key,
     required this.date,
     required this.onTap,
@@ -18,11 +18,10 @@ class SelectVacationMonthWidget extends StatefulWidget {
   final Function() onClean;
 
   @override
-  State<SelectVacationMonthWidget> createState() =>
-      _SelectVacationMonthWidgetState();
+  State<SelectDateWidget> createState() => _SelectDateWidgetState();
 }
 
-class _SelectVacationMonthWidgetState extends State<SelectVacationMonthWidget> {
+class _SelectDateWidgetState extends State<SelectDateWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
