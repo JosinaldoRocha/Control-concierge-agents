@@ -20,12 +20,22 @@ class FilterListWidget extends ConsumerStatefulWidget {
 
 class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
   FilterType? selectedFilter;
+  ScrollController? scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+  }
 
   void selectFilter(FilterType? filter) {
     setState(() {
       selectedFilter = selectedFilter == filter ? null : filter;
     });
+
     widget.onTap(selectedFilter, selectedFilter == filter);
+
+    scrollToItem();
   }
 
   @override
@@ -34,6 +44,7 @@ class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
       height: 50,
       padding: EdgeInsets.only(top: 16),
       child: ListView.separated(
+        controller: scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return FilterItemWidget(
@@ -46,5 +57,20 @@ class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
         itemCount: filterList.length,
       ),
     );
+  }
+
+  void scrollToItem() {
+    //TODO: resolver bug no último item à direita
+    if (selectedFilter != null && scrollController?.hasClients == true) {
+      final itemIndex = filterList.indexOf(selectedFilter!);
+
+      if (itemIndex != -1) {
+        scrollController!.animateTo(
+          itemIndex * 40.0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 }
