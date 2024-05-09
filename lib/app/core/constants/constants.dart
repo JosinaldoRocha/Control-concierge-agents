@@ -1,4 +1,5 @@
 import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
+import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import '../../data/enums/bond_type_enum.dart';
 
@@ -54,4 +55,20 @@ final filterList = [
   FilterType.bondType,
   FilterType.unit,
   FilterType.workShift,
+  FilterType.vacationPay,
+];
+
+final listMonths = [
+  DropDownValueModel(name: 'Janeiro', value: MonthEnum.january),
+  DropDownValueModel(name: 'Fevereiro', value: MonthEnum.february),
+  DropDownValueModel(name: 'Março', value: MonthEnum.march),
+  DropDownValueModel(name: 'Abril', value: MonthEnum.april),
+  DropDownValueModel(name: 'Maio', value: MonthEnum.may),
+  DropDownValueModel(name: 'Junho', value: MonthEnum.june),
+  DropDownValueModel(name: 'Julho', value: MonthEnum.july),
+  DropDownValueModel(name: 'Agosto', value: MonthEnum.august),
+  DropDownValueModel(name: 'Setembro', value: MonthEnum.september),
+  DropDownValueModel(name: 'Outubro', value: MonthEnum.october),
+  DropDownValueModel(name: 'Novembro', value: MonthEnum.november),
+  DropDownValueModel(name: 'Dezembro', value: MonthEnum.december),
 ];

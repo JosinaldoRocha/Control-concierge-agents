@@ -37,6 +37,7 @@ class _HomePageState extends ConsumerState<HomePage> with HomeMixin {
                 bondTypeController: bondTypeController,
                 unitController: unitController,
                 workShiftController: workShiftController,
+                vacationPayController: vacationPayController,
                 onChanged: onChanged,
               ),
             ),

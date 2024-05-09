@@ -3,6 +3,7 @@ import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AgentItemWidget extends StatelessWidget {
   const AgentItemWidget({
@@ -37,6 +38,10 @@ class AgentItemWidget extends StatelessWidget {
           return agent.bondType.text;
         case FilterType.unit:
           return agent.unit;
+        case FilterType.vacationPay:
+          return agent.vacationPay != null
+              ? DateFormat('dd/MM/yyyy').format(agent.vacationPay!)
+              : '...';
         default:
           return agent.workShift;
       }
@@ -91,9 +96,7 @@ class AgentItemWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Divider(
-                  color: AppColor.lightGrey,
-                ),
+                Divider(color: AppColor.lightGrey),
                 Text(
                   filterToString(),
                   style: TextStyle(color: AppColor.error),
