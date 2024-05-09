@@ -26,7 +26,8 @@ class AgentListWidget extends StatelessWidget {
           return agent.name == filter! ||
               agent.bondType.text == filter! ||
               agent.unit == filter! ||
-              agent.workShift == filter!;
+              agent.workShift == filter! ||
+              agent.vacationPay?.month.toString() == filter!;
         }).toList();
       }
     }

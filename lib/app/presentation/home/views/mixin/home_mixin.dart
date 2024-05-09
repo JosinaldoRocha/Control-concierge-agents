@@ -8,6 +8,7 @@ mixin HomeMixin<T extends HomePage> on ConsumerState<T> {
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
   final workShiftController = SingleValueDropDownController();
+  final vacationPayController = SingleValueDropDownController();
 
   FilterType? filterType;
   String? filter;
@@ -23,7 +24,15 @@ mixin HomeMixin<T extends HomePage> on ConsumerState<T> {
   }
 
   void onChanged(dynamic p0) {
-    setState(() => filter = p0.name);
+    setState(() {
+      if (filterType == FilterType.vacationPay) {
+        filter = (p0.value.index + 1).toString();
+      } else {
+        filter = p0.name;
+      }
+    });
+
+    print('Filtro $filter');
   }
 
   void onTapFilter(currentFilter, isSelected) {
@@ -36,5 +45,6 @@ mixin HomeMixin<T extends HomePage> on ConsumerState<T> {
     bondTypeController.clearDropDown();
     unitController.clearDropDown();
     workShiftController.clearDropDown();
+    vacationPayController.clearDropDown();
   }
 }

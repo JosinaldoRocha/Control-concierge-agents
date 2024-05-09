@@ -46,13 +46,11 @@ class AgentDetailsWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(8).copyWith(bottom: 0),
           decoration: BoxDecoration(
             color: AppColor.lightBlue,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              width: 0.7,
-            ),
+            border: Border.all(width: 0.7),
           ),
           child: Column(
             children: [
