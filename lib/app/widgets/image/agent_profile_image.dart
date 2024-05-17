@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class AgentProfileImageWidget extends StatelessWidget {
   const AgentProfileImageWidget({
@@ -28,29 +29,25 @@ class AgentProfileImageWidget extends StatelessWidget {
                     backgroundImage: AssetImage('assets/images/profile.png'),
                   ),
             )
-          : image!.contains('agent_images%')
-              ? Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(image!),
-                      fit: BoxFit.cover,
+          : Container(
+              width: size,
+              height: size,
+              child: image!.contains('agent_images')
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        imageUrl: image!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => LoadingIndicator(
+                          indicatorType: Indicator.circleStrokeSpin,
+                        ),
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: size,
+                      backgroundImage: FileImage(File(image!)),
                     ),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      strokeAlign: BorderSide.strokeAlignCenter,
-                    ),
-                  ),
-                )
-              : Container(
-                  width: size,
-                  height: size,
-                  child: CircleAvatar(
-                    radius: size,
-                    backgroundImage: FileImage(File(image!)),
-                  ),
-                ),
+            ),
     );
   }
 }
