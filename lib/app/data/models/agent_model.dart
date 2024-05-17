@@ -13,6 +13,7 @@ class AgentModel {
   DateTime? startVacation;
   DateTime? endVacation;
   String? observations;
+  String? imageUrl;
 
   AgentModel({
     required this.id,
@@ -26,6 +27,7 @@ class AgentModel {
     this.startVacation,
     this.endVacation,
     this.observations,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +43,7 @@ class AgentModel {
       'startVacation': startVacation,
       'endVacation': endVacation,
       'observations': observations,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -68,6 +71,8 @@ class AgentModel {
       observations: snapshot['observations'] != null
           ? snapshot['observations'] as String
           : null,
+      imageUrl:
+          snapshot['imageUrl'] != null ? snapshot['imageUrl'] as String : null,
     );
   }
 }

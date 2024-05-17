@@ -4,6 +4,7 @@ import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../widgets/image/agent_profile_image.dart';
 
 class AgentItemWidget extends StatelessWidget {
   const AgentItemWidget({
@@ -51,8 +52,8 @@ class AgentItemWidget extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 6,
+          horizontal: 8,
+          vertical: 8,
         ),
         minimumSize: Size(200, 48),
         shape: RoundedRectangleBorder(
@@ -82,12 +83,16 @@ class AgentItemWidget extends StatelessWidget {
                 ),
               ),
               const SpaceHorizontal.x2(),
-              Text(
-                getInitials(agent.name),
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: AppColor.primary,
-                  fontWeight: FontWeight.bold,
+              AgentProfileImageWidget(
+                image: agent.imageUrl,
+                size: 40,
+                child: Text(
+                  getInitials(agent.name),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: AppColor.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

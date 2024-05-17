@@ -5,6 +5,7 @@ import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_de
 import 'package:control_concierge_agents/app/presentation/agent/widgets/delete_agent_modal_widget.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
+import 'package:control_concierge_agents/app/widgets/image/agent_profile_image.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
@@ -53,67 +54,69 @@ class AgentDetailsPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(''),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(16),
+      body: Column(
         children: [
-          const Text(
-            'Agente de portaria',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
           const SpaceVertical.x4(),
-          AgentDetailsWidget(agent: agent),
-          const SpaceVertical.x5(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ButtonWidget(
-                height: 40,
-                width: 100,
-                title: 'Editar',
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/agent/add',
-                    arguments: agent,
-                  );
-                },
-              ),
-              const SpaceHorizontal.x4(),
-              ButtonWidget(
-                isLoading: state is CommonStateLoadInProgress,
-                trailing: const Icon(Icons.delete),
-                height: 40,
-                width: 130,
-                title: 'Excluir',
-                onTap: () {
-                  showModalBottomSheet(
-                    isDismissible: false,
-                    context: context,
-                    builder: (context) => DeleteAgentModalWidget(
-                      title: 'Tem certeza que quer deletar esse agente?',
-                      description:
-                          'Ao deletar um agente você não poderá recupar seus dados',
-                      confirmTitle: 'Sim',
-                      onConfirm: () {
-                        ref
-                            .read(deleteAgentStateProvider.notifier)
-                            .delete(agent.id);
-                        Navigator.pop(context);
-                      },
-                      cancelTitle: 'Cancelar',
-                      onCancel: () {
-                        Navigator.pop(context);
+          AgentProfileImageWidget(
+            image: agent.imageUrl,
+            size: 80,
+          ),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(16),
+              children: [
+                AgentDetailsWidget(agent: agent),
+                const SpaceVertical.x5(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ButtonWidget(
+                      height: 40,
+                      width: 100,
+                      title: 'Editar',
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/agent/add',
+                          arguments: agent,
+                        );
                       },
                     ),
-                  );
-                },
-              ),
-            ],
+                    const SpaceHorizontal.x4(),
+                    ButtonWidget(
+                      isLoading: state is CommonStateLoadInProgress,
+                      trailing: const Icon(Icons.delete),
+                      height: 40,
+                      width: 130,
+                      title: 'Excluir',
+                      onTap: () {
+                        showModalBottomSheet(
+                          isDismissible: false,
+                          context: context,
+                          builder: (context) => DeleteAgentModalWidget(
+                            title: 'Tem certeza que quer deletar esse agente?',
+                            description:
+                                'Ao deletar um agente você não poderá recupar seus dados',
+                            confirmTitle: 'Sim',
+                            onConfirm: () {
+                              ref
+                                  .read(deleteAgentStateProvider.notifier)
+                                  .delete(agent.id);
+                              Navigator.pop(context);
+                            },
+                            cancelTitle: 'Cancelar',
+                            onCancel: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

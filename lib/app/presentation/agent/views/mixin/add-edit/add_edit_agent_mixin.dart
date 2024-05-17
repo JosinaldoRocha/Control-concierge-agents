@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:control_concierge_agents/app/widgets/snack_bar/app_snack_bar_widget.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/style/app_colors.dart';
@@ -24,6 +27,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   DateTime? vacationPay;
   DateTime? startVacation;
   DateTime? endVacation;
+  File? image;
 
   @override
   void initState() {
@@ -44,6 +48,8 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       vacationPay = widget.agent!.vacationPay;
       startVacation = widget.agent!.startVacation;
       endVacation = widget.agent!.endVacation;
+      image =
+          widget.agent!.imageUrl != null ? File(widget.agent!.imageUrl!) : null;
     }
   }
 
@@ -164,6 +170,17 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
     );
   }
 
+  Future<void> getImage() async {
+    final pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 30);
+
+    if (pickedFile != null) {
+      setState(() {
+        image = File(pickedFile.path);
+      });
+    }
+  }
+
   void onTapButton() {
     if (formKey.currentState!.validate()) {
       final agent = AgentModel(
@@ -180,6 +197,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         endVacation: endVacation,
         phone: phoneNumberController.text,
         observations: observationsController.text,
+        imageUrl: image?.path,
       );
       if (widget.agent == null) {
         ref.read(addAgentStateProvider.notifier).add(agent);
