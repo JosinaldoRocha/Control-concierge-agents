@@ -2,7 +2,7 @@ import 'package:control_concierge_agents/app/core/helpers/helpers.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
 import 'package:control_concierge_agents/app/presentation/agent/states/delete/delete_agent_state_notifier.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_details_widget.dart';
-import 'package:control_concierge_agents/app/presentation/agent/widgets/delete_agent_modal_widget.dart';
+import 'package:control_concierge_agents/app/widgets/modal/agent_modal_widget.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/image/agent_profile_image.dart';
@@ -94,7 +94,7 @@ class AgentDetailsPage extends ConsumerWidget {
                         showModalBottomSheet(
                           isDismissible: false,
                           context: context,
-                          builder: (context) => DeleteAgentModalWidget(
+                          builder: (context) => AgentModalWidget(
                             title: 'Tem certeza que quer deletar esse agente?',
                             description:
                                 'Ao deletar um agente você não poderá recupar seus dados',

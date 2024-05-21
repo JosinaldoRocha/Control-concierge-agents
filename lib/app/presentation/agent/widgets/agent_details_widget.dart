@@ -50,7 +50,6 @@ class AgentDetailsWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColor.lightBlue,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(width: 0.7),
           ),
           child: Column(
             children: [

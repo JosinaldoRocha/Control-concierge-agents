@@ -27,6 +27,8 @@ class InputWidget extends StatelessWidget {
   final FocusNode? focus;
   final bool autoFocus;
 
+  final TextCapitalization? textCapitalization;
+
   /// FormInput
   ///
   /// [controller] form controller
@@ -60,6 +62,7 @@ class InputWidget extends StatelessWidget {
     this.focus,
     this.autoFocus = false,
     this.minLines,
+    this.textCapitalization = TextCapitalization.sentences,
     super.key,
   });
 
@@ -73,7 +76,7 @@ class InputWidget extends StatelessWidget {
           final FocusNode focusNode = Focus.of(context);
           final bool hasFocus = focusNode.hasFocus;
           return TextFormField(
-            textCapitalization: TextCapitalization.sentences,
+            textCapitalization: textCapitalization!,
             focusNode: focus ?? _focus,
             validator: validator,
             minLines: minLines,

@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:intl/intl.dart';
 
 class InputValidators {
@@ -8,12 +9,12 @@ class InputValidators {
     return null;
   }
 
-  // static String? cpf(String? text) {
-  //   if (!CPFValidator.isValid(text)) {
-  //     return 'Informe um CPF válido';
-  //   }
-  //   return null;
-  // }
+  static String? cpf(String? text) {
+    if (!CPFValidator.isValid(text)) {
+      return 'Informe um CPF válido';
+    }
+    return null;
+  }
 
   // static String? cnpj(String? text) {
   //   if (!CNPJValidator.isValid(text)) {

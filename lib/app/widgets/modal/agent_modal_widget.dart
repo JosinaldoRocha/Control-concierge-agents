@@ -1,11 +1,11 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:flutter/material.dart';
-import '../../../widgets/button/button_widget.dart';
-import '../../../widgets/spacing/spacing.dart';
+import '../button/button_widget.dart';
+import '../spacing/spacing.dart';
 
-class DeleteAgentModalWidget extends StatelessWidget {
-  const DeleteAgentModalWidget({
+class AgentModalWidget extends StatelessWidget {
+  const AgentModalWidget({
     super.key,
     required this.title,
     required this.description,

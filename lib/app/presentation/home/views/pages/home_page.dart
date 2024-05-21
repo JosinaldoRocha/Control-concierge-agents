@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import '../widgets/agent_list_widget.dart';
 import '../widgets/agent_search_delegate.dart';
+import '../widgets/drawer_widget.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -20,6 +21,7 @@ class _HomePageState extends ConsumerState<HomePage> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(agentListStateProvider);
+    logoutListen();
 
     return Scaffold(
       appBar: _buildAppBar(context, state),
@@ -58,9 +60,12 @@ class _HomePageState extends ConsumerState<HomePage> with HomeMixin {
                         ),
                       );
               },
-              loadFailure: (failure) => const SizedBox(
-                child: Text(
-                  'Houve um erro do nosso lado, tente novamente mais tarde!',
+              loadFailure: (failure) => const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: Text(
+                    'Houve um erro do nosso lado, tente novamente mais tarde!',
+                  ),
                 ),
               ),
               orElse: () => Container(),
@@ -88,6 +93,20 @@ class _HomePageState extends ConsumerState<HomePage> with HomeMixin {
     return AppBar(
       title: const Text('Agentes de portaria SEMED'),
       centerTitle: true,
+      leading: GestureDetector(
+        child: Icon(Icons.menu_rounded),
+        onTap: () => showModalBottomSheet(
+          isDismissible: false,
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+          ),
+          builder: (context) => DrawerWidget(),
+        ),
+      ),
       actions: [
         IconButton(
           icon: const Icon(

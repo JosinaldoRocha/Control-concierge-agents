@@ -1,24 +1,41 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
+import 'package:control_concierge_agents/app/presentation/authentication/provider/auth_provider.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import '../../../authentication/states/authentication/check_authentication_state_notifier.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
-  Future<void> loadRoute(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 2));
-    await Navigator.pushNamedAndRemoveUntil(
-      // ignore: use_build_context_synchronously
-      context,
-      '/home',
-      (route) => false,
+  @override
+  ConsumerState<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends ConsumerState<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(authenticationState.notifier).loadUser());
+  }
+
+  void listen() {
+    ref.listen<Autenticationstate>(
+      authenticationState,
+      (previous, next) {
+        if (next is IsLogged) {
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else if (next is IsNotLogged) {
+          Navigator.of(context).pushReplacementNamed('/auth/login');
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    loadRoute(context);
+    listen();
 
     return Scaffold(
       backgroundColor: AppColor.mediumBlue,
