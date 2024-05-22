@@ -29,7 +29,7 @@ class AgentDataSource {
 
   Future<Either<CommonError, bool>> addAgent(AgentModel agent) async {
     try {
-      if (agent.imageUrl != null) {
+      if (agent.imageUrl != null && !agent.imageUrl!.contains(agent.id)) {
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('agent_images')
