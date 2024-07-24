@@ -96,7 +96,7 @@ class InputWidget extends StatelessWidget {
             keyboardType: keyboardType,
             obscureText: obscureText ?? false,
             maxLines: lines,
-            style: AppText.text().bodyMedium?.copyWith(
+            style: AppText.text().titleMedium!.copyWith(
                   color: !isEnabled ? Colors.black : null,
                   fontWeight: !isEnabled ? FontWeight.w600 : null,
                 ),
@@ -127,7 +127,7 @@ class InputWidget extends StatelessWidget {
               ),
               prefixIcon: prefix,
               hintStyle: AppText.text()
-                  .bodySmall
+                  .titleMedium
                   ?.copyWith(color: AppColor.mediumBlue),
               hintText: hintText,
               suffixIcon: sufix,
