@@ -5,6 +5,7 @@ import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/presentation/agent/provider/agent_provider.dart';
 import 'package:control_concierge_agents/app/presentation/agent/views/mixin/add-edit/add_edit_agent_mixin.dart';
 import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_image_widget.dart';
+import 'package:control_concierge_agents/app/presentation/agent/widgets/diarist_check_widget.dart';
 import 'package:control_concierge_agents/app/widgets/select_date/select_date_widget.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:control_concierge_agents/app/widgets/dropdown/dropdown_widget.dart';
@@ -78,6 +79,31 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                       controller: workShiftController,
                       list: workShiftList,
                       hintText: 'Turno',
+                    ),
+                    DiaristCheckWidget(
+                      agent: widget.agent,
+                      isDiarist: isDiarist,
+                      onTap: (p0) {
+                        setState(() {
+                          isDiarist = p0!;
+                        });
+                      },
+                    ),
+                    SelectDateWidget(
+                      hintText: 'Selecione a data referência',
+                      date: referenceDate,
+                      onTap: selectReferenceDate,
+                      onClean: () {
+                        setState(() {
+                          referenceDate = null;
+                        });
+                      },
+                      validator: (DateTime? date) {
+                        if (date == null) {
+                          return 'Por favor, selecione uma data referência.';
+                        }
+                        return null;
+                      },
                     ),
                     const SpaceVertical.x4(),
                     if (bondTypeController.dropDownValue?.value ==
