@@ -28,6 +28,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   DateTime? startVacation;
   DateTime? endVacation;
   File? image;
+  bool isDiarist = false;
+  DateTime? referenceDate;
+  List<DateTime> workScale = [];
 
   @override
   void initState() {
@@ -44,6 +47,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       workShiftController.setDropDown(
         workShiftList.firstWhere((e) => e.name == widget.agent!.workShift),
       );
+      isDiarist = widget.agent!.isDiarist;
+      referenceDate = widget.agent!.referenceDate;
+      workScale = workScale;
       observationsController.text = widget.agent!.observations!;
       vacationPay = widget.agent!.vacationPay;
       startVacation = widget.agent!.startVacation;
@@ -110,6 +116,33 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         vacationPay = picked;
       });
     }
+  }
+
+  Future<void> selectReferenceDate() async {
+    final currentDate = DateTime.now();
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(currentDate.year, currentDate.month - 11),
+      lastDate: DateTime(currentDate.year, currentDate.month + 1, 10),
+    );
+
+    if (picked != null && picked != referenceDate) {
+      setState(() {
+        referenceDate = picked;
+        generateWorkDays(referenceDate!);
+      });
+    }
+  }
+
+  List<DateTime> generateWorkDays(DateTime startDate) {
+    workScale.clear();
+    while (startDate.year == DateTime.now().year) {
+      workScale.add(startDate);
+      startDate = startDate.add(Duration(days: 2));
+    }
+
+    return workScale;
   }
 
   void addAgentListen() {
@@ -182,13 +215,16 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   }
 
   void onTapButton() {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate() && referenceDate != null) {
       final agent = AgentModel(
         id: widget.agent == null ? const Uuid().v4() : widget.agent!.id,
         name: nameController.text,
         bondType: bondTypeController.dropDownValue?.value,
         unit: unitController.dropDownValue!.name,
         workShift: workShiftController.dropDownValue!.name,
+        isDiarist: isDiarist,
+        referenceDate: referenceDate!,
+        workScale: workScale,
         vacationMonth: startVacation != null
             ? MonthEnum.fromInt(startVacation!.month).text
             : null,
