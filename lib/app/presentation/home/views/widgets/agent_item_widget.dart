@@ -58,7 +58,10 @@ class AgentItemWidget extends StatelessWidget {
         minimumSize: Size(200, 48),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppColor.primary),
+          side: _isWorking(
+            BorderSide(color: AppColor.secondary, width: 1.5),
+            BorderSide(color: AppColor.primary),
+          ),
         ),
         backgroundColor: AppColor.white,
       ),
@@ -79,7 +82,12 @@ class AgentItemWidget extends StatelessWidget {
                 child: Text(
                   agent.name,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: AppColor.primary),
+                  style: TextStyle(
+                    color: _isWorking(
+                      AppColor.secondary,
+                      AppColor.primary,
+                    ),
+                  ),
                 ),
               ),
               const SpaceHorizontal.x2(),
@@ -88,9 +96,12 @@ class AgentItemWidget extends StatelessWidget {
                 size: 40,
                 child: Text(
                   getInitials(agent.name),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
-                    color: AppColor.primary,
+                    color: _isWorking(
+                      AppColor.secondary,
+                      AppColor.primary,
+                    ),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -111,5 +122,17 @@ class AgentItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _isWorking(dynamic value1, dynamic value2) {
+    final currentDate = DateTime.now();
+
+    return agent.workScale.isNotEmpty &&
+            agent.workScale.any((date) =>
+                date.day == currentDate.day &&
+                date.month == currentDate.month &&
+                date.year == currentDate.year)
+        ? value1
+        : value2;
   }
 }
