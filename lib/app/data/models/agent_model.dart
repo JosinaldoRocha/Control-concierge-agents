@@ -7,6 +7,9 @@ class AgentModel {
   BondTypeEnum bondType;
   String unit;
   String workShift;
+  bool isDiarist;
+  DateTime referenceDate;
+  List<DateTime> workScale;
   DateTime? vacationPay;
   String? vacationMonth;
   String? phone;
@@ -21,6 +24,9 @@ class AgentModel {
     required this.bondType,
     required this.unit,
     required this.workShift,
+    required this.isDiarist,
+    required this.referenceDate,
+    required this.workScale,
     this.vacationPay,
     this.vacationMonth,
     this.phone,
@@ -37,6 +43,9 @@ class AgentModel {
       'bondType': bondType.text,
       'unit': unit,
       'workShift': workShift,
+      'isDiarist': isDiarist,
+      'referenceDate': referenceDate,
+      'workScale': workScale,
       'vacationPay': vacationPay,
       'vacationMonth': vacationMonth,
       'phone': phone,
@@ -55,6 +64,11 @@ class AgentModel {
       bondType: BondTypeEnum.fromString(snapshot['bondType'] as String),
       unit: snapshot['unit'] as String,
       workShift: snapshot['workShift'] as String,
+      isDiarist: snapshot['isDiarist'] as bool,
+      referenceDate: (snapshot['referenceDate'] as Timestamp).toDate(),
+      workScale: (snapshot['workScale'] as List<dynamic>)
+          .map((timestamp) => (timestamp as Timestamp).toDate())
+          .toList(),
       vacationPay: snapshot['vacationPay'] != null
           ? (snapshot['vacationPay'] as Timestamp).toDate()
           : null,
