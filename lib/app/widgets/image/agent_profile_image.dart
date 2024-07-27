@@ -9,30 +9,27 @@ class AgentProfileImageWidget extends StatelessWidget {
     super.key,
     required this.image,
     required this.size,
-    this.child,
   });
 
   final String? image;
   final double size;
-  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: size,
       height: size,
-      child: image == null
+      child: image == null || image!.isEmpty
           ? Center(
-              child: child ??
-                  CircleAvatar(
-                    radius: size,
-                    backgroundImage: AssetImage('assets/images/profile.png'),
-                  ),
+              child: CircleAvatar(
+                radius: size,
+                backgroundImage: AssetImage('assets/images/profile.png'),
+              ),
             )
           : Container(
               width: size,
               height: size,
-              child: image!.contains('agent_images')
+              child: image!.contains('control-concierge-agents')
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: CachedNetworkImage(
