@@ -27,7 +27,7 @@ class AgentListWidget extends StatelessWidget {
               agent.bondType.text == filter! ||
               agent.unit == filter! ||
               agent.workShift == filter! ||
-              agent.vacationPay?.month.toString() == filter!;
+              agent.vacation?.vacationExpiration?.month.toString() == filter!;
         }).toList();
       }
     }
