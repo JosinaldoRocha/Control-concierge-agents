@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
+import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
 
 class AgentModel {
   String id;
@@ -10,13 +11,10 @@ class AgentModel {
   bool isDiarist;
   DateTime referenceDate;
   List<DateTime> workScale;
-  DateTime? vacationPay;
-  String? vacationMonth;
   String? phone;
-  DateTime? startVacation;
-  DateTime? endVacation;
   String? observations;
   String? imageUrl;
+  VacationModel? vacation;
 
   AgentModel({
     required this.id,
@@ -27,13 +25,10 @@ class AgentModel {
     required this.isDiarist,
     required this.referenceDate,
     required this.workScale,
-    this.vacationPay,
-    this.vacationMonth,
     this.phone,
-    this.startVacation,
-    this.endVacation,
     this.observations,
     this.imageUrl,
+    this.vacation,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,14 +40,11 @@ class AgentModel {
       'workShift': workShift,
       'isDiarist': isDiarist,
       'referenceDate': referenceDate,
-      'workScale': workScale,
-      'vacationPay': vacationPay,
-      'vacationMonth': vacationMonth,
+      'workScale': workScale.map((date) => Timestamp.fromDate(date)).toList(),
       'phone': phone,
-      'startVacation': startVacation,
-      'endVacation': endVacation,
       'observations': observations,
       'imageUrl': imageUrl,
+      'vacation': vacation != null ? vacation!.toMap() : null,
     };
   }
 
@@ -69,24 +61,15 @@ class AgentModel {
       workScale: (snapshot['workScale'] as List<dynamic>)
           .map((timestamp) => (timestamp as Timestamp).toDate())
           .toList(),
-      vacationPay: snapshot['vacationPay'] != null
-          ? (snapshot['vacationPay'] as Timestamp).toDate()
-          : null,
-      vacationMonth: snapshot['vacationMonth'] != null
-          ? snapshot['vacationMonth'] as String
-          : null,
       phone: snapshot['phone'] != null ? snapshot['phone'] as String : null,
-      startVacation: snapshot['startVacation'] != null
-          ? (snapshot['startVacation'] as Timestamp).toDate()
-          : null,
-      endVacation: snapshot['endVacation'] != null
-          ? (snapshot['endVacation'] as Timestamp).toDate()
-          : null,
       observations: snapshot['observations'] != null
           ? snapshot['observations'] as String
           : null,
       imageUrl:
           snapshot['imageUrl'] != null ? snapshot['imageUrl'] as String : null,
+      vacation: snapshot['vacation'] != null
+          ? VacationModel.fromMap(snapshot['vacation'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
