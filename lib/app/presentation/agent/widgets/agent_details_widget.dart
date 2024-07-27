@@ -28,7 +28,8 @@ class AgentDetailsWidget extends StatelessWidget {
           const Divider(height: 32),
           _buildItem('Lotação: ', agent.unit),
           _buildItem('Turno: ', agent.workShift),
-          if (agent.vacationPay != null) _buildVacationDetails(),
+          if (agent.vacation?.vacationExpiration != null)
+            _buildVacationDetails(),
           if (agent.phone!.isNotEmpty)
             _buildItem('Celular: ', '${agent.phone}'),
           if (agent.observations!.isNotEmpty)
@@ -61,21 +62,26 @@ class AgentDetailsWidget extends StatelessWidget {
                 ),
               ),
               const SpaceVertical.x2(),
-              _buildItem(
-                'Vencimento das férias: ',
-                DateFormat('dd/MM/yyyy').format(agent.vacationPay!),
-              ),
-              if (agent.vacationMonth != null)
-                _buildItem('Mês base para férias: ', '${agent.vacationMonth}'),
-              if (agent.startVacation != null)
+              if (agent.vacation?.vacationExpiration != null)
+                _buildItem(
+                  'Vencimento das férias: ',
+                  DateFormat('dd/MM/yyyy')
+                      .format(agent.vacation!.vacationExpiration!),
+                ),
+              if (agent.vacation?.vacationMonth != null &&
+                  agent.vacation!.vacationMonth!.isNotEmpty)
+                _buildItem('Mês base para férias: ',
+                    '${agent.vacation!.vacationMonth}'),
+              if (agent.vacation?.startVacation != null)
                 _buildItem(
                   'Início das férias: ',
-                  DateFormat('dd/MM/yyyy').format(agent.startVacation!),
+                  DateFormat('dd/MM/yyyy')
+                      .format(agent.vacation!.startVacation!),
                 ),
-              if (agent.endVacation != null)
+              if (agent.vacation?.endVacation != null)
                 _buildItem(
                   'Término das férias: ',
-                  DateFormat('dd/MM/yyyy').format(agent.endVacation!),
+                  DateFormat('dd/MM/yyyy').format(agent.vacation!.endVacation!),
                 ),
             ],
           ),

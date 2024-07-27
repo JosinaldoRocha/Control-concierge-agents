@@ -92,7 +92,7 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                     SelectDateWidget(
                       hintText: 'Selecione a data referência',
                       date: referenceDate,
-                      onTap: selectReferenceDate,
+                      onTap: () => selectReferenceDate(isDiarist),
                       onClean: () {
                         setState(() {
                           referenceDate = null;
@@ -112,36 +112,36 @@ class _AddAgentPageState extends ConsumerState<AddEditAgentPage>
                         children: [
                           SelectDateWidget(
                             hintText: 'Vencimento das férias',
-                            date: vacationPay,
-                            onTap: selectVacationPay,
+                            date: vacation?.vacationExpiration,
+                            onTap: selectvacationExpiration,
                             onClean: () {
                               setState(() {
-                                vacationPay = null;
+                                vacation?.vacationExpiration = null;
                               });
                             },
                           ),
                           const SpaceVertical.x4(),
                           SelectDateWidget(
                             hintText: 'Início das férias',
-                            date: startVacation,
+                            date: vacation?.startVacation,
                             onTap: selectStartVacation,
                             onClean: () {
                               setState(() {
-                                startVacation = null;
+                                vacation?.startVacation = null;
                               });
                             },
                           ),
                           const SpaceVertical.x4(),
-                          if (startVacation != null)
+                          if (vacation?.startVacation != null)
                             Column(
                               children: [
                                 SelectDateWidget(
                                   hintText: 'Término das férias',
-                                  date: endVacation,
+                                  date: vacation?.endVacation,
                                   onTap: selectEndVacation,
                                   onClean: () {
                                     setState(() {
-                                      endVacation = null;
+                                      vacation?.endVacation = null;
                                     });
                                   },
                                 ),

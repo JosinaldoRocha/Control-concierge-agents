@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
+import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
 import 'package:control_concierge_agents/app/widgets/snack_bar/app_snack_bar_widget.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +25,11 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   final observationsController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  DateTime? vacationPay;
-  DateTime? startVacation;
-  DateTime? endVacation;
   File? image;
   bool isDiarist = false;
   DateTime? referenceDate;
   List<DateTime> workScale = [];
+  VacationModel? vacation = VacationModel();
 
   @override
   void initState() {
@@ -51,33 +50,31 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       referenceDate = widget.agent!.referenceDate;
       workScale = workScale;
       observationsController.text = widget.agent!.observations!;
-      vacationPay = widget.agent!.vacationPay;
-      startVacation = widget.agent!.startVacation;
-      endVacation = widget.agent!.endVacation;
+      vacation = widget.agent!.vacation;
       image =
           widget.agent!.imageUrl != null ? File(widget.agent!.imageUrl!) : null;
     }
   }
 
   Future<DateTime?> _buildShowDatePicker(bool isStartDate) {
-    return startVacation == null
+    return vacation?.startVacation == null
         ? showDatePicker(
             context: context,
             firstDate: DateTime(DateTime.now().year, 1),
             lastDate: DateTime(DateTime.now().year + 1, 1, 0),
           )
         : showDatePicker(
-            initialDate: isStartDate ? startVacation : null,
+            initialDate: isStartDate ? vacation!.startVacation : null,
             context: context,
             firstDate: DateTime(
-              startVacation!.year,
-              isStartDate ? 1 : startVacation!.month,
-              isStartDate ? 1 : startVacation!.day + 1,
+              vacation!.startVacation!.year,
+              isStartDate ? 1 : vacation!.startVacation!.month,
+              isStartDate ? 1 : vacation!.startVacation!.day + 1,
             ),
             lastDate: DateTime(
-              startVacation!.year,
-              isStartDate ? 12 : startVacation!.month + 1,
-              isStartDate ? 31 : startVacation!.day + 2,
+              vacation!.startVacation!.year,
+              isStartDate ? 12 : vacation!.startVacation!.month + 1,
+              isStartDate ? 31 : vacation!.startVacation!.day + 2,
             ),
           );
   }
@@ -85,9 +82,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   Future<void> selectStartVacation() async {
     final DateTime? picked = await _buildShowDatePicker(true);
 
-    if (picked != null && picked != startVacation) {
+    if (picked != null && picked != vacation?.startVacation) {
       setState(() {
-        startVacation = picked;
+        vacation?.startVacation = picked;
       });
     }
   }
@@ -95,14 +92,14 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   Future<void> selectEndVacation() async {
     final DateTime? picked = await _buildShowDatePicker(false);
 
-    if (picked != null && picked != endVacation) {
+    if (picked != null && picked != vacation?.endVacation) {
       setState(() {
-        endVacation = picked;
+        vacation?.endVacation = picked;
       });
     }
   }
 
-  Future<void> selectVacationPay() async {
+  Future<void> selectvacationExpiration() async {
     final currentDate = DateTime.now();
 
     final DateTime? picked = await showDatePicker(
@@ -111,14 +108,14 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
       lastDate: DateTime(currentDate.year, currentDate.month + 13, 0),
     );
 
-    if (picked != null && picked != vacationPay) {
+    if (picked != null && picked != vacation?.vacationExpiration) {
       setState(() {
-        vacationPay = picked;
+        vacation?.vacationExpiration = picked;
       });
     }
   }
 
-  Future<void> selectReferenceDate() async {
+  Future<void> selectReferenceDate(bool isDiarist) async {
     final currentDate = DateTime.now();
 
     final DateTime? picked = await showDatePicker(
@@ -130,16 +127,31 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
     if (picked != null && picked != referenceDate) {
       setState(() {
         referenceDate = picked;
-        generateWorkDays(referenceDate!);
+        //createWorkScale(referenceDate!, isDiarist);
       });
     }
   }
 
-  List<DateTime> generateWorkDays(DateTime startDate) {
-    workScale.clear();
-    while (startDate.year == DateTime.now().year) {
-      workScale.add(startDate);
-      startDate = startDate.add(Duration(days: 2));
+  List<DateTime> createWorkScale(
+    DateTime referenceDate,
+    bool isDiarist,
+  ) {
+    List<DateTime> workScale = [];
+    int currentYear = DateTime.now().year;
+
+    if (isDiarist) {
+      while (referenceDate.year == currentYear) {
+        if (referenceDate.weekday >= DateTime.monday &&
+            referenceDate.weekday <= DateTime.friday) {
+          workScale.add(referenceDate);
+        }
+        referenceDate = referenceDate.add(Duration(days: 1));
+      }
+    } else {
+      while (referenceDate.year == currentYear) {
+        workScale.add(referenceDate);
+        referenceDate = referenceDate.add(Duration(days: 2));
+      }
     }
 
     return workScale;
@@ -224,13 +236,15 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
         workShift: workShiftController.dropDownValue!.name,
         isDiarist: isDiarist,
         referenceDate: referenceDate!,
-        workScale: workScale,
-        vacationMonth: startVacation != null
-            ? MonthEnum.fromInt(startVacation!.month).text
-            : null,
-        vacationPay: vacationPay,
-        startVacation: startVacation,
-        endVacation: endVacation,
+        workScale: createWorkScale(referenceDate!, isDiarist),
+        vacation: VacationModel(
+          vacationMonth: vacation?.startVacation != null
+              ? MonthEnum.fromInt(vacation!.startVacation!.month).text
+              : null,
+          vacationExpiration: vacation?.vacationExpiration,
+          startVacation: vacation?.startVacation,
+          endVacation: vacation?.endVacation,
+        ),
         phone: phoneNumberController.text,
         observations: observationsController.text,
         imageUrl: image?.path,
