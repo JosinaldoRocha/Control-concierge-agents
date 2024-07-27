@@ -29,16 +29,18 @@ class AgentDataSource {
 
   Future<Either<CommonError, bool>> addAgent(AgentModel agent) async {
     try {
-      if (agent.imageUrl != null && !agent.imageUrl!.contains(agent.id)) {
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('agent_images')
-            .child('${agent.id}.jpg');
-        final uploadTask = storageRef.putFile(File(agent.imageUrl!));
-        final TaskSnapshot downloadUrl = (await uploadTask);
-        final String imageUrl = await downloadUrl.ref.getDownloadURL();
+      if (agent.imageUrl != null && agent.imageUrl!.isNotEmpty) {
+        if (!agent.imageUrl!.contains(agent.id)) {
+          final storageRef = FirebaseStorage.instance
+              .ref()
+              .child('agent_images')
+              .child('${agent.id}.jpg');
+          final uploadTask = storageRef.putFile(File(agent.imageUrl!));
+          final TaskSnapshot downloadUrl = (await uploadTask);
+          final String imageUrl = await downloadUrl.ref.getDownloadURL();
 
-        agent.imageUrl = imageUrl;
+          agent.imageUrl = imageUrl;
+        }
       }
 
       await _firestore
