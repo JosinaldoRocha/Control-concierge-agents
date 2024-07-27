@@ -1,4 +1,5 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
+import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
@@ -17,36 +18,12 @@ class AgentItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String getInitials(String name) {
-      List<String> nameParts = name.split(' ');
-      String initials = '';
+    final currentDate = DateTime.now();
 
-      int count = 0;
-
-      for (String part in nameParts) {
-        if (part.isNotEmpty && part[0].toUpperCase() == part[0]) {
-          initials += part[0];
-          count++;
-        }
-        if (count == 2) break;
-      }
-      return initials;
-    }
-
-    String filterToString() {
-      switch (filter) {
-        case FilterType.bondType:
-          return agent.bondType.text;
-        case FilterType.unit:
-          return agent.unit;
-        case FilterType.vacationPay:
-          return agent.vacationPay != null
-              ? DateFormat('dd/MM/yyyy').format(agent.vacationPay!)
-              : '...';
-        default:
-          return agent.workShift;
-      }
-    }
+    final isWorking = agent.workScale.any((date) =>
+        date.day == currentDate.day &&
+        date.month == currentDate.month &&
+        date.year == currentDate.year);
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -58,12 +35,8 @@ class AgentItemWidget extends StatelessWidget {
         minimumSize: Size(200, 48),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: _isWorking(
-            BorderSide(color: AppColor.secondary, width: 1.5),
-            BorderSide(color: AppColor.primary),
-          ),
         ),
-        backgroundColor: AppColor.white,
+        backgroundColor: isWorking ? AppColor.mediumGreen : AppColor.white,
       ),
       onPressed: () {
         Navigator.pushNamed(
@@ -78,15 +51,30 @@ class AgentItemWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Container(
+                height: 20,
+                width: 20,
+                margin: EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      isWorking ? AppColor.primaryGreen : AppColor.lightGrey2,
+                ),
+                child: isWorking
+                    ? Icon(
+                        Icons.check,
+                        size: 16,
+                      )
+                    : null,
+              ),
               Expanded(
                 child: Text(
                   agent.name,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: _isWorking(
-                      AppColor.secondary,
-                      AppColor.primary,
-                    ),
+                    color: agent.bondType == BondTypeEnum.effective
+                        ? AppColor.primary
+                        : AppColor.primaryGrey,
                   ),
                 ),
               ),
@@ -94,17 +82,6 @@ class AgentItemWidget extends StatelessWidget {
               AgentProfileImageWidget(
                 image: agent.imageUrl,
                 size: 40,
-                child: Text(
-                  getInitials(agent.name),
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: _isWorking(
-                      AppColor.secondary,
-                      AppColor.primary,
-                    ),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
             ],
           ),
@@ -124,15 +101,19 @@ class AgentItemWidget extends StatelessWidget {
     );
   }
 
-  _isWorking(dynamic value1, dynamic value2) {
-    final currentDate = DateTime.now();
-
-    return agent.workScale.isNotEmpty &&
-            agent.workScale.any((date) =>
-                date.day == currentDate.day &&
-                date.month == currentDate.month &&
-                date.year == currentDate.year)
-        ? value1
-        : value2;
+  String filterToString() {
+    switch (filter) {
+      case FilterType.bondType:
+        return agent.bondType.text;
+      case FilterType.unit:
+        return agent.unit;
+      case FilterType.vacationPay:
+        return agent.vacation?.vacationExpiration != null
+            ? DateFormat('dd/MM/yyyy')
+                .format(agent.vacation!.vacationExpiration!)
+            : '!';
+      default:
+        return agent.workShift;
+    }
   }
 }
