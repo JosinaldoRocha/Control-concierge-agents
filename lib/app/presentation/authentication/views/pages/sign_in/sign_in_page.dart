@@ -33,12 +33,9 @@ class _SignInPageState extends ConsumerState<SignInPage> with SignInMixin {
           ),
           children: [
             Container(
-              height: 120,
-              width: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset('assets/images/agent_logo.png'),
-              ),
+              height: 150,
+              width: 150,
+              child: Image.asset('assets/images/agent.png'),
             ),
             const SpaceVertical.x5(),
             Text(
