@@ -15,7 +15,7 @@ class CheckAutenticationStatenotifier
     state = Loading();
 
     await Future.delayed(const Duration(seconds: 1));
-    final user = await dataSource.getUser();
+    final user = await dataSource.getAuthUser();
     user.fold(
       (l) => state = IsNotLogged(),
       (data) async {
