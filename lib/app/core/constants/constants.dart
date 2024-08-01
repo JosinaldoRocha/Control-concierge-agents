@@ -11,7 +11,7 @@ final unitList = [
   const DropDownValueModel(name: 'Esc Dey Alves Pessoa', value: 5),
   const DropDownValueModel(name: 'Esc Osvaldo Rodrigues da Costa', value: 6),
   const DropDownValueModel(name: 'Esc Obra social madre Luiza', value: 7),
-  const DropDownValueModel(name: 'Esc Cantinho do saber', value: 8),
+  const DropDownValueModel(name: 'Esc Cantinho do saber - Sede', value: 8),
   const DropDownValueModel(name: 'Esc Cantinho do saber - Anexo', value: 9),
   const DropDownValueModel(name: 'Esc José Cesário da Silva', value: 10),
   const DropDownValueModel(name: 'Esc Maria das Graças', value: 11),
@@ -24,7 +24,7 @@ final unitList = [
   const DropDownValueModel(name: 'Esc João Barbosa', value: 18),
   const DropDownValueModel(name: 'Qdr José Neves de Oliveira', value: 19),
   const DropDownValueModel(name: 'Qdr Leonardo Reis de Carvalho', value: 20),
-  const DropDownValueModel(name: 'Deo Ferista', value: 21),
+  const DropDownValueModel(name: 'Dep Ferista', value: 21),
   const DropDownValueModel(name: 'Semed', value: 22),
 ];
 
