@@ -84,7 +84,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   OutlineInputBorder _buildOutlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: Colors.white),
+      borderSide: const BorderSide(color: AppColor.lightGrey),
     );
   }
 }
