@@ -14,9 +14,9 @@ import '../../../../../data/models/agent_model.dart';
 import '../../../provider/agent_provider.dart';
 import '../../../states/add/add_agent_state_notifier.dart';
 import '../../../states/edit/edit_agent_state_notifier.dart';
-import '../../pages/add_edit/add_edit_agent_page.dart';
+import '../../component/add_edit_agent_component.dart';
 
-mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
+mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   final nameController = TextEditingController();
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
@@ -227,32 +227,40 @@ mixin AddEditAgentMixin<T extends AddEditAgentPage> on ConsumerState<T> {
   }
 
   void onTapButton() {
-    if (formKey.currentState!.validate() && referenceDate != null) {
-      final agent = AgentModel(
-        id: widget.agent == null ? const Uuid().v4() : widget.agent!.id,
-        name: nameController.text,
-        bondType: bondTypeController.dropDownValue?.value,
-        unit: unitController.dropDownValue!.name,
-        workShift: workShiftController.dropDownValue!.name,
-        isDiarist: isDiarist,
-        referenceDate: referenceDate!,
-        workScale: createWorkScale(referenceDate!, isDiarist),
-        vacation: VacationModel(
-          vacationMonth: vacation?.startVacation != null
-              ? MonthEnum.fromInt(vacation!.startVacation!.month).text
-              : null,
-          vacationExpiration: vacation?.vacationExpiration,
-          startVacation: vacation?.startVacation,
-          endVacation: vacation?.endVacation,
-        ),
-        phone: phoneNumberController.text,
-        observations: observationsController.text,
-        imageUrl: image?.path,
-      );
-      if (widget.agent == null) {
-        ref.read(addAgentStateProvider.notifier).add(agent);
+    if (formKey.currentState!.validate()) {
+      if (referenceDate != null) {
+        final agent = AgentModel(
+          id: widget.agent == null ? const Uuid().v4() : widget.agent!.id,
+          name: nameController.text,
+          bondType: bondTypeController.dropDownValue?.value,
+          unit: unitController.dropDownValue!.name,
+          workShift: workShiftController.dropDownValue!.name,
+          isDiarist: isDiarist,
+          referenceDate: referenceDate!,
+          workScale: createWorkScale(referenceDate!, isDiarist),
+          vacation: VacationModel(
+            vacationMonth: vacation?.startVacation != null
+                ? MonthEnum.fromInt(vacation!.startVacation!.month).text
+                : null,
+            vacationExpiration: vacation?.vacationExpiration,
+            startVacation: vacation?.startVacation,
+            endVacation: vacation?.endVacation,
+          ),
+          phone: phoneNumberController.text,
+          observations: observationsController.text,
+          imageUrl: image?.path,
+        );
+        if (widget.agent == null) {
+          ref.read(addAgentStateProvider.notifier).add(agent);
+        } else {
+          ref.read(editAgentStateProvider.notifier).edit(agent);
+        }
       } else {
-        ref.read(editAgentStateProvider.notifier).edit(agent);
+        AppSnackBar.show(
+          context,
+          'Selecione uma data referência',
+          AppColor.error,
+        );
       }
     }
   }
