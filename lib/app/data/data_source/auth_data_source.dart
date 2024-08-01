@@ -20,7 +20,7 @@ class AuthDataSource {
     }
   }
 
-  Future<Either<CommonError, User?>> getUser() async {
+  Future<Either<CommonError, User?>> getAuthUser() async {
     try {
       final user = await firebaseAuth.currentUser;
       return Right(user);
