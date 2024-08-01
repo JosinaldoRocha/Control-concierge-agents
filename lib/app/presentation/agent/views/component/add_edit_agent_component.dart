@@ -96,7 +96,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                       },
                     ),
                     SelectDateWidget(
-                      dateType: DatePickerType.reference,
+                      datePickerType: DatePickerType.reference,
                       label: 'Data referência',
                       hintText: 'Selecione a data referência',
                       date: referenceDate,
@@ -113,7 +113,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                       Column(
                         children: [
                           SelectDateWidget(
-                            dateType: DatePickerType.vacationExpiration,
+                            datePickerType: DatePickerType.vacationExpiration,
                             label: 'Vencimento das férias',
                             hintText: 'Vencimento das férias',
                             date: vacation?.vacationExpiration,
@@ -126,7 +126,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                           ),
                           const SpaceVertical.x4(),
                           SelectDateWidget(
-                            dateType: DatePickerType.startVacation,
+                            datePickerType: DatePickerType.startVacation,
                             label: 'Início das férias',
                             hintText: 'Início das férias',
                             date: vacation?.startVacation,
@@ -142,7 +142,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                             Column(
                               children: [
                                 SelectDateWidget(
-                                  dateType: DatePickerType.endVacation,
+                                  datePickerType: DatePickerType.endVacation,
                                   label: 'Término das férias',
                                   hintText: 'Término das férias',
                                   date: vacation?.endVacation,

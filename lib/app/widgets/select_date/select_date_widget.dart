@@ -1,5 +1,6 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
+import 'package:control_concierge_agents/app/data/enums/date_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -11,14 +12,16 @@ class SelectDateWidget extends StatefulWidget {
     required this.onTap,
     required this.hintText,
     required this.onClean,
-    this.validator, // Adicionando o validador aqui
+    required this.label,
+    required this.datePickerType,
   }) : super(key: key);
 
   final DateTime? date;
   final Function() onTap;
   final String hintText;
   final Function() onClean;
-  final String? Function(DateTime?)? validator; // Função de validação de data
+  final String label;
+  final DatePickerType datePickerType;
 
   @override
   State<SelectDateWidget> createState() => _SelectDateWidgetState();
@@ -30,6 +33,16 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (widget.date != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              widget.label,
+              style: AppText.text()
+                  .bodySmall!
+                  .copyWith(color: AppColor.primary, fontSize: 12),
+            ),
+          ),
         InkWell(
           onTap: widget.onTap,
           child: Container(
@@ -38,7 +51,8 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
             decoration: BoxDecoration(
               color: AppColor.lightGrey,
               borderRadius: BorderRadius.circular(12),
-              border: widget.validator != null && widget.date == null
+              border: widget.date == null &&
+                      widget.datePickerType == DatePickerType.reference
                   ? Border.all(color: AppColor.error)
                   : null,
             ),
@@ -74,17 +88,6 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
             ),
           ),
         ),
-        if (widget.validator != null && widget.date == null)
-          Padding(
-            padding: EdgeInsets.only(top: 8, left: 20),
-            child: Text(
-              widget.validator!(widget.date).toString(),
-              style: AppText.text().bodySmall!.copyWith(
-                    color: AppColor.error,
-                    fontSize: 12,
-                  ),
-            ),
-          ),
       ],
     );
   }
