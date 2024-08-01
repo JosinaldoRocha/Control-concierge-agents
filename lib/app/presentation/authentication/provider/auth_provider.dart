@@ -4,6 +4,8 @@ import 'package:control_concierge_agents/app/presentation/authentication/states/
 import 'package:control_concierge_agents/app/presentation/authentication/states/sign_in/sign_in_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../states/user/get_user_state_notifier.dart';
+
 final authenticationState =
     StateNotifierProvider<CheckAutenticationStatenotifier, Autenticationstate>(
   (ref) => CheckAutenticationStatenotifier(
@@ -20,5 +22,12 @@ final signInProvider = StateNotifierProvider<SignInStateNotifier, SignInState>(
 final logoutProvider = StateNotifierProvider<LogoutStateNotifier, LogoutState>(
   (ref) => LogoutStateNotifier(
     dataSource: ref.read(authDataSourceProvider),
+  ),
+);
+
+final getUserProvider =
+    StateNotifierProvider<GetUserStateNotifier, GetUserState>(
+  (ref) => GetUserStateNotifier(
+    dataSource: ref.read(userDataSourceProvider),
   ),
 );
