@@ -78,7 +78,7 @@ class AgentDetailsPage extends ConsumerWidget {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          '/agent/add',
+                          '/agent/edit',
                           arguments: agent,
                         );
                       },
