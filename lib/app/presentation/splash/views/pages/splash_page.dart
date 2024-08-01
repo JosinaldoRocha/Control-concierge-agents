@@ -25,7 +25,14 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       authenticationState,
       (previous, next) {
         if (next is IsLogged) {
-          Navigator.of(context).pushReplacementNamed('/home');
+          if (next.user!.displayName != null) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          } else {
+            Navigator.of(context).pushReplacementNamed(
+              '/profile/complete',
+              arguments: next.user,
+            );
+          }
         } else if (next is IsNotLogged) {
           Navigator.of(context).pushReplacementNamed('/auth/login');
         }
