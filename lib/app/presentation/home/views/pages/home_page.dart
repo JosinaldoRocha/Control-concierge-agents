@@ -19,6 +19,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   int selectedIcon = 0;
   PageController controller = PageController();
 
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(homeTabsProvider.notifier).updateState = 0);
+  }
+
   void listenTab() {
     ref.listen<int>(
       homeTabsProvider,
