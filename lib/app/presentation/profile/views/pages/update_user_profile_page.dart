@@ -145,7 +145,9 @@ class _UpdateUserProfilePageState extends ConsumerState<UpdateUserProfilePage> {
                         photoUrl: image?.path,
                         phoneNumber: phoneNumberController.text,
                         email: emailController.text,
-                        createdAt: DateTime.now(),
+                        createdAt: widget.user != null
+                            ? widget.user!.createdAt
+                            : DateTime.now(),
                       );
 
                       ref
