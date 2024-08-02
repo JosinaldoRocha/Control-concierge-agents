@@ -59,6 +59,8 @@ class UserDataSource {
         final String imageUrl = await downloadUrl.ref.getDownloadURL();
 
         image = imageUrl;
+      } else {
+        image = user.photoUrl;
       }
     }
     return image;
