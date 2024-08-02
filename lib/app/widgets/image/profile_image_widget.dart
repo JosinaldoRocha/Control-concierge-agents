@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-class AgentProfileImageWidget extends StatelessWidget {
-  const AgentProfileImageWidget({
+class ProfileImageWidget extends StatelessWidget {
+  const ProfileImageWidget({
     super.key,
     required this.image,
     required this.size,

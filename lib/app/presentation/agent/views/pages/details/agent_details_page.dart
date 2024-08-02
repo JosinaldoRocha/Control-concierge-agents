@@ -5,7 +5,7 @@ import 'package:control_concierge_agents/app/presentation/agent/widgets/agent_de
 import 'package:control_concierge_agents/app/widgets/modal/agent_modal_widget.dart';
 import 'package:control_concierge_agents/app/presentation/home/provider/home_provider.dart';
 import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
-import 'package:control_concierge_agents/app/widgets/image/agent_profile_image.dart';
+import 'package:control_concierge_agents/app/widgets/image/profile_image_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class AgentDetailsPage extends ConsumerWidget {
       body: Column(
         children: [
           const SpaceVertical.x4(),
-          AgentProfileImageWidget(
+          ProfileImageWidget(
             image: agent.imageUrl,
             size: 80,
           ),

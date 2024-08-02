@@ -1,11 +1,11 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/presentation/authentication/provider/auth_provider.dart';
-import 'package:control_concierge_agents/app/presentation/profile/views/widgets/user_profile_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
+import '../../../../widgets/image/profile_image_widget.dart';
 import '../../../../widgets/modal/agent_modal_widget.dart';
 import '../../../../widgets/snack_bar/app_snack_bar_widget.dart';
 import '../../../authentication/states/logout/logout_state_notifier.dart';
@@ -92,7 +92,7 @@ class _ProfileComponentState extends ConsumerState<ProfileComponent> {
                 ),
               ),
               Spacer(),
-              UserProfileImageWidget(
+              ProfileImageWidget(
                 image: data.photoUrl,
                 size: 130,
               ),

@@ -2,11 +2,11 @@ import 'package:control_concierge_agents/app/core/style/app_colors.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:control_concierge_agents/app/presentation/authentication/provider/auth_provider.dart';
 import 'package:control_concierge_agents/app/presentation/home/views/mixin/home_mixin.dart';
-import 'package:control_concierge_agents/app/presentation/profile/views/widgets/user_profile_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
+import '../../../../widgets/image/profile_image_widget.dart';
 import '../../provider/home_provider.dart';
 import '../widgets/agent_list_widget.dart';
 import '../widgets/filter_list_widget.dart';
@@ -49,7 +49,7 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
                 ),
                 Spacer(),
                 userState.maybeWhen(
-                  loadSuccess: (data) => UserProfileImageWidget(
+                  loadSuccess: (data) => ProfileImageWidget(
                     image: data.photoUrl,
                     size: 48,
                   ),

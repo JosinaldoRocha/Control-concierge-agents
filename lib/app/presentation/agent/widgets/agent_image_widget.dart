@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/style/app_colors.dart';
-import '../../../widgets/image/agent_profile_image.dart';
+import '../../../widgets/image/profile_image_widget.dart';
 
 class AgentSelectImageWidget extends StatelessWidget {
   const AgentSelectImageWidget({
@@ -21,7 +21,7 @@ class AgentSelectImageWidget extends StatelessWidget {
         width: 104,
         child: Stack(
           children: [
-            AgentProfileImageWidget(
+            ProfileImageWidget(
               image: image?.path,
               size: 100,
             ),

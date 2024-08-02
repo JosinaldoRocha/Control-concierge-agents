@@ -5,7 +5,7 @@ import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../widgets/image/agent_profile_image.dart';
+import '../../../../widgets/image/profile_image_widget.dart';
 
 class AgentItemWidget extends StatelessWidget {
   const AgentItemWidget({
@@ -79,7 +79,7 @@ class AgentItemWidget extends StatelessWidget {
                 ),
               ),
               const SpaceHorizontal.x2(),
-              AgentProfileImageWidget(
+              ProfileImageWidget(
                 image: agent.imageUrl,
                 size: 40,
               ),
