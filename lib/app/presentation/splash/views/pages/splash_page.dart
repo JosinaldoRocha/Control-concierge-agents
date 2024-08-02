@@ -29,8 +29,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
             Navigator.of(context).pushReplacementNamed('/home');
           } else {
             Navigator.of(context).pushReplacementNamed(
-              '/profile/complete',
-              arguments: next.user,
+              '/profile/update',
             );
           }
         } else if (next is IsNotLogged) {

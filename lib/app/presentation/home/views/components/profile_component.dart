@@ -77,7 +77,7 @@ class _ProfileComponentState extends ConsumerState<ProfileComponent> {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        '/profile/edit',
+                        '/profile/update',
                         arguments: data,
                       );
                     },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/navigator/navigator.dart';
-import '../views/pages/complete/complete_profile_page.dart';
-import '../views/pages/edit/edit_profile_page.dart';
+import '../views/pages/update_user_profile_page.dart';
 
 class ProfileRoutes extends IModuleRoutes {
   @override
@@ -9,10 +8,7 @@ class ProfileRoutes extends IModuleRoutes {
 
   @override
   Map<String, Widget Function(BuildContext context)> get routes => {
-        '/edit': (context) => EditUserProfilePage(
-              user: getArgs(context),
-            ),
-        '/complete': (context) => CompleteProfilePage(
+        '/update': (context) => UpdateUserProfilePage(
               user: getArgs(context),
             ),
       };

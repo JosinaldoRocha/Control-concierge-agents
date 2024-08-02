@@ -10,37 +10,21 @@ import '../../core/helpers/errors/errors.dart';
 
 class UserDataSource {
   final _firestore = FirebaseFirestore.instance;
+  final authUser = FirebaseAuth.instance.currentUser;
 
-  Future<Either<CommonError, bool>> completeProfile({
+  Future<Either<CommonError, bool>> updateUserProfile({
     required UserModel user,
   }) async {
     try {
-      final authUser = FirebaseAuth.instance.currentUser!;
+      user.id = authUser!.uid;
+
       user.photoUrl = await updateUserImage(user);
 
-      await _firestore.collection('users').doc(authUser.uid).set(user.toMap());
+      await _firestore.collection('users').doc(authUser!.uid).set(user.toMap());
 
-      await authUser.updatePhotoURL(user.photoUrl);
+      await authUser!.updatePhotoURL(user.photoUrl);
 
-      await authUser.updateDisplayName(user.name);
-      return Right(true);
-    } on Exception catch (e) {
-      return Left(GenerateError.fromException(e));
-    }
-  }
-
-  Future<Either<CommonError, bool>> editUser({
-    required UserModel user,
-  }) async {
-    try {
-      final authUser = FirebaseAuth.instance.currentUser!;
-      user.photoUrl = await updateUserImage(user);
-
-      await _firestore.collection('users').doc(user.id).set(user.toMap());
-
-      await authUser.updatePhotoURL(user.photoUrl);
-
-      await authUser.updateDisplayName(user.name);
+      await authUser!.updateDisplayName(user.name);
       return Right(true);
     } on Exception catch (e) {
       return Left(GenerateError.fromException(e));
@@ -49,10 +33,8 @@ class UserDataSource {
 
   Future<Either<CommonError, UserModel>> getLocalUser() async {
     try {
-      final authUser = FirebaseAuth.instance.currentUser!;
-
       final getDocument =
-          await _firestore.collection('users').doc(authUser.uid).get();
+          await _firestore.collection('users').doc(authUser!.uid).get();
 
       final user = UserModel.fromSnapShot(getDocument);
 
