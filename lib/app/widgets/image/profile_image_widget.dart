@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
+import '../../core/style/app_colors.dart';
+
 class ProfileImageWidget extends StatelessWidget {
   const ProfileImageWidget({
     super.key,
@@ -16,9 +18,18 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: size,
       height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: image != null && image!.isNotEmpty
+            ? Border.all(
+                width: 1.5,
+                color: AppColor.primary,
+              )
+            : null,
+      ),
       child: image == null || image!.isEmpty
           ? Center(
               child: CircleAvatar(
