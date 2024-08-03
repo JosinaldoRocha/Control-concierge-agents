@@ -9,8 +9,8 @@ class AppTheme {
         background: AppColor.bgColor,
       ),
       appBarTheme: const AppBarTheme(
-        color: AppColor.primary,
-        foregroundColor: AppColor.white,
+        color: AppColor.bgColor,
+        foregroundColor: AppColor.primary,
         elevation: 0,
       ),
       textTheme: AppText.text(),
