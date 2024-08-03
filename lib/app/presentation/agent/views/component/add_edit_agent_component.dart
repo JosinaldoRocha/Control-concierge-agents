@@ -175,7 +175,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
               ButtonWidget(
                 isLoading: addState is CommonStateLoadInProgress ||
                     editState is CommonStateLoadInProgress,
-                title: 'Salvar agente',
+                title: widget.agent == null ? 'Salvar agente' : 'Atualizar',
                 onTap: onTapButton,
               ),
             ],
