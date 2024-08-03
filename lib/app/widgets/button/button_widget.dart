@@ -110,6 +110,7 @@ class ButtonWidget extends StatelessWidget {
     return trailing == null
         ? _buildText()
         : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,
