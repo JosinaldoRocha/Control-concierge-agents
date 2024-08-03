@@ -31,7 +31,7 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
           height: 100,
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Theme.of(context).appBarTheme.backgroundColor,
+            color: AppColor.primary,
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 36),
@@ -44,7 +44,7 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
                   'Agentes de portaria',
                   style: AppText.text().titleLarge!.copyWith(
                         color: AppColor.white,
-                        fontSize: 24,
+                        fontSize: 26,
                       ),
                 ),
                 Spacer(),
