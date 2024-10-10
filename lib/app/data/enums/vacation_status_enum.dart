@@ -13,7 +13,9 @@ enum VacationStatus {
     DateTime currentDate = DateTime.now();
 
     if (vacation.vacationExpiration != null) {
-      if (vacation.vacationExpiration!.isAtSameMomentAs(currentDate)) {
+      if (vacation.vacationExpiration!.day == currentDate.day &&
+          vacation.vacationExpiration!.month == currentDate.month &&
+          vacation.vacationExpiration!.year == currentDate.year) {
         return VacationStatus.expiring;
       } else if (vacation.vacationExpiration!.isAfter(currentDate)) {
         return VacationStatus.unexpired;
