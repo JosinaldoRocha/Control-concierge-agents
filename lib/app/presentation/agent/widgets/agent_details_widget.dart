@@ -34,9 +34,13 @@ class AgentDetailsWidget extends StatelessWidget {
             width: 200,
             height: 48,
             title: 'Férias',
-            trailing: Icon(
-              Icons.flight_takeoff_outlined,
-              color: AppColor.white,
+            trailing: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+              child: Icon(
+                Icons.beach_access,
+                color: AppColor.white,
+              ),
             ),
             onTap: () {
               showDialog(
