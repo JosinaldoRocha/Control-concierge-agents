@@ -9,7 +9,7 @@ mixin HomeMixin<T extends HomeComponent> on ConsumerState<T> {
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
   final workShiftController = SingleValueDropDownController();
-  final vacationPayController = SingleValueDropDownController();
+  final vacationExpirationController = SingleValueDropDownController();
 
   FilterType? filterType;
   String? filter;
@@ -27,7 +27,7 @@ mixin HomeMixin<T extends HomeComponent> on ConsumerState<T> {
 
   void onChanged(dynamic p0) {
     setState(() {
-      if (filterType == FilterType.vacationPay) {
+      if (filterType == FilterType.vacationExpiration) {
         filter = (p0.value.index + 1).toString();
       } else {
         filter = p0.name;
@@ -47,6 +47,6 @@ mixin HomeMixin<T extends HomeComponent> on ConsumerState<T> {
     bondTypeController.clearDropDown();
     unitController.clearDropDown();
     workShiftController.clearDropDown();
-    vacationPayController.clearDropDown();
+    vacationExpirationController.clearDropDown();
   }
 }

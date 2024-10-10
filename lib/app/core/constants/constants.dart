@@ -52,7 +52,7 @@ final filterList = [
   FilterType.bondType,
   FilterType.unit,
   FilterType.workShift,
-  FilterType.vacationPay,
+  FilterType.vacationExpiration,
 ];
 
 final listMonths = [

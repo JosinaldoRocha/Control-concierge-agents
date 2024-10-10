@@ -2,7 +2,7 @@ enum FilterType {
   bondType,
   unit,
   workShift,
-  vacationPay;
+  vacationExpiration;
 
   String get text {
     switch (this) {
@@ -12,7 +12,7 @@ enum FilterType {
         return 'Lotação';
       case FilterType.workShift:
         return 'Turno';
-      case FilterType.vacationPay:
+      case FilterType.vacationExpiration:
         return 'Venc. férias';
     }
   }

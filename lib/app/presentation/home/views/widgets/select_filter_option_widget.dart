@@ -11,14 +11,14 @@ class SelectFilterOptionWidget extends StatelessWidget {
     required this.bondTypeController,
     required this.unitController,
     required this.workShiftController,
-    required this.vacationPayController,
+    required this.vacationExpirationController,
     required this.onChanged,
   });
   final FilterType? filterType;
   final SingleValueDropDownController bondTypeController;
   final SingleValueDropDownController unitController;
   final SingleValueDropDownController workShiftController;
-  final SingleValueDropDownController vacationPayController;
+  final SingleValueDropDownController vacationExpirationController;
   final Function(dynamic) onChanged;
 
   @override
@@ -45,9 +45,9 @@ class SelectFilterOptionWidget extends StatelessWidget {
         hintText: 'Selecione o turno',
         onChanged: onChanged,
       );
-    } else if (filterType! == FilterType.vacationPay) {
+    } else if (filterType! == FilterType.vacationExpiration) {
       return FilterOptionDropdownWidget(
-        controller: vacationPayController,
+        controller: vacationExpirationController,
         list: listMonths,
         hintText: 'Selecione o mês/vencimento',
         listPadding: ListPadding(top: 5, bottom: 5),

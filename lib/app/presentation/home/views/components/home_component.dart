@@ -75,7 +75,7 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
               bondTypeController: bondTypeController,
               unitController: unitController,
               workShiftController: workShiftController,
-              vacationPayController: vacationPayController,
+              vacationExpirationController: vacationExpirationController,
               onChanged: onChanged,
             ),
           ),
