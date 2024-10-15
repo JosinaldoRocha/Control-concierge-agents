@@ -54,8 +54,8 @@ final agentStatusList = [
     value: AgentStatus.isCertified,
   ),
   DropDownValueModel(
-    name: AgentStatus.functiondeviation.text,
-    value: AgentStatus.functiondeviation,
+    name: AgentStatus.functionDeviation.text,
+    value: AgentStatus.functionDeviation,
   ),
 ];
 
