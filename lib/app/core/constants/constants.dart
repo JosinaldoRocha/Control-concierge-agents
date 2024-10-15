@@ -1,3 +1,4 @@
+import 'package:control_concierge_agents/app/data/enums/agent_status_enum.dart';
 import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
@@ -36,6 +37,25 @@ final bondTypeList = [
   DropDownValueModel(
     name: BondTypeEnum.contract.text,
     value: BondTypeEnum.contract,
+  ),
+];
+
+final agentStatusList = [
+  DropDownValueModel(
+    name: AgentStatus.isActive.text,
+    value: AgentStatus.isActive,
+  ),
+  DropDownValueModel(
+    name: AgentStatus.isOnLeave.text,
+    value: AgentStatus.isOnLeave,
+  ),
+  DropDownValueModel(
+    name: AgentStatus.isCertified.text,
+    value: AgentStatus.isCertified,
+  ),
+  DropDownValueModel(
+    name: AgentStatus.functiondeviation.text,
+    value: AgentStatus.functiondeviation,
   ),
 ];
 
