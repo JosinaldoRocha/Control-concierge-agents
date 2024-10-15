@@ -1,12 +1,10 @@
 import 'package:control_concierge_agents/app/core/style/app_colors.dart';
-import 'package:control_concierge_agents/app/core/style/app_text.dart';
-import 'package:control_concierge_agents/app/presentation/authentication/provider/auth_provider.dart';
 import 'package:control_concierge_agents/app/presentation/home/views/mixin/home_mixin.dart';
+import 'package:control_concierge_agents/app/presentation/home/views/widgets/home_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-import '../../../../widgets/image/profile_image_widget.dart';
 import '../../provider/home_provider.dart';
 import '../widgets/agent_list_widget.dart';
 import '../widgets/filter_list_widget.dart';
@@ -23,53 +21,43 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     final agentListState = ref.watch(agentListStateProvider);
-    final userState = ref.watch(getUserProvider);
 
     return Column(
       children: [
-        Container(
-          height: 100,
-          padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppColor.primary,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 36),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Spacer(),
-                Text(
-                  'Agentes de portaria',
-                  style: AppText.text().titleLarge!.copyWith(
-                        color: AppColor.white,
-                        fontSize: 26,
+        HomeAppBarWidget(),
+        agentListState.maybeWhen(
+          loadSuccess: (data) {
+            return !showFilter
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            showFilter = true;
+                          });
+                        },
+                        child: Icon(
+                          Icons.filter_list_rounded,
+                          color: AppColor.mediumBlue,
+                        ),
                       ),
-                ),
-                Spacer(),
-                userState.maybeWhen(
-                  loadSuccess: (data) => ProfileImageWidget(
-                    image: data.photoUrl,
-                    size: 48,
-                  ),
-                  orElse: () => Container(
-                    child: Center(
-                      child: Text('!'),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        FilterListWidget(
-          onTap: onTapFilter,
+                  )
+                : FilterListWidget(
+                    onTap: onTapFilter,
+                  );
+          },
+          orElse: () => Container(),
         ),
         if (filterType != null)
           Container(
-            width: 300,
-            padding: const EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.only(
+              top: 16,
+              left: 8,
+              right: 8,
+            ),
             child: SelectFilterOptionWidget(
               filterType: filterType,
               bondTypeController: bondTypeController,
