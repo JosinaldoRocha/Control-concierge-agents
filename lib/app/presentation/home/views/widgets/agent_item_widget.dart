@@ -5,10 +5,14 @@ import 'package:control_concierge_agents/app/data/models/agent_model.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/space_horizontal_widget.dart';
 import 'package:control_concierge_agents/app/widgets/spacing/vertical_space_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/style/app_text.dart';
+import '../../../../widgets/modal/agent_modal_widget.dart';
+import '../../../agent/provider/agent_provider.dart';
+import '../mixin/agent_item_mixin.dart';
 
-class AgentItemWidget extends StatelessWidget {
+class AgentItemWidget extends ConsumerStatefulWidget {
   const AgentItemWidget({
     super.key,
     required this.agent,
@@ -18,46 +22,18 @@ class AgentItemWidget extends StatelessWidget {
   final FilterType? filter;
 
   @override
-  Widget build(BuildContext context) {
-    final currentDate = DateTime.now();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AgentItemWidgetState();
+}
 
-    final isWorking = agent.workScale.any((date) =>
+class _AgentItemWidgetState extends ConsumerState<AgentItemWidget>
+    with AgentItemMixin {
+  @override
+  Widget build(BuildContext context) {
+    final isWorking = widget.agent.workScale.any((date) =>
         date.day == currentDate.day &&
         date.month == currentDate.month &&
         date.year == currentDate.year);
-
-    String workingHours(String workShift) {
-      if (workShift.contains('Diurno')) {
-        return '06:00 - 18:00';
-      } else if (workShift.contains('EJA')) {
-        return '18:00 - 22:00';
-      } else {
-        return '18:00 - 06:00';
-      }
-    }
-
-    WorkStatus getWorkStatus() {
-      final currentDate = DateTime.now();
-      final startVacation = agent.vacation?.startVacation;
-      final endVacation = agent.vacation?.endVacation;
-
-      bool isSameDay(DateTime? date) =>
-          date != null &&
-          date.day == currentDate.day &&
-          date.month == currentDate.month &&
-          date.year == currentDate.year;
-
-      bool isOnVacationPeriod = startVacation != null &&
-          endVacation != null &&
-          (startVacation.isBefore(currentDate) || isSameDay(startVacation)) &&
-          (endVacation.isAfter(currentDate) || isSameDay(endVacation));
-
-      if (isOnVacationPeriod) {
-        return WorkStatus.isOnVacation;
-      }
-
-      return isWorking ? WorkStatus.inService : WorkStatus.isOff;
-    }
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -69,11 +45,33 @@ class AgentItemWidget extends StatelessWidget {
         ),
         backgroundColor: AppColor.cardBackground,
       ),
+      onLongPress: () {
+        showModalBottomSheet(
+          isDismissible: false,
+          context: context,
+          builder: (context) => AgentModalWidget(
+            title: 'Tem certeza que quer deletar esse agente?',
+            description:
+                'Ao deletar um agente você não poderá recupar seus dados',
+            confirmTitle: 'Sim',
+            onConfirm: () {
+              ref
+                  .read(deleteAgentStateProvider.notifier)
+                  .delete(widget.agent.id);
+              Navigator.pop(context);
+            },
+            cancelTitle: 'Cancelar',
+            onCancel: () {
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
       onPressed: () {
         Navigator.pushNamed(
           context,
           '/agent/details',
-          arguments: agent,
+          arguments: widget.agent,
         );
       },
       child: Column(
@@ -87,7 +85,7 @@ class AgentItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      agent.name,
+                      widget.agent.name,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppColor.black,
@@ -96,8 +94,8 @@ class AgentItemWidget extends StatelessWidget {
                     const SpaceVertical.x1(),
                     Row(
                       children: [
-                        if (agent.status == "Ativo" &&
-                            getWorkStatus() == WorkStatus.inService)
+                        if (widget.agent.status == "Ativo" &&
+                            getWorkStatus(isWorking) == WorkStatus.inService)
                           Row(
                             children: [
                               Icon(
@@ -107,7 +105,7 @@ class AgentItemWidget extends StatelessWidget {
                               ),
                               const SpaceHorizontal.x1(),
                               Text(
-                                workingHours(agent.workShift),
+                                workingHours(widget.agent.workShift),
                                 style: AppText.text()
                                     .bodySmall!
                                     .copyWith(color: AppColor.lightPurple),
@@ -115,7 +113,7 @@ class AgentItemWidget extends StatelessWidget {
                             ],
                           ),
                         Spacer(),
-                        if (getWorkStatus() == WorkStatus.isOnVacation)
+                        if (getWorkStatus(isWorking) == WorkStatus.isOnVacation)
                           Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: Icon(
@@ -125,9 +123,9 @@ class AgentItemWidget extends StatelessWidget {
                             ),
                           ),
                         Text(
-                          agent.status != 'Ativo'
-                              ? agent.status
-                              : getWorkStatus().text,
+                          widget.agent.status != 'Ativo'
+                              ? widget.agent.status
+                              : getWorkStatus(isWorking).text,
                           style: AppText.text().bodyMedium!.copyWith(
                                 color: AppColor.secondary,
                               ),
@@ -139,7 +137,7 @@ class AgentItemWidget extends StatelessWidget {
               ),
             ],
           ),
-          if (filter != null && filterResult != null)
+          if (widget.filter != null && filterResult != null)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -156,18 +154,18 @@ class AgentItemWidget extends StatelessWidget {
   }
 
   String? get filterResult {
-    switch (filter) {
+    switch (widget.filter) {
       case FilterType.bondType:
-        return agent.bondType.text;
+        return widget.agent.bondType.text;
       case FilterType.unit:
-        return agent.unit;
+        return widget.agent.unit;
       case FilterType.vacationExpiration:
-        return agent.vacation?.vacationExpiration != null
+        return widget.agent.vacation?.vacationExpiration != null
             ? DateFormat('dd/MM/yyyy')
-                .format(agent.vacation!.vacationExpiration!)
+                .format(widget.agent.vacation!.vacationExpiration!)
             : null;
       default:
-        return agent.workShift;
+        return widget.agent.workShift;
     }
   }
 }
