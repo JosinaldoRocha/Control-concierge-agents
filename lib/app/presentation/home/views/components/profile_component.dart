@@ -63,7 +63,7 @@ class _ProfileComponentState extends ConsumerState<ProfileComponent> {
       ),
       loadSuccess: (data) {
         return Container(
-          color: AppColor.lightGreen,
+          color: AppColor.lightPurple,
           child: Column(
             children: [
               Align(
@@ -102,7 +102,7 @@ class _ProfileComponentState extends ConsumerState<ProfileComponent> {
                 width: double.infinity,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColor.lightBlue,
+                  color: AppColor.bgColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
