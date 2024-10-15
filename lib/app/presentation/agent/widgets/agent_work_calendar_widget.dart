@@ -36,6 +36,7 @@ class _AgentCalendarState extends State<AgentWorkCalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      availableGestures: AvailableGestures.none,
       calendarStyle: CalendarStyle(
         todayTextStyle: TextStyle(color: AppColor.primaryRed),
         todayDecoration: BoxDecoration(),
