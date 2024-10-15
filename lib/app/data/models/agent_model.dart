@@ -5,6 +5,7 @@ import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
 class AgentModel {
   String id;
   String name;
+  String status;
   BondTypeEnum bondType;
   String unit;
   String workShift;
@@ -19,6 +20,7 @@ class AgentModel {
   AgentModel({
     required this.id,
     required this.name,
+    required this.status,
     required this.bondType,
     required this.unit,
     required this.workShift,
@@ -35,6 +37,7 @@ class AgentModel {
     return <String, dynamic>{
       'id': id,
       'name': name,
+      'status': status,
       'bondType': bondType.text,
       'unit': unit,
       'workShift': workShift,
@@ -53,6 +56,7 @@ class AgentModel {
     return AgentModel(
       id: snapshot.id,
       name: snapshot['name'] as String,
+      status: snapshot['status'] as String,
       bondType: BondTypeEnum.fromString(snapshot['bondType'] as String),
       unit: snapshot['unit'] as String,
       workShift: snapshot['workShift'] as String,
