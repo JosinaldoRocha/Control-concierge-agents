@@ -65,10 +65,12 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
                     widget.date == null
                         ? widget.hintText
                         : DateFormat('dd/MM/yyyy').format(widget.date!),
-                    style: AppText.text().titleMedium!.copyWith(
+                    style: AppText.text().bodyMedium!.copyWith(
                           color: widget.date == null
-                              ? AppColor.mediumBlue
+                              ? AppColor.primaryGrey
                               : Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                   ),
                   widget.date != null
