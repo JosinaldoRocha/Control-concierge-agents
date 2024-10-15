@@ -41,8 +41,7 @@ class _FilterListWidgetState extends ConsumerState<FilterListWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      padding: EdgeInsets.only(top: 16),
+      height: 30,
       child: ListView.separated(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
