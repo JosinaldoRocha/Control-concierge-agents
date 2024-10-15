@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../core/style/app_colors.dart';
 import '../../../data/enums/vacation_status_enum.dart';
+import '../../../widgets/spacing/spacing.dart';
 import '../../../widgets/spacing/vertical_space_widget.dart';
 
 class VacationDetailsWidget extends StatelessWidget {
@@ -16,15 +17,10 @@ class VacationDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      padding: EdgeInsets.all(16).copyWith(bottom: 8),
+      padding: EdgeInsets.all(10).copyWith(bottom: 4),
       decoration: BoxDecoration(
-        color: AppColor.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: VacationStatus.status(agent.vacation!).color,
-          width: 2,
-        ),
+        color: AppColor.bgColor,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -85,19 +81,26 @@ class VacationDetailsWidget extends StatelessWidget {
     );
   }
 
-  Column _buildItem(String title, String description) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        SelectableText(
-          description,
-        ),
-        const SpaceVertical.x2(),
-      ],
+  Padding _buildItem(String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          SpaceHorizontal.x1(),
+          Expanded(
+            child: SelectableText(
+              description,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
