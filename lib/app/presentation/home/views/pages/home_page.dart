@@ -68,9 +68,9 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
         elevation: 0,
         currentIndex: selectedIcon,
-        backgroundColor: AppColor.white,
+        backgroundColor: AppColor.bgColor,
         selectedLabelStyle: AppText.text().bodyMedium,
-        selectedIconTheme: IconThemeData(color: AppColor.bgColor),
+        selectedIconTheme: IconThemeData(color: AppColor.white),
         onTap: (index) {
           ref.read(homeTabsProvider.notifier).updateState = index;
         },
@@ -88,7 +88,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       width: 44,
       margin: EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
-        color: selectedIcon == index ? AppColor.primary : AppColor.lightGrey2,
+        color:
+            selectedIcon == index ? AppColor.lightPurple : AppColor.lightBlue,
         shape: BoxShape.circle,
       ),
       child: Icon(icon),
