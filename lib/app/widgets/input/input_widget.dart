@@ -96,9 +96,9 @@ class InputWidget extends StatelessWidget {
             keyboardType: keyboardType,
             obscureText: obscureText ?? false,
             maxLines: lines,
-            style: AppText.text().titleMedium!.copyWith(
-                  color: !isEnabled ? Colors.black : null,
-                  fontWeight: !isEnabled ? FontWeight.w600 : null,
+            style: AppText.text().bodyMedium!.copyWith(
+                  color: !isEnabled ? AppColor.black : AppColor.primaryGrey,
+                  fontSize: 18,
                 ),
             textAlign: TextAlign.left,
             decoration: InputDecoration(
@@ -126,9 +126,10 @@ class InputWidget extends StatelessWidget {
                 borderSide: BorderSide.none,
               ),
               prefixIcon: prefix,
-              hintStyle: AppText.text()
-                  .titleMedium
-                  ?.copyWith(color: AppColor.primaryGrey),
+              hintStyle: AppText.text().bodyMedium?.copyWith(
+                    color: AppColor.primaryGrey,
+                    fontWeight: FontWeight.w500,
+                  ),
               hintText: hintText,
               suffixIcon: sufix,
             ),
