@@ -13,6 +13,7 @@ mixin HomeMixin<T extends HomeComponent> on ConsumerState<T> {
 
   FilterType? filterType;
   String? filter;
+  bool showFilter = false;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ mixin HomeMixin<T extends HomeComponent> on ConsumerState<T> {
   void onTapFilter(currentFilter, isSelected) {
     setState(() {
       filterType = isSelected ? currentFilter : null;
-
+      showFilter = isSelected;
       filter = null;
     });
 
