@@ -21,8 +21,8 @@ class DiaristCheckWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 16),
       padding: EdgeInsets.only(
         left: 20,
-        top: 4,
-        bottom: 4,
+        top: 6,
+        bottom: 6,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -32,8 +32,10 @@ class DiaristCheckWidget extends StatelessWidget {
         children: [
           Text(
             'Diarista',
-            style: AppText.text().titleMedium?.copyWith(
-                  color: agent != null ? Colors.black : AppColor.mediumBlue,
+            style: AppText.text().bodyMedium?.copyWith(
+                  color: agent != null ? Colors.black : AppColor.primaryGrey,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
           ),
           const Spacer(),
