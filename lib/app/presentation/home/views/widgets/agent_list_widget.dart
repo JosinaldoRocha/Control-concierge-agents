@@ -40,7 +40,7 @@ class AgentListWidget extends StatelessWidget {
         agent: filteredAgents[index],
         filter: filterType,
       ),
-      separatorBuilder: (context, index) => const SpaceVertical.x3(),
+      separatorBuilder: (context, index) => const SpaceVertical.x2(),
       itemCount: filteredAgents.length,
     );
   }
