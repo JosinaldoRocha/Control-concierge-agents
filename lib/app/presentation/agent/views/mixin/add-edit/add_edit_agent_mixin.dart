@@ -18,6 +18,7 @@ import '../../component/add_edit_agent_component.dart';
 
 mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   final nameController = TextEditingController();
+  final statusController = SingleValueDropDownController();
   final bondTypeController = SingleValueDropDownController();
   final unitController = SingleValueDropDownController();
   final workShiftController = SingleValueDropDownController();
@@ -36,6 +37,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
     super.initState();
     if (widget.agent != null) {
       nameController.text = widget.agent!.name;
+      statusController.setDropDown(
+        agentStatusList.firstWhere((e) => e.name == widget.agent!.status),
+      );
       phoneNumberController.text = widget.agent!.phone!;
       bondTypeController.setDropDown(
         bondTypeList.firstWhere((e) => e.value == widget.agent!.bondType),
@@ -232,6 +236,7 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
         final agent = AgentModel(
           id: widget.agent == null ? const Uuid().v4() : widget.agent!.id,
           name: nameController.text,
+          status: statusController.dropDownValue!.name,
           bondType: bondTypeController.dropDownValue?.value,
           unit: unitController.dropDownValue!.name,
           workShift: workShiftController.dropDownValue!.name,
