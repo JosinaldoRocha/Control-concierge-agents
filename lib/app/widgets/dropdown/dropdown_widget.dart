@@ -39,7 +39,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             }
             return null;
           },
-      textStyle: AppText.text().titleMedium,
+      textStyle: AppText.text().bodyMedium!.copyWith(fontSize: 18),
       textFieldDecoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
@@ -48,8 +48,10 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         filled: true,
         fillColor: AppColor.lightGrey,
         hintText: widget.hintText,
-        hintStyle:
-            AppText.text().titleMedium?.copyWith(color: AppColor.mediumBlue),
+        hintStyle: AppText.text().bodyMedium?.copyWith(
+              color: AppColor.primaryGrey,
+              fontWeight: FontWeight.w500,
+            ),
         enabledBorder: _buildOutlineInputBorder(),
         focusedBorder: _buildOutlineInputBorder(),
         errorBorder: OutlineInputBorder(
