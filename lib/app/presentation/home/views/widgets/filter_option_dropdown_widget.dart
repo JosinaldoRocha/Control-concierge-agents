@@ -35,17 +35,19 @@ class _FilterOptionDropdownWidgetState
   Widget build(BuildContext context) {
     return DropDownTextField(
       validator: widget.validator,
-      textStyle: AppText.text().bodyMedium,
+      textStyle: AppText.text().bodyMedium!.copyWith(color: AppColor.black),
       textFieldDecoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 17,
         ),
         filled: true,
-        fillColor: AppColor.lightBlue,
+        fillColor: AppColor.bgColor,
         hintText: widget.hintText,
-        hintStyle:
-            AppText.text().bodySmall?.copyWith(color: AppColor.mediumBlue),
+        hintStyle: AppText.text().bodySmall?.copyWith(
+              fontSize: 16,
+              color: AppColor.black,
+            ),
         enabledBorder: _buildOutlineInputBorder(),
         focusedBorder: _buildOutlineInputBorder(),
         errorBorder: OutlineInputBorder(
@@ -60,7 +62,7 @@ class _FilterOptionDropdownWidgetState
       dropDownIconProperty: IconProperty(
         icon: Icons.arrow_drop_down_rounded,
         size: 35,
-        color: AppColor.mediumBlue,
+        color: AppColor.black,
       ),
       clearIconProperty: IconProperty(
         icon: Icons.close,
