@@ -74,6 +74,13 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                     ),
                     const SpaceVertical.x4(),
                     DropDownWidget(
+                      controller: statusController,
+                      list: agentStatusList,
+                      hintText: 'Status',
+                      onChanged: (p0) => setState(() {}),
+                    ),
+                    const SpaceVertical.x4(),
+                    DropDownWidget(
                       controller: unitController,
                       //TODO: tornar lista rolável
                       list: unitList,
