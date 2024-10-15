@@ -4,7 +4,6 @@ import 'package:control_concierge_agents/app/presentation/home/views/widgets/hom
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-
 import '../../provider/home_provider.dart';
 import '../widgets/agent_list_widget.dart';
 import '../widgets/filter_list_widget.dart';
@@ -21,6 +20,8 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     final agentListState = ref.watch(agentListStateProvider);
+
+    deleteAgentListen();
 
     return Column(
       children: [
