@@ -41,6 +41,7 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
 
     addAgentListen();
     editAgentListen();
+    addVacationHistoryListen();
 
     return SafeArea(
       child: Padding(
@@ -115,50 +116,76 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                       },
                     ),
                     const SpaceVertical.x4(),
-                    if (bondTypeController.dropDownValue?.value ==
-                        BondTypeEnum.effective)
+                    if (widget.agent != null &&
+                        bondTypeController.dropDownValue?.value ==
+                            BondTypeEnum.effective)
                       Column(
                         children: [
                           SelectDateWidget(
                             datePickerType: DatePickerType.vacationExpiration,
                             label: 'Vencimento das férias',
                             hintText: 'Vencimento das férias',
-                            date: vacation?.vacationExpiration,
+                            date: vacationExpiration,
                             onTap: selectvacationExpiration,
                             onClean: () {
                               setState(() {
-                                vacation?.vacationExpiration = null;
+                                vacationExpiration = null;
+                                startVacation = null;
+                                endVacation = null;
+                                vestingPeriodController.clear();
                               });
                             },
                           ),
                           const SpaceVertical.x4(),
-                          SelectDateWidget(
-                            datePickerType: DatePickerType.startVacation,
-                            label: 'Início das férias',
-                            hintText: 'Início das férias',
-                            date: vacation?.startVacation,
-                            onTap: selectStartVacation,
-                            onClean: () {
-                              setState(() {
-                                vacation?.startVacation = null;
-                              });
-                            },
-                          ),
-                          const SpaceVertical.x4(),
-                          if (vacation?.startVacation != null)
+                          if (vacationExpiration != null)
+                            Column(
+                              children: [
+                                SelectDateWidget(
+                                  datePickerType: DatePickerType.startVacation,
+                                  label: 'Início das férias',
+                                  hintText: 'Início das férias',
+                                  date: startVacation,
+                                  onTap: selectStartVacation,
+                                  onClean: () {
+                                    setState(() {
+                                      startVacation = null;
+                                      endVacation = null;
+                                      vestingPeriodController.clear();
+                                    });
+                                  },
+                                ),
+                                const SpaceVertical.x4(),
+                              ],
+                            ),
+                          if (startVacation != null)
                             Column(
                               children: [
                                 SelectDateWidget(
                                   datePickerType: DatePickerType.endVacation,
                                   label: 'Término das férias',
                                   hintText: 'Término das férias',
-                                  date: vacation?.endVacation,
+                                  date: endVacation,
                                   onTap: selectEndVacation,
                                   onClean: () {
                                     setState(() {
-                                      vacation?.endVacation = null;
+                                      endVacation = null;
+                                      vestingPeriodController.clear();
                                     });
                                   },
+                                ),
+                                const SpaceVertical.x4(),
+                              ],
+                            ),
+                          if (endVacation != null)
+                            Column(
+                              children: [
+                                InputWidget(
+                                  controller: vestingPeriodController,
+                                  hintText: 'Perído aquisitivo',
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    InputFormatters.vestingPeriod()
+                                  ],
                                 ),
                                 const SpaceVertical.x4(),
                               ],

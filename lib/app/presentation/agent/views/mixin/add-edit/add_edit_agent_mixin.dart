@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
+import 'package:control_concierge_agents/app/presentation/vacation/states/add_vacation_history/add_vacation_history_state_notifier.dart';
 import 'package:control_concierge_agents/app/widgets/snack_bar/app_snack_bar_widget.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../../core/constants/constants.dart';
+import '../../../../../core/helpers/errors/errors.dart';
 import '../../../../../core/style/app_colors.dart';
 import '../../../../../data/models/agent_model.dart';
+import '../../../../../data/models/vacation_history_model.dart';
+import '../../../../vacation/provider/vacation_provider.dart';
 import '../../../provider/agent_provider.dart';
 import '../../../states/add/add_agent_state_notifier.dart';
 import '../../../states/edit/edit_agent_state_notifier.dart';
@@ -24,13 +28,17 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   final workShiftController = SingleValueDropDownController();
   final phoneNumberController = TextEditingController();
   final observationsController = TextEditingController();
+  final vestingPeriodController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  DateTime? referenceDate;
+  DateTime? vacationExpiration;
+  DateTime? startVacation;
+  DateTime? endVacation;
 
   File? image;
   bool isDiarist = false;
-  DateTime? referenceDate;
   List<DateTime> workScale = [];
-  VacationModel? vacation = VacationModel();
 
   @override
   void initState() {
@@ -54,31 +62,37 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
       referenceDate = widget.agent!.referenceDate;
       workScale = workScale;
       observationsController.text = widget.agent!.observations!;
-      vacation = widget.agent!.vacation;
+
+      vacationExpiration = widget.agent?.vacation?.vacationExpiration;
+      startVacation = widget.agent?.vacation?.startVacation;
+      endVacation = widget.agent?.vacation?.endVacation;
+
       image =
           widget.agent!.imageUrl != null ? File(widget.agent!.imageUrl!) : null;
+      vestingPeriodController.text =
+          widget.agent?.vacation?.vestingPeriod ?? '';
     }
   }
 
   Future<DateTime?> _buildShowDatePicker(bool isStartDate) {
-    return vacation?.startVacation == null
+    return startVacation == null
         ? showDatePicker(
             context: context,
             firstDate: DateTime(DateTime.now().year, 1),
             lastDate: DateTime(DateTime.now().year + 1, 1, 0),
           )
         : showDatePicker(
-            initialDate: isStartDate ? vacation!.startVacation : null,
+            initialDate: isStartDate ? startVacation : null,
             context: context,
             firstDate: DateTime(
-              vacation!.startVacation!.year,
-              isStartDate ? 1 : vacation!.startVacation!.month,
-              isStartDate ? 1 : vacation!.startVacation!.day + 1,
+              startVacation!.year,
+              isStartDate ? 1 : startVacation!.month,
+              isStartDate ? 1 : startVacation!.day + 1,
             ),
             lastDate: DateTime(
-              vacation!.startVacation!.year,
-              isStartDate ? 12 : vacation!.startVacation!.month + 1,
-              isStartDate ? 31 : vacation!.startVacation!.day + 2,
+              startVacation!.year,
+              isStartDate ? 12 : startVacation!.month + 1,
+              isStartDate ? 31 : startVacation!.day + 2,
             ),
           );
   }
@@ -86,9 +100,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   Future<void> selectStartVacation() async {
     final DateTime? picked = await _buildShowDatePicker(true);
 
-    if (picked != null && picked != vacation?.startVacation) {
+    if (picked != null && picked != startVacation) {
       setState(() {
-        vacation?.startVacation = picked;
+        startVacation = picked;
       });
     }
   }
@@ -96,9 +110,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   Future<void> selectEndVacation() async {
     final DateTime? picked = await _buildShowDatePicker(false);
 
-    if (picked != null && picked != vacation?.endVacation) {
+    if (picked != null && picked != endVacation) {
       setState(() {
-        vacation?.endVacation = picked;
+        endVacation = picked;
       });
     }
   }
@@ -112,9 +126,9 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
       lastDate: DateTime(currentDate.year, currentDate.month + 13, 0),
     );
 
-    if (picked != null && picked != vacation?.vacationExpiration) {
+    if (picked != null && picked != vacationExpiration) {
       setState(() {
-        vacation?.vacationExpiration = picked;
+        vacationExpiration = picked;
       });
     }
   }
@@ -131,7 +145,6 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
     if (picked != null && picked != referenceDate) {
       setState(() {
         referenceDate = picked;
-        //createWorkScale(referenceDate!, isDiarist);
       });
     }
   }
@@ -196,26 +209,65 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              '/home',
-              (route) => false,
-            );
-            AppSnackBar.show(
-              context,
-              'Agente atualizado com sucesso!',
-              AppColor.secondary,
-            );
+            if (vacationExpiration != null &&
+                startVacation != null &&
+                endVacation != null &&
+                vestingPeriodController.text.isNotEmpty) {
+              final currentYear = DateTime.now().year;
+
+              final vacationHistory = VacationHistoryModel(
+                id: '${currentYear}${vestingPeriodController.text}',
+                year: currentYear,
+                vestingPeriod: vestingPeriodController.text,
+                startDate: startVacation!,
+                endDate: endVacation!,
+              );
+
+              ref.read(addVacationHistoryStateProvider.notifier).add(
+                    agentId: widget.agent!.id,
+                    vacationHistory: vacationHistory,
+                  );
+            } else {
+              loadSuccess(data);
+            }
           },
-          loadFailure: (message) {
-            AppSnackBar.show(
-              context,
-              'Houve um erro ao atualizar os dados do agente. Tente novamente mais tarde!',
-              AppColor.error,
-            );
-          },
+          loadFailure: loadFailure,
           orElse: () {},
         );
       },
+    );
+  }
+
+  void addVacationHistoryListen() {
+    ref.listen<AddVacationHistoryState>(
+      addVacationHistoryStateProvider,
+      (previous, next) {
+        next.maybeWhen(
+          loadSuccess: loadSuccess,
+          loadFailure: loadFailure,
+          orElse: () {},
+        );
+      },
+    );
+  }
+
+  void loadSuccess(bool data) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/home',
+      (route) => false,
+    );
+    AppSnackBar.show(
+      context,
+      'Agente atualizado com sucesso!',
+      AppColor.secondary,
+    );
+  }
+
+  void loadFailure(CommonError message) {
+    AppSnackBar.show(
+      context,
+      'Houve um erro ao atualizar os dados do agente. Tente novamente mais tarde!',
+      AppColor.error,
     );
   }
 
@@ -243,14 +295,17 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
           isDiarist: isDiarist,
           referenceDate: referenceDate!,
           workScale: createWorkScale(referenceDate!, isDiarist),
-          vacation: VacationModel(
-            vacationMonth: vacation?.startVacation != null
-                ? MonthEnum.fromInt(vacation!.startVacation!.month).text
-                : null,
-            vacationExpiration: vacation?.vacationExpiration,
-            startVacation: vacation?.startVacation,
-            endVacation: vacation?.endVacation,
-          ),
+          vacation: vacationExpiration != null
+              ? VacationModel(
+                  vacationMonth: startVacation != null
+                      ? MonthEnum.fromInt(startVacation!.month).text
+                      : null,
+                  vacationExpiration: vacationExpiration,
+                  startVacation: startVacation,
+                  endVacation: endVacation,
+                  vestingPeriod: vestingPeriodController.text,
+                )
+              : null,
           phone: phoneNumberController.text,
           observations: observationsController.text,
           imageUrl: image?.path,

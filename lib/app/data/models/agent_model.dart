@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
 
@@ -74,6 +76,38 @@ class AgentModel {
       vacation: snapshot['vacation'] != null
           ? VacationModel.fromMap(snapshot['vacation'] as Map<String, dynamic>)
           : null,
+    );
+  }
+
+  AgentModel copyWith({
+    String? id,
+    String? name,
+    String? status,
+    BondTypeEnum? bondType,
+    String? unit,
+    String? workShift,
+    bool? isDiarist,
+    DateTime? referenceDate,
+    List<DateTime>? workScale,
+    String? phone,
+    String? observations,
+    String? imageUrl,
+    VacationModel? vacation,
+  }) {
+    return AgentModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      bondType: bondType ?? this.bondType,
+      unit: unit ?? this.unit,
+      workShift: workShift ?? this.workShift,
+      isDiarist: isDiarist ?? this.isDiarist,
+      referenceDate: referenceDate ?? this.referenceDate,
+      workScale: workScale ?? this.workScale,
+      phone: phone ?? this.phone,
+      observations: observations ?? this.observations,
+      imageUrl: imageUrl ?? this.imageUrl,
+      vacation: vacation ?? this.vacation,
     );
   }
 }

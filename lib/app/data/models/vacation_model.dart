@@ -5,12 +5,14 @@ class VacationModel {
   DateTime? startVacation;
   DateTime? endVacation;
   String? vacationMonth;
+  String? vestingPeriod;
 
   VacationModel({
     this.vacationExpiration,
     this.startVacation,
     this.endVacation,
     this.vacationMonth,
+    this.vestingPeriod,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,6 +21,7 @@ class VacationModel {
       'startVacation': startVacation,
       'endVacation': endVacation,
       'vacationMonth': vacationMonth,
+      'vestingPeriod': vestingPeriod,
     };
   }
 
@@ -35,6 +38,9 @@ class VacationModel {
           : null,
       vacationMonth: snapshot['vacationMonth'] != null
           ? snapshot['vacationMonth'] as String
+          : null,
+      vestingPeriod: snapshot['vestingPeriod'] != null
+          ? snapshot['vestingPeriod'] as String
           : null,
     );
   }

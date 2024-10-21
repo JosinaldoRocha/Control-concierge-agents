@@ -1,11 +1,11 @@
 import 'package:control_concierge_agents/app/data/models/agent_model.dart';
+import 'package:control_concierge_agents/app/widgets/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/style/app_colors.dart';
-import '../../../data/enums/vacation_status_enum.dart';
-import '../../../widgets/spacing/spacing.dart';
-import '../../../widgets/spacing/vertical_space_widget.dart';
+import '../../../../core/style/app_colors.dart';
+import '../../../../data/enums/vacation_status_enum.dart';
+import '../../../../widgets/spacing/spacing.dart';
 
 class VacationDetailsWidget extends StatelessWidget {
   const VacationDetailsWidget({
@@ -76,6 +76,26 @@ class VacationDetailsWidget extends StatelessWidget {
               'Término:',
               DateFormat('dd/MM/yyyy').format(agent.vacation!.endVacation!),
             ),
+          if (agent.vacation?.vestingPeriod != null &&
+              agent.vacation!.vestingPeriod!.isNotEmpty)
+            _buildItem(
+                'Período aquisitivo', '${agent.vacation!.vestingPeriod}'),
+          SpaceVertical.x2(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: ButtonWidget(
+              height: 40,
+              width: 150,
+              title: 'Histórico de férias',
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/vacation/history',
+                  arguments: agent,
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
