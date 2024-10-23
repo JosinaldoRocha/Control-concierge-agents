@@ -28,7 +28,6 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
   final workShiftController = SingleValueDropDownController();
   final phoneNumberController = TextEditingController();
   final observationsController = TextEditingController();
-  final vestingPeriodController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   DateTime? referenceDate;
@@ -69,8 +68,6 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
 
       image =
           widget.agent!.imageUrl != null ? File(widget.agent!.imageUrl!) : null;
-      vestingPeriodController.text =
-          widget.agent?.vacation?.vestingPeriod ?? '';
     }
   }
 
@@ -211,14 +208,14 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
           loadSuccess: (data) {
             if (vacationExpiration != null &&
                 startVacation != null &&
-                endVacation != null &&
-                vestingPeriodController.text.isNotEmpty) {
+                endVacation != null) {
               final currentYear = DateTime.now().year;
 
               final vacationHistory = VacationHistoryModel(
-                id: '${currentYear}${vestingPeriodController.text}',
+                id: '${currentYear}${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 year: currentYear,
-                vestingPeriod: vestingPeriodController.text,
+                vestingPeriod:
+                    '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 startDate: startVacation!,
                 endDate: endVacation!,
               );
@@ -303,7 +300,8 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
                   vacationExpiration: vacationExpiration,
                   startVacation: startVacation,
                   endVacation: endVacation,
-                  vestingPeriod: vestingPeriodController.text,
+                  vestingPeriod:
+                      '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 )
               : null,
           phone: phoneNumberController.text,

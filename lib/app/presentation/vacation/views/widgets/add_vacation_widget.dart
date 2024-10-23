@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/helpers/common_state/common_state.dart';
 import '../../../../data/enums/date_type_enum.dart';
 import '../../../../widgets/button/button_widget.dart';
-import '../../../../widgets/input/input_formatters.dart';
-import '../../../../widgets/input/input_widget.dart';
 import '../../../../widgets/select_date/select_date_widget.dart';
 import '../../../../widgets/spacing/vertical_space_widget.dart';
 import '../../../agent/provider/agent_provider.dart';
@@ -57,7 +55,6 @@ class _AddVacationWidgetState extends ConsumerState<AddVacationWidget>
                             vacationExpiration = null;
                             startVacation = null;
                             endVacation = null;
-                            vestingPeriodController.clear();
                           });
                         },
                       ),
@@ -75,7 +72,6 @@ class _AddVacationWidgetState extends ConsumerState<AddVacationWidget>
                                 setState(() {
                                   startVacation = null;
                                   endVacation = null;
-                                  vestingPeriodController.clear();
                                 });
                               },
                             ),
@@ -94,23 +90,8 @@ class _AddVacationWidgetState extends ConsumerState<AddVacationWidget>
                               onClean: () {
                                 setState(() {
                                   endVacation = null;
-                                  vestingPeriodController.clear();
                                 });
                               },
-                            ),
-                            const SpaceVertical.x4(),
-                          ],
-                        ),
-                      if (endVacation != null)
-                        Column(
-                          children: [
-                            InputWidget(
-                              controller: vestingPeriodController,
-                              hintText: 'Perído aquisitivo',
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                InputFormatters.vestingPeriod()
-                              ],
                             ),
                             const SpaceVertical.x4(),
                           ],

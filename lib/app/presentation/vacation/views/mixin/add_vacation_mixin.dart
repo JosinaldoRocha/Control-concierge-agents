@@ -14,7 +14,6 @@ import '../../provider/vacation_provider.dart';
 
 mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
   final formKey = GlobalKey<FormState>();
-  final vestingPeriodController = TextEditingController();
 
   DateTime? vacationExpiration;
   DateTime? startVacation;
@@ -87,14 +86,14 @@ mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
           loadSuccess: (data) {
             if (vacationExpiration != null &&
                 startVacation != null &&
-                endVacation != null &&
-                vestingPeriodController.text.isNotEmpty) {
+                endVacation != null) {
               final currentYear = DateTime.now().year;
 
               final vacationHistory = VacationHistoryModel(
-                id: '${currentYear}${vestingPeriodController.text}',
+                id: '${currentYear}${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 year: currentYear,
-                vestingPeriod: vestingPeriodController.text,
+                vestingPeriod:
+                    '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 startDate: startVacation!,
                 endDate: endVacation!,
               );
@@ -160,7 +159,8 @@ mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
                 vacationExpiration: vacationExpiration,
                 startVacation: startVacation,
                 endVacation: endVacation,
-                vestingPeriod: vestingPeriodController.text,
+                vestingPeriod:
+                    '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
               )
             : null,
       );

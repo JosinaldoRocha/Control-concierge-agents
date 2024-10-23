@@ -132,7 +132,6 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                                 vacationExpiration = null;
                                 startVacation = null;
                                 endVacation = null;
-                                vestingPeriodController.clear();
                               });
                             },
                           ),
@@ -150,7 +149,6 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                                     setState(() {
                                       startVacation = null;
                                       endVacation = null;
-                                      vestingPeriodController.clear();
                                     });
                                   },
                                 ),
@@ -169,23 +167,8 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                                   onClean: () {
                                     setState(() {
                                       endVacation = null;
-                                      vestingPeriodController.clear();
                                     });
                                   },
-                                ),
-                                const SpaceVertical.x4(),
-                              ],
-                            ),
-                          if (endVacation != null)
-                            Column(
-                              children: [
-                                InputWidget(
-                                  controller: vestingPeriodController,
-                                  hintText: 'Perído aquisitivo',
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    InputFormatters.vestingPeriod()
-                                  ],
                                 ),
                                 const SpaceVertical.x4(),
                               ],
