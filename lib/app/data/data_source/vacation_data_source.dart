@@ -51,33 +51,27 @@ class VacationDataSource {
     }
   }
 
-  void checkAndUpdateVacationData() async {
+  Future<Either<CommonError, bool>> checkAndUpdateVacationData() async {
     final currentDate = DateTime.now();
-
     final _collection = _firestore.collection('concierge-agents');
-
     final agentsSnapshot = await _collection.get();
-
     final documents = agentsSnapshot.docs;
 
-    for (var doc in documents) {
-      final agent = AgentModel.fromSnapShot(doc);
-      final vacation = agent.vacation;
+    try {
+      for (var doc in documents) {
+        final agent = AgentModel.fromSnapShot(doc);
+        final vacation = agent.vacation;
 
-      if (vacation != null) {
-        final vacationExpiration = vacation.vacationExpiration;
-        final endVacation = vacation.endVacation;
-        final startVacation = vacation.startVacation;
+        final vacationExpiration = vacation?.vacationExpiration;
+        final endVacation = vacation?.endVacation;
+        final startVacation = vacation?.startVacation;
 
         if (vacationExpiration != null &&
             startVacation != null &&
             endVacation != null) {
-          DateTime? newVacationExpiration;
-
-          if (endVacation.day == currentDate.day &&
-              endVacation.month == currentDate.month &&
-              endVacation.year == currentDate.year) {
-            final currentYear = DateTime.now().year;
+          if (vacationExpiration.isBefore(currentDate) &&
+              endVacation.isBefore(currentDate)) {
+            final currentYear = currentDate.year;
 
             final vacationHistory = VacationHistoryModel(
               id: '${currentYear}${vacationExpiration.year - 1}-${vacationExpiration.year}',
@@ -93,11 +87,8 @@ class VacationDataSource {
               agentId: agent.id,
               vacationHistory: vacationHistory,
             );
-          }
 
-          if (vacationExpiration.isBefore(currentDate) &&
-              endVacation.isBefore(currentDate)) {
-            newVacationExpiration = DateTime(
+            final newVacationExpiration = DateTime(
               vacationExpiration.year + 1,
               vacationExpiration.month,
               vacationExpiration.day,
@@ -114,10 +105,13 @@ class VacationDataSource {
               ),
             );
 
-            await _collection.doc(agent.id).update(updatedAgent.toMap());
+            await _collection.doc(agent.id).set(updatedAgent.toMap());
           }
         }
       }
+      return Right(true);
+    } on Exception catch (e) {
+      return Left(GenerateError.fromException(e));
     }
   }
 }

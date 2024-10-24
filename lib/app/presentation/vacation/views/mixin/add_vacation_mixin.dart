@@ -1,16 +1,12 @@
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
-import 'package:control_concierge_agents/app/data/models/vacation_history_model.dart';
 import 'package:control_concierge_agents/app/data/models/vacation_model.dart';
-import 'package:control_concierge_agents/app/presentation/vacation/states/add_vacation_history/add_vacation_history_state_notifier.dart';
 import 'package:control_concierge_agents/app/presentation/vacation/views/widgets/add_vacation_widget.dart';
 import 'package:control_concierge_agents/app/widgets/snack_bar/app_snack_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/helpers/errors/common_errors.dart';
 import '../../../../core/style/app_colors.dart';
 import '../../../agent/provider/agent_provider.dart';
 import '../../../agent/states/edit/edit_agent_state_notifier.dart';
-import '../../provider/vacation_provider.dart';
 
 mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
   final formKey = GlobalKey<FormState>();
@@ -84,66 +80,24 @@ mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
       (previous, next) {
         next.maybeWhen(
           loadSuccess: (data) {
-            if (vacationExpiration != null &&
-                startVacation != null &&
-                endVacation != null) {
-              final currentYear = DateTime.now().year;
-
-              final vacationHistory = VacationHistoryModel(
-                id: '${currentYear}${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
-                year: currentYear,
-                vestingPeriod:
-                    '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
-                startDate: startVacation!,
-                endDate: endVacation!,
-                vacationExpiration: vacationExpiration!,
-              );
-
-              ref.read(addVacationHistoryStateProvider.notifier).add(
-                    agentId: widget.agent.id,
-                    vacationHistory: vacationHistory,
-                  );
-            } else {
-              loadSuccess(data);
-            }
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home',
+              (route) => false,
+            );
+            AppSnackBar.show(
+              context,
+              'Férias adicionada com sucesso!',
+              AppColor.secondary,
+            );
           },
-          loadFailure: loadFailure,
+          loadFailure: (failure) => AppSnackBar.show(
+            context,
+            'Houve um erro ao adicionar férias ao agente. Tente novamente mais tarde!',
+            AppColor.error,
+          ),
           orElse: () {},
         );
       },
-    );
-  }
-
-  void addVacationHistoryListen() {
-    ref.listen<AddVacationHistoryState>(
-      addVacationHistoryStateProvider,
-      (previous, next) {
-        next.maybeWhen(
-          loadSuccess: loadSuccess,
-          loadFailure: loadFailure,
-          orElse: () {},
-        );
-      },
-    );
-  }
-
-  void loadSuccess(bool data) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/home',
-      (route) => false,
-    );
-    AppSnackBar.show(
-      context,
-      'Férias adicionada com sucesso!',
-      AppColor.secondary,
-    );
-  }
-
-  void loadFailure(CommonError message) {
-    AppSnackBar.show(
-      context,
-      'Houve um erro ao adicionar férias ao agente. Tente novamente mais tarde!',
-      AppColor.error,
     );
   }
 

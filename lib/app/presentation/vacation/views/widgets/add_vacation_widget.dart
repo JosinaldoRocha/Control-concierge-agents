@@ -27,7 +27,6 @@ class _AddVacationWidgetState extends ConsumerState<AddVacationWidget>
   @override
   Widget build(BuildContext context) {
     editAgentListen();
-    addVacationHistoryListen();
 
     final editState = ref.watch(editAgentStateProvider);
 

@@ -41,7 +41,6 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
 
     addAgentListen();
     editAgentListen();
-    addVacationHistoryListen();
 
     return SafeArea(
       child: Padding(
