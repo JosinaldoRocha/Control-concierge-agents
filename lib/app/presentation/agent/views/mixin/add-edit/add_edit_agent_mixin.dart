@@ -212,13 +212,14 @@ mixin AddEditAgentMixin<T extends AddEditAgentComponent> on ConsumerState<T> {
               final currentYear = DateTime.now().year;
 
               final vacationHistory = VacationHistoryModel(
-                id: '${currentYear}${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
-                year: currentYear,
-                vestingPeriod:
-                    '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
-                startDate: startVacation!,
-                endDate: endVacation!,
-              );
+                  id:
+                      '${currentYear}${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
+                  year: currentYear,
+                  vestingPeriod:
+                      '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
+                  startDate: startVacation!,
+                  endDate: endVacation!,
+                  vacationExpiration: vacationExpiration!);
 
               ref.read(addVacationHistoryStateProvider.notifier).add(
                     agentId: widget.agent!.id,

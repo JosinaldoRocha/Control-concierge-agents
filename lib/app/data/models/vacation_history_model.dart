@@ -6,6 +6,7 @@ class VacationHistoryModel {
   String vestingPeriod;
   DateTime startDate;
   DateTime endDate;
+  DateTime vacationExpiration;
 
   VacationHistoryModel({
     required this.id,
@@ -13,6 +14,7 @@ class VacationHistoryModel {
     required this.vestingPeriod,
     required this.startDate,
     required this.endDate,
+    required this.vacationExpiration,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class VacationHistoryModel {
       'vestingPeriod': vestingPeriod,
       'startDate': startDate,
       'endDate': endDate,
+      'vacationExpiration': vacationExpiration,
     };
   }
 
@@ -33,6 +36,8 @@ class VacationHistoryModel {
       vestingPeriod: snapshot['vestingPeriod'] as String,
       startDate: (snapshot['startDate'] as Timestamp).toDate(),
       endDate: (snapshot['endDate'] as Timestamp).toDate(),
+      vacationExpiration:
+          (snapshot['vacationExpiration'] as Timestamp).toDate(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -29,14 +30,22 @@ class VacationHistoryListWidget extends StatelessWidget {
     );
   }
 
-  Column _buildHistoryItem(List<VacationHistoryModel> data, int index) {
+  Column _buildHistoryItem(
+    List<VacationHistoryModel> data,
+    int index,
+  ) {
+    final history = data[index];
     return Column(
       children: [
-        _buildItem('Ano:', data[index].year.toString()),
-        _buildItem(
-            'Início:', DateFormat('dd/MM').format(data[index].startDate)),
-        _buildItem('Término:', DateFormat('dd/MM').format(data[index].endDate)),
-        _buildItem('Período aquisitivo:', data[index].vestingPeriod),
+        Text(
+          history.year.toString(),
+          style: AppText.text().titleMedium,
+        ),
+        _buildItem('Vencimento:',
+            DateFormat('dd/MM/yyyy').format(history.vacationExpiration)),
+        _buildItem('Início:', DateFormat('dd/MM').format(history.startDate)),
+        _buildItem('Término:', DateFormat('dd/MM').format(history.endDate)),
+        _buildItem('Período aquisitivo:', history.vestingPeriod),
       ],
     );
   }

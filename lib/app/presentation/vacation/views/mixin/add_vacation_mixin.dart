@@ -96,6 +96,7 @@ mixin AddVacationMixin<T extends AddVacationWidget> on ConsumerState<T> {
                     '${vacationExpiration!.year - 1}-${vacationExpiration!.year}',
                 startDate: startVacation!,
                 endDate: endVacation!,
+                vacationExpiration: vacationExpiration!,
               );
 
               ref.read(addVacationHistoryStateProvider.notifier).add(
