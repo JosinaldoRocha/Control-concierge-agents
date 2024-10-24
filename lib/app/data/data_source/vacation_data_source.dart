@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_concierge_agents/app/data/models/vacation_history_model.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/helpers/errors/errors.dart';
+import '../models/agent_model.dart';
+import '../models/vacation_model.dart';
 
 class VacationDataSource {
   final _firestore = FirebaseFirestore.instance;
@@ -46,6 +48,76 @@ class VacationDataSource {
       return Right(history);
     } on Exception catch (e) {
       return Left(GenerateError.fromException(e));
+    }
+  }
+
+  void checkAndUpdateVacationData() async {
+    final currentDate = DateTime.now();
+
+    final _collection = _firestore.collection('concierge-agents');
+
+    final agentsSnapshot = await _collection.get();
+
+    final documents = agentsSnapshot.docs;
+
+    for (var doc in documents) {
+      final agent = AgentModel.fromSnapShot(doc);
+      final vacation = agent.vacation;
+
+      if (vacation != null) {
+        final vacationExpiration = vacation.vacationExpiration;
+        final endVacation = vacation.endVacation;
+        final startVacation = vacation.startVacation;
+
+        if (vacationExpiration != null &&
+            startVacation != null &&
+            endVacation != null) {
+          DateTime? newVacationExpiration;
+
+          if (endVacation.day == currentDate.day &&
+              endVacation.month == currentDate.month &&
+              endVacation.year == currentDate.year) {
+            final currentYear = DateTime.now().year;
+
+            final vacationHistory = VacationHistoryModel(
+              id: '${currentYear}${vacationExpiration.year - 1}-${vacationExpiration.year}',
+              year: currentYear,
+              vestingPeriod:
+                  '${vacationExpiration.year - 1}-${vacationExpiration.year}',
+              startDate: startVacation,
+              endDate: endVacation,
+              vacationExpiration: vacationExpiration,
+            );
+
+            await addVacationHistory(
+              agentId: agent.id,
+              vacationHistory: vacationHistory,
+            );
+          }
+
+          if (vacationExpiration.isBefore(currentDate) &&
+              endVacation.isBefore(currentDate)) {
+            newVacationExpiration = DateTime(
+              vacationExpiration.year + 1,
+              vacationExpiration.month,
+              vacationExpiration.day,
+            );
+
+            final updatedAgent = agent.copyWith(
+              vacation: VacationModel(
+                vacationExpiration: newVacationExpiration,
+                startVacation: null,
+                endVacation: null,
+                vacationMonth: null,
+                vestingPeriod:
+                    '${newVacationExpiration.year - 1}-${newVacationExpiration.year}',
+              ),
+            );
+
+            await _collection.doc(agent.id).update(updatedAgent.toMap());
+          }
+        }
+      }
     }
   }
 }
