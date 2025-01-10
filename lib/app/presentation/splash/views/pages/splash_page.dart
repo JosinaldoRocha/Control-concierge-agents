@@ -20,9 +20,11 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => ref.read(checkVacationStateProvider.notifier).load(),
-    );
+
+    Future.microtask(() {
+      ref.read(authenticationState.notifier).loadUser();
+      ref.read(checkVacationStateProvider.notifier).load();
+    });
   }
 
   void checkVacationDatalisten() {
