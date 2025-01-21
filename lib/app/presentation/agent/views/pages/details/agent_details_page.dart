@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:control_concierge_agents/app/core/style/app_text.dart';
 import 'package:control_concierge_agents/app/data/enums/bond_type_enum.dart';
 import 'package:control_concierge_agents/app/presentation/vacation/views/widgets/add_vacation_widget.dart';
@@ -30,18 +29,28 @@ class AgentDetailsPage extends ConsumerWidget {
             height: 300,
             width: double.infinity,
             child: agent.imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: agent.imageUrl!,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(
-                      child: SizedBox(
-                        height: 20,
-                        width: 130,
-                        child: LoadingIndicator(
-                          indicatorType: Indicator.ballPulse,
+                ? Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned.fill(
+                        child: Center(
+                          child: SizedBox(
+                            height: 10,
+                            width: 48,
+                            child: LoadingIndicator(
+                              indicatorType: Indicator.ballPulse,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Image.network(
+                        agent.imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Icon(Icons.error, size: 60);
+                        },
+                      ),
+                    ],
                   )
                 : Image.asset('assets/images/profile.png'),
           ),

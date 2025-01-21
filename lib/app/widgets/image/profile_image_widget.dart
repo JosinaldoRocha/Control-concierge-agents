@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   const ProfileImageWidget({
@@ -32,12 +30,12 @@ class ProfileImageWidget extends StatelessWidget {
               child: image!.contains('control-concierge-agents')
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: CachedNetworkImage(
-                        imageUrl: image!,
+                      child: Image.network(
+                        image!,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => LoadingIndicator(
-                          indicatorType: Indicator.circleStrokeSpin,
-                        ),
+                        errorBuilder: (context, error, stackTrace) {
+                          return Icon(Icons.error, size: size);
+                        },
                       ),
                     )
                   : CircleAvatar(

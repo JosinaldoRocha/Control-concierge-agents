@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:control_concierge_agents/app/app_routes.dart';
 import 'package:control_concierge_agents/app/core/style/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class AppWidget extends StatelessWidget {
         theme: AppTheme.getTheme(),
         initialRoute: AppRoutes().initialRoute,
         routes: AppRoutes().allAppRoutes,
+        scrollBehavior: CustomScrollBehavior(),
         locale: const Locale('pt', 'BR'),
         supportedLocales: const [Locale('pt', 'BR')],
         localizationsDelegates: const [
@@ -26,4 +29,13 @@ class AppWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.touch,
+        PointerDeviceKind.trackpad,
+      };
 }

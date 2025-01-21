@@ -21,11 +21,13 @@ class _HomeComponentState extends ConsumerState<HomeComponent> with HomeMixin {
   Widget build(BuildContext context) {
     final agentListState = ref.watch(agentListStateProvider);
 
+    bool isWeb = MediaQuery.of(context).size.width > 480;
+
     deleteAgentListen();
 
     return Column(
       children: [
-        HomeAppBarWidget(),
+        if (!isWeb) HomeAppBarWidget(),
         agentListState.maybeWhen(
           loadSuccess: (data) {
             return !showFilter

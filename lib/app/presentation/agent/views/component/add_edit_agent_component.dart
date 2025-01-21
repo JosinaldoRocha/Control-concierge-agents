@@ -42,9 +42,12 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
     addAgentListen();
     editAgentListen();
 
-    return SafeArea(
+    print(widget.agent);
+    print(bondTypeController.dropDownValue?.value);
+
+    return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16).copyWith(top: 52),
         child: Form(
           key: formKey,
           child: Column(
@@ -70,7 +73,9 @@ class _AddEditAgentComponentState extends ConsumerState<AddEditAgentComponent>
                       controller: bondTypeController,
                       list: bondTypeList,
                       hintText: 'Vínculo empregatício',
-                      onChanged: (p0) => setState(() {}),
+                      onChanged: (p0) {
+                        setState(() {});
+                      },
                     ),
                     const SpaceVertical.x4(),
                     DropDownWidget(

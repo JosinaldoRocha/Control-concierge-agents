@@ -21,58 +21,65 @@ class _SignInPageState extends ConsumerState<SignInPage> with SignInMixin {
     final state = ref.watch(signInProvider);
     listen();
 
+    bool isWeb = MediaQuery.of(context).size.width > 480;
+
     return Scaffold(
-      body: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: ListView(
-          padding: const EdgeInsets.only(
-            top: 180,
-            left: 16,
-            right: 16,
+      body: Center(
+        child: Container(
+          width: isWeb ? 500 : null,
+          child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: ListView(
+              padding: const EdgeInsets.only(
+                top: 180,
+                left: 16,
+                right: 16,
+              ),
+              children: [
+                Container(
+                  height: 150,
+                  width: 150,
+                  child: Image.asset('assets/images/agent.png'),
+                ),
+                const SpaceVertical.x5(),
+                Text(
+                  "Entre com email e senha",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SpaceVertical.x5(),
+                InputWidget(
+                  controller: emailController,
+                  hintText: 'seuemail@email.com',
+                  textCapitalization: TextCapitalization.none,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: InputValidators.email,
+                  autoFocus: true,
+                ),
+                const SpaceVertical.x5(),
+                InputWidget(
+                  controller: passwordController,
+                  hintText: 'sua senha aqui',
+                  validator: (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Digite sua senha';
+                    }
+                    if (p0.length < 8) {
+                      return 'Senha curta';
+                    }
+                    return null;
+                  },
+                ),
+                const SpaceVertical.x8(),
+                ButtonWidget(
+                  onTap: onTapButton,
+                  isLoading: state is CommonStateLoadInProgress,
+                  title: 'Continuar',
+                ),
+              ],
+            ),
           ),
-          children: [
-            Container(
-              height: 150,
-              width: 150,
-              child: Image.asset('assets/images/agent.png'),
-            ),
-            const SpaceVertical.x5(),
-            Text(
-              "Entre com email e senha",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
-            ),
-            const SpaceVertical.x5(),
-            InputWidget(
-              controller: emailController,
-              hintText: 'seuemail@email.com',
-              textCapitalization: TextCapitalization.none,
-              keyboardType: TextInputType.emailAddress,
-              validator: InputValidators.email,
-              autoFocus: true,
-            ),
-            const SpaceVertical.x5(),
-            InputWidget(
-              controller: passwordController,
-              hintText: 'sua senha aqui',
-              validator: (p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return 'Digite sua senha';
-                }
-                if (p0.length < 8) {
-                  return 'Senha curta';
-                }
-                return null;
-              },
-            ),
-            const SpaceVertical.x8(),
-            ButtonWidget(
-              onTap: onTapButton,
-              isLoading: state is CommonStateLoadInProgress,
-              title: 'Continuar',
-            ),
-          ],
         ),
       ),
     );

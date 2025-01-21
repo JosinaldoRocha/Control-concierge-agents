@@ -2,7 +2,9 @@ import 'package:control_concierge_agents/app/data/enums/agent_status_enum.dart';
 import 'package:control_concierge_agents/app/data/enums/filter_type_enum.dart';
 import 'package:control_concierge_agents/app/data/enums/month_enum.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:flutter/material.dart';
 import '../../data/enums/bond_type_enum.dart';
+import '../customer/nav_item.dart';
 
 final unitList = [
   const DropDownValueModel(name: 'Esc São João Batista', value: 1),
@@ -88,4 +90,22 @@ final listMonths = [
   DropDownValueModel(name: 'Outubro', value: MonthEnum.october),
   DropDownValueModel(name: 'Novembro', value: MonthEnum.november),
   DropDownValueModel(name: 'Dezembro', value: MonthEnum.december),
+];
+
+final navItems = [
+  NavItem(
+    selectedIcon: Icons.home,
+    icon: Icons.home_outlined,
+    title: 'Início',
+  ),
+  NavItem(
+    selectedIcon: Icons.person_add_alt_1,
+    icon: Icons.person_add_alt,
+    title: 'Adicionar agente',
+  ),
+  NavItem(
+    selectedIcon: Icons.person,
+    title: 'Perfil',
+    icon: Icons.person_2_outlined,
+  ),
 ];
